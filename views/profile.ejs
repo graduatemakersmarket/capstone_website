@@ -1,0 +1,38 @@
+<header> 
+    <link rel="stylesheet" type="text/css" href="profile.css" />
+</header>
+<div class="carousel-container">
+    <div class="carousel-slide">
+      <% for(let i=0; i<pages.length; i++) { %>
+        <div class="carousel-item <% if(i==0) { %>active<% } %>">
+          <p><%= pages[i] %></p>
+        </div>
+      <% } %>
+    </div>
+    <a class="carousel-prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="carousel-next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+  
+  <script>
+    let slideIndex = 1;
+    showSlide(slideIndex);
+    
+    function changeSlide(n) {
+      showSlide(slideIndex += n);
+    }
+    
+    function showSlide(n) {
+      let slides = document.getElementsByClassName("carousel-item");
+      if(n > slides.length) {
+        slideIndex = 1;
+      }
+      if(n < 1) {
+        slideIndex = slides.length;
+      }
+      for(let i=0; i<slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slides[slideIndex-1].style.display = "block";
+    }
+  </script>
+  

@@ -17,8 +17,10 @@ market.set("view engine", "ejs")
 
 const defaultRoute = require("./routes/index")
 const testRoute = require("./routes/api/test")
+const profile = require("./routes/profile")
 
 market.use("/", defaultRoute)
 market.use("/api/test", testRoute)
+market.use("/profile", profile)
 
 market.listen(3000)

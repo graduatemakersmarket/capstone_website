@@ -4,37 +4,69 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="/stylesheets/test.css" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    
     <title>Maker Market</title>
   </head>
+
+  <style>
+    body {
+      background-color: lightcoral;
+    }
+  </style>
+  
+  
   <body>
     <%- include("./partials/navbar") %>
 
-    <content>
+    <section>
         <!-- Normally the API would render its own page or just return some JSON
             but I did it this bad way to keep the example simple. This is just 
             trying to show how to grab back-end variables from the front-end.
         
             This will be handled differently later on, but this should give you
             a basic idea of how this works -->
-        <h1>Message: <%= message %></h1>
-        <h1>Username: <%= username %></h1>
-        <h1>Password: <%= password %></h1>
-        <form action="/api/test" method="post">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" value="CoolUsername"><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" value="CoolPassword"><br><br>
-            <label for="message">Message:</label><br>
-            <input type="text" id="message" name="message" value="This is a test message"><br><br>
-            <input type="submit" value="Test Endpoint">
-          </form>
-          <b>Testing automated deployment</b>
-    </content>
+            <ul id="scroll_section">
+              <li class="scroll" data-rate="-2" data-direction="vertical">Welcome</li>
+              <li class="scroll">To The</li>
+              <li class="scroll" data-rate="2" data-direction="vertical">Maker's Market</li>
+          </ul>
+
+          
+      </section>
+      <section></section>
+      <section></section>
+
+      <script>
+         window.addEventListener('scroll', function(e) {
+
+          const target = document.querySelectorAll('.scroll');
+
+
+          var index = 0, length = target.length;
+          for (index; index < length; index++) {
+            var pos = window.pageYOffset * target[index].dataset.rate;
+
+            if(target[index].dataset.direction === 'vertical') {
+              target[index].style.transform = 'translate3d(0px,'+pos+'px, 0px)';
+            } 
+            else {
+              var posX = window.pageYOffset * target[index].dataset.ratex;
+              var posY = window.pageYOffset * target[index].dataset.ratey;
+        
+              target[index].style.transform = 'translate3d('+posX+'px, '+posY+'px, 0px)';
+            }
+          }
+        });
+      </script>
+
+      
+
+
 
     <!-- Optional JavaScript -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
