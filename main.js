@@ -19,6 +19,7 @@ market.set("view engine", "ejs")
 const defaultRoute = require("./routes/index")
 const accountCreate = require("./routes/artists/create")
 const accountLogin = require("./routes/artists/login")
+const accountCreateSettings = require("./routes/artists/settings")
 const profile = require("./routes/profile")
 
 // API routes
@@ -29,7 +30,7 @@ const accountLoginEndpoint = require("./routes/api/artists/login")
 // Initialize pages
 market.use("/", defaultRoute)
 market.use("/artists/create", accountCreate)
-market.use("/artists/login", accountLogin)
+market.use("/api/artists/create", accountCreateEndpoint)
 market.use("/profile", profile)
 
 // Initialize endpoints
