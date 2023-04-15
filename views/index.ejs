@@ -20,27 +20,75 @@
   <%- include("./partials/navigation") %>
 
 <!-- Featured Artist -->
-<section class="feature_44 bg-light pt-100 text-center text-md-left">
-	<div class="container px-xl-0">
-		<div class="row align-items-center align-items-lg-start">
-			<div class="col-xl-1"></div>
-			<div class="col-lg-5 col-md-7" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
-				<h2 class="mt-20 mb-30 small">Artist Name Here</h2>
-				<div class="f-22 color-heading text-adaptive">
-					The artists biography will render here from the database.
-					If there is no biography in the database then it will add
-					some default, generic blurb.
+<section id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+	<div class="carousel-inner">
+	  <div class="carousel-item active">
+		<div class="container px-xl-0">
+			<div class="row align-items-center align-items-lg-start">
+				<div class="col-xl-1"></div>
+				<div class="col-lg-5 col-md-7">
+					<h2 class="mt-20 mb-30 small">Artist Name Here</h2>
+					<div class="f-22 color-heading text-adaptive">
+						The artists biography will render here from the database.
+						If there is no biography in the database then it will add
+						some default, generic blurb.
+					</div>
+					<a href="#" class="mt-30 btn border-gray color-main">Learn More</a>
 				</div>
-				<a href="#" class="mt-30 btn border-gray color-main">Learn More</a>
+				<div class="col-md-1"></div>
+				<div class="col-lg-5 col-md-4">
+					<img src="./images/placeholder.png" class="img" alt="Featured Artist" />			
+				</div>
 			</div>
-			<div class="col-md-1"></div>
-			<div class="col-lg-5 col-md-4" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
-				<img src="./images/placeholder.png" class="img" alt="Featured Artist" />			
+			<div class="col-xl-1"></div>
+		</div>
+	  </div>
+	  <div class="carousel-item">
+		<!--Place holder for other pages to put into carousel effect-->
+		<div class="container px-xl-0">
+			<div class="row align-items-center align-items-lg-start">
+				<div class="col-xl-1"></div>
+				<div class="col-lg-5 col-md-7">
+					<h2 class="mt-20 mb-30 small">Where Pedogagy Meets Praxis</h2>
+					<a href="#" class="mt-30 btn border-gray color-main">Sign up to become a vendor here!</a>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-lg-5 col-md-4">
+					<img id="logo_png" src="./images/graduate-students-makers-market.png" class="rounded mx-auto d-flex" alt="Logo png" />			
+				</div>
 			</div>
 		</div>
-		<div class="col-xl-1"></div>
+	  </div>
+	  <div class="carousel-item">
+		<!--Place holder for other pages to put into carousel effect-->
+		<div class="container px-xl-0">
+			<div class="row align-items-center align-items-lg-start">
+				<div class="col-xl-1"></div>
+				<div class="col-lg-5 col-md-7">
+					<h2 class="mt-20 mb-30 small">Artist Name Here</h2>
+					<div class="f-22 color-heading text-adaptive">
+						The artists biography will render here from the database.
+						If there is no biography in the database then it will add
+						some default, generic blurb.
+					</div>
+					<a href="#" class="mt-30 btn border-gray color-main">Learn More</a>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-lg-5 col-md-4" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
+					<img src="./images/placeholder.png" class="img" alt="Featured Artist" />			
+				</div>
+			</div>
 		</div>
+	  </div>
 	</div>
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+	  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	  <span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+	  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	  <span class="visually-hidden">Next</span>
+	</button>
 </section>
 
 <!-- Sponsors -->
