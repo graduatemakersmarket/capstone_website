@@ -50,6 +50,31 @@ const createAccountValidation = [
         .withMessage("You must accept the terms and conditions to proceed"),
 ]
 
+
+const accountLoginValidation = [
+
+    check("username")
+        .escape()
+        .trim()
+        .notEmpty()
+        .withMessage("Blank usernames are not allowed")
+        .isLength({min: 3})
+        .withMessage("Usernames must be at least (3) characters")
+        .isLength({max: 30})
+        .withMessage("Usernames may not exceed (30) characters"),
+
+    check("password")
+        .escape()
+        .trim()
+        .notEmpty()
+        .withMessage("Blank passwords are not allowed")
+        .isLength({min: 8})
+        .withMessage("Passwords must be at least (8) characters")
+        .isLength({max: 60})
+        .withMessage("Passwords may not exceed (60) characters"),
+]
+
 module.exports = {
-    createAccountValidation
+    createAccountValidation,
+    accountLoginValidation
 }

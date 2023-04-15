@@ -9,11 +9,6 @@ accountCreateForm.addEventListener("submit", (event) => {
     const password = document.querySelector("#password").value
     const password_verify = document.querySelector("#password_verify").value
 
-    console.log(username)
-    console.log(email)
-    console.log(password)
-    console.log(password_verify)
-
     axios.post("/api/artists/create/", 
     {username, email, password, password_verify})
     .then(response =>{
@@ -24,6 +19,5 @@ accountCreateForm.addEventListener("submit", (event) => {
         document
         .getElementById("errors")
         .innerHTML = error.response.data.error
-        console.log(error.response.data.error)
     })
 })
