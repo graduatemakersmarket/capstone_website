@@ -1,4 +1,11 @@
-/* Change bootstrap's .container default width */
+/*
+This framework file is used to overwrite the default settings for different
+bootstrap components and customize viewport options.
+
+Based on the Startup3 template from https://bootstrap.build/
+Modified for the Maker Market (Spring 23 Capstone)
+*/
+
 @media (min-width: 768px) {
   .container {
     max-width: 750px;
@@ -132,9 +139,6 @@
 }
 .btn.sm[class^="border-"], .btn.sm[class*=" border-"] {
   line-height: 36px;
-}
-.btn.md {
-  /* regular size */
 }
 .btn.lg {
   height: 60px;
@@ -681,124 +685,6 @@ input[type=radio] + label:before {
   right: 20px;
   position: absolute;
 }
-/* Video block */
-.video {
-  position: relative;
-  overflow: hidden;
-}
-.video .poster {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.2s;
-  cursor: pointer;
-  z-index: 500;
-}
-.video .poster img {
-  width: 100%;
-  max-width: 100%;
-}
-.video video {
-  width: 100%;
-  height: 100%;
-  display: none;
-}
-/* Popup video */
-.overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  cursor: pointer;
-  z-index: 9998;
-}
-.video_popup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-}
-.video_popup .close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  opacity: 1;
-}
-.video_popup .close:hover {
-  opacity: 0.8;
-  transform: rotate(-180deg);
-}
-.video_popup iframe {
-  display: block;
-  width: calc(100% - 140px);
-  height: calc((100vw - 140px) * 0.56);
-  max-height: 95vh;
-  border: none;
-}
-/* Play button */
-.play {
-  width: 70px;
-  height: 70px;
-  line-height: 70px;
-  font-size: 16px;
-  border-radius: 50%;
-  text-align: center;
-  transition: all 0.2s;
-  z-index: 501;
-}
-.play:hover {
-  transform: scale(1.08);
-}
-.play:not(.relative) {
-  margin: -35px 0 0 -35px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-.play.relative {
-  display: inline-block;
-}
-.play.sm {
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  margin: -30px 0 0 -30px;
-}
-.play.red {
-  background: #ea3223;
-  color: #fff;
-}
-.play.white {
-  background: #fff;
-  color: #000;
-}
-.play.action-1 {
-  background: #2bd095;
-  color: #fff;
-}
-.play.action-2 {
-  background: #1fa3ee;
-  color: #fff;
-}
-.play.action-3 {
-  background: #7c3ae9;
-  color: #fff;
-}
-.play .fa, .play .fas {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 /* Opening tabs */
 .opening_tabs .tab_opener {
   cursor: pointer;
@@ -835,142 +721,7 @@ input[type=radio] + label:before {
   margin-left: auto;
   margin-right: -20px;
 }
-/* Slider stylers */
-.slider.arrows0 .slick-prev {
-  left: 0px;
-}
-.slider.arrows0 .slick-next {
-  right: 0px;
-}
-.slider.arrows10 .slick-prev {
-  left: 10px;
-}
-.slider.arrows10 .slick-next {
-  right: 10px;
-}
-.slider.arrows20 .slick-prev {
-  left: 20px;
-}
-.slider.arrows20 .slick-next {
-  right: 20px;
-}
-.slider.arrows30 .slick-prev {
-  left: 30px;
-}
-.slider.arrows30 .slick-next {
-  right: 30px;
-}
-.slider.arrows40 .slick-prev {
-  left: 40px;
-}
-.slider.arrows40 .slick-next {
-  right: 40px;
-}
-.slider.arrows50 .slick-prev {
-  left: 50px;
-}
-.slider.arrows50 .slick-next {
-  right: 50px;
-}
-.slider.arrows60 .slick-prev {
-  left: 60px;
-}
-.slider.arrows60 .slick-next {
-  right: 60px;
-}
-.slider.arrows70 .slick-prev {
-  left: 70px;
-}
-.slider.arrows70 .slick-next {
-  right: 70px;
-}
-.slider.arrows80 .slick-prev {
-  left: 80px;
-}
-.slider.arrows80 .slick-next {
-  right: 80px;
-}
-.slider.arrows90 .slick-prev {
-  left: 90px;
-}
-.slider.arrows90 .slick-next {
-  right: 90px;
-}
-.slider.arrows100 .slick-prev {
-  left: 100px;
-}
-.slider.arrows100 .slick-next {
-  right: 100px;
-}
-.slider.dots_color_main .slick-dots li button {
-  border-color: #000;
-}
-.slider.dots_color_main .slick-dots li.slick-active button {
-  background: #000;
-}
-.slider.dots-100 .slick-dots {
-  bottom: -100px;
-}
-.slider.dots-90 .slick-dots {
-  bottom: -90px;
-}
-.slider.dots-80 .slick-dots {
-  bottom: -80px;
-}
-.slider.dots-70 .slick-dots {
-  bottom: -70px;
-}
-.slider.dots-60 .slick-dots {
-  bottom: -60px;
-}
-.slider.dots-50 .slick-dots {
-  bottom: -50px;
-}
-.slider.dots-40 .slick-dots {
-  bottom: -40px;
-}
-.slider.dots-30 .slick-dots {
-  bottom: -30px;
-}
-.slider.dots-20 .slick-dots {
-  bottom: -20px;
-}
-.slider.dots-10 .slick-dots {
-  bottom: -10px;
-}
-.slider.dots0 .slick-dots {
-  bottom: 0px;
-}
-.slider.dots10 .slick-dots {
-  bottom: 10px;
-}
-.slider.dots20 .slick-dots {
-  bottom: 20px;
-}
-.slider.dots30 .slick-dots {
-  bottom: 30px;
-}
-.slider.dots40 .slick-dots {
-  bottom: 40px;
-}
-.slider.dots50 .slick-dots {
-  bottom: 50px;
-}
-.slider.dots60 .slick-dots {
-  bottom: 60px;
-}
-.slider.dots70 .slick-dots {
-  bottom: 70px;
-}
-.slider.dots80 .slick-dots {
-  bottom: 80px;
-}
-.slider.dots90 .slick-dots {
-  bottom: 90px;
-}
-.slider.dots100 .slick-dots {
-  bottom: 100px;
-}
+
 /* Change some Bootstrap's styles */
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: rgba(235, 234, 237, 0.5);
