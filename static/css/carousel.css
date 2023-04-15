@@ -1,0 +1,17 @@
+.carousel-control-next-icon:after
+{
+  content: url(../images/right.png);
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: url(../images/left.png);
+  font-size: 55px;
+  color: red;
+}
+
+.carousel img {
+    height: 540px;
+    width: 625px;
+  }
