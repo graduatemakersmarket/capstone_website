@@ -16,11 +16,11 @@ market.set("views", path.join(__dirname, "views"))
 market.set("view engine", "ejs")
 
 const defaultRoute = require("./routes/index")
-const testRoute = require("./routes/api/test")
+const accountCreateEndpoint = require("./routes/api/artists/create")
 const profile = require("./routes/profile")
 
 market.use("/", defaultRoute)
-market.use("/api/test", testRoute)
+market.use("/api/artists/create", accountCreateEndpoint)
 market.use("/profile", profile)
 
 market.listen(3000)

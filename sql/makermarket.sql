@@ -1,32 +1,35 @@
 CREATE TABLE makermarket.artists(
-    artist_name varchar(255) NOT NULL,
-    artist_email varchar(255) NOT NULL,
-    artist_profile_picture LONGBLOB NOT NULL,
-    artist_facebook varchar(255) DEFAULT NULL,
-    artist_instagram varchar(255) DEFAULT NULL,
-    artist_twitter varchar(255) DEFAULT NULL,
-    artist_website varchar(255) DEFAULT NULL,
-    artist_bio TEXT,
-    artist_password_hash varchar(70) NOT NULL,
-    artist_featured BOOLEAN NOT NULL DEFAULT 0,
-    artist_delete_request BOOLEAN NOT NULL DEFAULT 0,
-    artist_is_admin BOOLEAN NOT NULL DEFAULT 0,
+    artist varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
+    password_hash varchar(255) NOT NULL,
+    avatar LONGBLOB NOT NULL,
+    facebook varchar(255) DEFAULT NULL,
+    instagram varchar(255) DEFAULT NULL,
+    twitter varchar(255) DEFAULT NULL,
+    website varchar(255) DEFAULT NULL,
+    biography TEXT DEFAULT NULL,
+    is_featured BOOLEAN NOT NULL DEFAULT 0,
+    is_admin BOOLEAN NOT NULL DEFAULT 0,
+    in_delete_queue BOOLEAN NOT NULL DEFAULT 0, 
     created_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT pk_artist PRIMARY KEY(artist_name)
+    CONSTRAINT pk_artist PRIMARY KEY(artist)
 )ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8MB4;
 
-
 CREATE TABLE makermarket.products(
-    product_name varchar(255) NOT NULL,
-    product_description varchar(255) NOT NULL,
-    product_image_one LONGBLOB NOT NULL,
-    product_image_two LONGBLOB NOT NULL,
-    product_image_three LONGBLOB NOT NULL,
-    product_image_four LONGBLOB NOT NULL,
-    product_purchase_link varchar(255) DEFAULT NULL,
-    product_external_website varchar(255) DEFAULT NULL,
-    product_featured BOOLEAN NOT NULL DEFAULT 0,
+    product varchar(255) NOT NULL,
+    summary varchar(255) NOT NULL,
+    purchase_link varchar(255) DEFAULT NULL,
+    website_link varchar(255) DEFAULT NULL,
+    is_featured BOOLEAN NOT NULL DEFAULT 0,
     created_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    artist varchar(255) NOT NULL,
-    CONSTRAINT fk_product_owner FOREIGN KEY(artist) REFERENCES makermarket.artists(artist_name)
+    product_owner varchar(255) NOT NULL,
+    CONSTRAINT pk_product PRIMARY KEY(product),
+    CONSTRAINT fk_product_owner FOREIGN KEY(product_owner) REFERENCES makermarket.artists(artist)
+)ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE makermarket.product_images(
+    picture LONGBLOB NOT NULL,
+    created_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    image_owner varchar(255) NOT NULL,
+    CONSTRAINT fk_image_owner FOREIGN KEY(image_owner) REFERENCES makermarket.products(product)
 )ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8MB4;
