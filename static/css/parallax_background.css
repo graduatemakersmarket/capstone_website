@@ -4,6 +4,20 @@
 --color: #333; 
 }
 
+.sponsor_section {
+    text-align: center;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-image: url("/images/pexels-andrew-neel-2123337.jpg");
+    background-attachment: fixed;
+    height: 800px;
+}
+
 .articles {
     text-align: center;
     color: var(--color);
