@@ -55,6 +55,9 @@ router.post("/", accountLoginValidation, async (request, response) => {
         .json({success: false, error: "Incorrect username or password"})
     }
 
+    // Grab admin status from the database
+    const adminStatus = Number(credCheck[0][0].is_admin)
+
     /*
     The next bit of code will create a new cryptographically signed
     session token. The information inside of the token can be read by anyone,
@@ -64,7 +67,7 @@ router.post("/", accountLoginValidation, async (request, response) => {
     store any private or sensitive information in this token. 
     */
     const authToken = jwt.sign(
-        {"artist_name": artist, "is_admin": 0}, // Session data
+        {"artist_name": artist, "is_admin": adminStatus}, // Session data
         process.env.AUTH_TOKEN_SECRET, // Pulled from .env file
         {expiresIn: "1h"} // Session is only valid for 1 hour
     )
