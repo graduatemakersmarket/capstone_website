@@ -13,39 +13,39 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 		<link href="/css/style.css" rel="stylesheet" />
 		<link href="/css/parallax_background.css" rel="stylesheet" />
-		<link href="/css/artistPage.css" rel="stylesheet" />
+		<link href="/css/productsPage.css" rel="stylesheet" />
 		<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 	</head> 
 <body>
   
 <!-- Navigation Menu -->
-<%- include("../partials/navigation") %>
+<%- include("./partials/navigation") %>
 
 <!-- Artist Page Introduction Title -->
 <section class="content_31 bg-dark pt-50 pb-70 text-center color-white">
 	<div class="container px-xl-0">
 		<div class="row justify-content-center">
-			<p class="Title" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Creator and Artist Profiles</p>
+			<p class="Title" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Browse Amazing Products From All Creators</p>
 		</div>
 	</div>
   </section>
 
-<!-- Artists Section -->
-<div class="Artists">
+<!-- Products Section -->
+<div class="Products">
 	<% profiles.forEach((profile, index) => { %>
 	<div class="item" data-aos="fade-up" data-aos-duration="2000">
-	  <div class="artistProfile"></div>
+	  <div class="productProfile"></div>
 	  <div class="card">
 		<h3><%= profile.artist %></h3>
-		<p>Bio</p>
-		<a href="#">Visit Profile</a>
+		<p>Product bio</p>
+		<a href="#">Visit Product</a>
 	  </div>
 	</div>
 	<% }) %>
   </div>
 
 <!-- Footer -->
-<%- include("../partials/footer") %>
+<%- include("./partials/footer") %>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

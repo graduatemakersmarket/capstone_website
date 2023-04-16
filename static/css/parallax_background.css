@@ -18,6 +18,40 @@
     height: 800px;
 }
 
+.Products {
+  text-align: center;
+  color: var(--color);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-image: url(/images/pexels-steve-johnson-1047525.jpg);
+  background-attachment: fixed;
+  height: 1200px;
+}
+
+.Artists {
+  text-align: center;
+  color: var(--color);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-image: url(/images/pexels-steve-johnson-1047525.jpg);
+  background-attachment: fixed;
+  height: 1200px;
+}
+
 .articles {
     text-align: center;
     color: var(--color);
@@ -82,7 +116,7 @@ h3 {
     background-size: cover;
     background-position: center;
     margin-top: 20px;
-    border-radius: .3em;;
+    border-radius: .3em;
     background-image: url("/images/the-gift-of-teaching.png");
 }
 
@@ -93,7 +127,7 @@ h3 {
   background-size: cover;
   background-position: center;
   margin-top: 20px;
-  border-radius: .3em;;
+  border-radius: .3em;
   background-image: url("/images/carletta1.png");
 
 }
@@ -105,6 +139,29 @@ h3 {
   background-size: cover;
   background-position: center;
   margin-top: 20px;
-  border-radius: .3em;;
+  border-radius: .3em;
   background-image: url("/images/dejuan3.png");
+}
+
+.artistProfile {
+  width: 90%;
+  height: 200px;
+  background-color: lightgrey;
+  background-size: cover;
+  background-position: center;
+  margin-top: 20px;
+  border-radius: .3em;
+  background-image: url("/images/dejuan3.png");
+}
+
+.productProfile {
+  width: 90%;
+  height: 200px;
+  background-color: lightgrey;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 20px;
+  border-radius: .3em;
+  background-image: url("/images/dejuan-product1.png");
 }

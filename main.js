@@ -17,6 +17,7 @@ market.set("view engine", "ejs")
 
 // Page routes
 const defaultRoute = require("./routes/index")
+const productsPage = require("./routes/products")
 const artistIndex = require("./routes/artists/index")
 const accountCreate = require("./routes/artists/create")
 const accountUpdate = require("./routes/artists/update")
@@ -31,6 +32,7 @@ const accountUpdateEndpoint = require("./routes/api/artists/update")
 
 // Initialize pages
 market.use("/", defaultRoute)
+market.use("/products", productsPage)
 market.use("/artists", artistIndex)
 market.use("/artists/create", accountCreate)
 market.use("/artists/update", accountUpdate)
