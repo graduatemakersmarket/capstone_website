@@ -1,4 +1,10 @@
-// Import required components
+/*
+Author: Capstone Spring 2023
+Description: API for logging into the website
+Documentation: N/A
+*/
+
+// Import the required middleware
 const express = require("express")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
@@ -7,13 +13,14 @@ const db = require("../../../helpers/database")
 // Import required database queries
 const { checkAccountDetails } = require("../../../helpers/sql")
 
-// Import validation components
+// Import validators
 const { accountLoginValidation } = require("../../../helpers/validation")
 const { validationResult } = require("express-validator")
 
-// Import routing
+// Import router middleware
 const router = express.Router()
 
+// Log into the website
 router.post("/", accountLoginValidation, async (request, response) => {
     // Check for an existing session
     if (request.cookies.MakerMarket){
@@ -33,7 +40,7 @@ router.post("/", accountLoginValidation, async (request, response) => {
     const artist = request.body.username.toLowerCase()
     const password = request.body.password
 
-    // Check account credentials
+    // Get account credentials
     const credCheck = await db.query(checkAccountDetails, [artist])
 
     // Account does not exist
@@ -71,7 +78,7 @@ router.post("/", accountLoginValidation, async (request, response) => {
         {expiresIn: "1h"} // Session is only valid for 1 hour
     )
 
-    // Save the session in a HTTP-ONLY cookie
+    // Save the session in a secure, HTTP-ONLY cookie
     const cookieOptions = {
         httpOnly: true,
         secure: true,
@@ -83,11 +90,12 @@ router.post("/", accountLoginValidation, async (request, response) => {
     .json({success: true, response: "Session successfully created"})
 })
 
+// Reject GET requests
 router.get("/", async (request, response) => {
     return response
     .status(400) // Bad Response
     .json({success: false, error: "This endpoint does not support GET requests"})
 })
 
-// Export routing
+// Export route middleware so it can be used in other components
 module.exports = router

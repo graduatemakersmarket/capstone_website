@@ -35,7 +35,7 @@ VALUES
     (?, ?, ?, ?)
 `
 
-// Grab the account information for a specific username
+// Grab the account profile information for a specific username
 const getAccountInfo = `
 SELECT
     firstname, lastname, avatar, facebook, instagram, twitter, website, biography

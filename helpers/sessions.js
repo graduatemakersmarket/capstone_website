@@ -8,84 +8,99 @@ Documentation: https://www.npmjs.com/package/jsonwebtoken,
 const jwt = require("jsonwebtoken")
 
 // Require a valid session to access protected pages
-const protectPage = async (request, response, next) => {
-
-    // Check if session cookie exists
+const protectWebPage = async (request, response, next) => {
+    // Redirect unauthenticated users to the login page
     if (!request.cookies.MakerMarket){
         return response
-        .status(403)
-        .render("errors/unauthorized")
+        .redirect("/artists/login")
     }
 
-    // Verify the session's cryptographic signature
+    // Grab the token and secret
     const authToken = request.cookies.MakerMarket
     const authSecret = process.env.AUTH_TOKEN_SECRET
-    const decodedData = jwt.verify(authToken, authSecret)
+    
+    // Verify the cryptographic token
+    jwt.verify(authToken, authSecret, (error, decoded) => {
+        // Redirect to the login page if the session is invalid
+        if (error){
+            return response
+            .clearCookie("MakerMarket")
+            .redirect("/artists/login")
+        }
 
-    // Check if the verification failed
-    if (!decodedData){
-        return response
-        .status(403)
-        .render("errors/unauthorized")
-    }
-
-    request.artist_name = decodedData.artist_name
-    request.is_admin = decodedData.is_admin
-    next()
+        // Save the session data
+        request.artist_name = decoded.artist_name
+        request.is_admin = decoded.is_admin
+        next()
+    })
 }
 
 // Require a valid session to access protected API endpoints
-const protectAPI = async (request, response, next) => {
-
-    // Check if session cookie exists
+const protectEndpoint = async (request, response, next) => {
+    // Redirect unauthenticated users to the login page
     if (!request.cookies.MakerMarket){
         return response
-        .status(403)
-        .json({success: false, error: "You are not authorized to use this API"})
+        .status(403) // Failed Authentication
+        .json({success: false, error: "You must authenticate to use this API"})
     }
 
-    // Verify the session's cryptographic signature
+    // Grab the token and secret
     const authToken = request.cookies.MakerMarket
     const authSecret = process.env.AUTH_TOKEN_SECRET
-    const decodedData = jwt.verify(authToken, authSecret)
+    
+    // Verify the cryptographic token
+    jwt.verify(authToken, authSecret, (error, decoded) => {
+        // Redirect to the login page if the session is invalid
+        if (error){
+            return response
+            .clearCookie("MakerMarket")
+            .status(403) // Failed Authentication
+            .json({success: false, error: "You must authenticate to use this API"})
+        }
 
-    // Check if the verification failed
-    if (!decodedData){
-        return response
-        .status(403)
-        .json({success: false, error: "You are not authorized to use this API"})
-    }
-
-    request.artist_name = decodedData.artist_name
-    request.is_admin = decodedData.is_admin
-    next()
+        // Save the session data
+        request.artist_name = decoded.artist_name
+        request.is_admin = decoded.is_admin
+        next()
+    })
 }
 
-const detectGuest = async (request, response, next) => {
-
+// Detect if a user is a guest or has a session
+const allowGuests = async (request, response, next) => {
+    // Assume the visitor is a guest until the session is verified
     request.artist_name = "guest"
     request.is_admin = 0
 
     // Check if session exists
-    if (request.cookies.MakerMarket){
-        // Verify the session's cryptographic signature
+    if (request.cookies.MakerMarket) {
+        // Grab the token and secret
         const authToken = request.cookies.MakerMarket
         const authSecret = process.env.AUTH_TOKEN_SECRET
-        const decodedData = jwt.verify(authToken, authSecret)
 
-        // Check if the verification succeeded
-        if (decodedData){
-            request.artist_name = decodedData.artist_name
-            request.is_admin = decodedData.is_admin
-        }
+        // Verify the cryptographic token
+        jwt.verify(authToken, authSecret, (error, decoded) => {
+            // Redirect to the login page if the session is invalid
+            if (error){
+                // Default to a guest session if there is an error
+                request.artist_name = "guest"
+                request.is_admin = 0
+                return response
+                .clearCookie("MakerMarket")
+            }
+
+            // Save the session data
+            request.artist_name = decoded.artist_name
+            request.is_admin = decoded.is_admin
+        })
     }
 
+    // Pass control back to the caller
     next()
-
 }
 
+// Export middleware so it can be imported in other components
 module.exports = {
-    protectPage,
-    protectAPI,
-    detectGuest
+    protectWebPage,
+    protectEndpoint,
+    allowGuests
 }

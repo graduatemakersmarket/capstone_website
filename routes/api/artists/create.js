@@ -1,4 +1,10 @@
-// Import required components
+/*
+Author: Capstone Spring 2023
+Description: API for creating new user accounts
+Documentation: N/A
+*/
+
+// Import the required middleware
 const fs = require("fs")
 const path = require("path")
 const express = require("express")
@@ -16,15 +22,14 @@ const defaultAvatar = fs.readFileSync(
 const { checkAccountExists } = require("../../../helpers/sql")
 const { createAccount } = require("../../../helpers/sql")
 
-
-// Import validation components
+// Import validators
 const { createAccountValidation } = require("../../../helpers/validation")
 const { validationResult } = require("express-validator")
 
-// Import routing
+// Import router middleware
 const router = express.Router()
 
-// Handle incoming POST requests
+// Create new user account
 router.post("/", createAccountValidation, async (request, response) => {
     // Validate the incoming form fields
     if (!validationResult(request).isEmpty()){
@@ -38,7 +43,7 @@ router.post("/", createAccountValidation, async (request, response) => {
     const email = request.body.email.toLowerCase()
     const passwordHash = await bcrypt.hash(request.body.password, 12)
 
-    // Check if account already exists
+    // Grab user and email count from the database
     const accountCheck = await db.query(checkAccountExists, [artist, email])
 
     // Check if username is already in use
@@ -72,7 +77,7 @@ router.post("/", createAccountValidation, async (request, response) => {
         {expiresIn: "1h"} // Session is only valid for 1 hour
     )
 
-    // Save the session in a HTTP-ONLY cookie
+    // Save the session in a secure, HTTP-ONLY cookie
     const cookieOptions = {
         httpOnly: true,
         secure: true,
@@ -85,11 +90,12 @@ router.post("/", createAccountValidation, async (request, response) => {
     .json({success: true, response: `${artist} successfully created`})
 })
 
+// Reject GET requests
 router.get("/", async (request, response) => {
     return response
     .status(400) // Bad Response
     .json({success: false, error: "This endpoint does not support GET requests"})
 })
 
-// Export routing
+// Export route middleware so it can be used in other components
 module.exports = router

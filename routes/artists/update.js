@@ -7,10 +7,9 @@ const db = require("../../helpers/database")
 const { getAccountInfo } = require("../../helpers/sql")
 
 // Import session handler
-const { protectPage } = require("../../helpers/sessions")
+const { protectWebPage } = require("../../helpers/sessions")
 
-router.get("/", protectPage, async (request, response) => {
-
+router.get("/", protectWebPage, async (request, response) => {
     // Fetch account settings from the database
     const accSettings = await db.query(getAccountInfo, [request.artist_name])
 

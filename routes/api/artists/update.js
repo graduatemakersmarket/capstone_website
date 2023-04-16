@@ -1,6 +1,11 @@
-// Import required components
+/*
+Author: Capstone Spring 2023
+Description: API for updating account profiles
+Documentation: N/A
+*/
+
+// Import the required middleware
 const express = require("express")
-const jwt = require("jsonwebtoken")
 const multer  = require("multer")
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -10,13 +15,25 @@ const db = require("../../../helpers/database")
 const { updateAccountInfo } = require("../../../helpers/sql")
 const { getAccountInfo } = require("../../../helpers/sql")
 
-// Import session handler
-const { protectAPI } = require("../../../helpers/sessions")
+// Import validators
+const { test } = require("../../../helpers/validation")
+const { validationResult } = require("express-validator")
 
-// Import routing
+// Import the custom protectAPI middleware
+const { protectEndpoint } = require("../../../helpers/sessions")
+
+// Import router middleware
 const router = express.Router()
 
-router.post("/", protectAPI, upload.single("avatar"), async (request, response) => {
+// Update account profile
+router.post("/", protectEndpoint, upload.single("avatar"), test, async (request, response) => {
+    // Validate the incoming form fields
+    if (!validationResult(request).isEmpty()){
+        return response
+        .status(400) // Bad request
+        .json({success: false, error: validationResult(request).errors[0].msg})
+    }
+
     // Create an empty list to store profile information
     var artistProfile = []
 
@@ -38,8 +55,8 @@ router.post("/", protectAPI, upload.single("avatar"), async (request, response) 
             firstname,
             lastname,
             request.file.buffer.toString("base64"),
-            instagram,
             facebook,
+            instagram,
             twitter,
             website,
             biography,
@@ -55,8 +72,8 @@ router.post("/", protectAPI, upload.single("avatar"), async (request, response) 
             firstname,
             lastname,
             accountInfo[0][0].avatar,
-            instagram,
             facebook,
+            instagram,
             twitter,
             website,
             biography,
