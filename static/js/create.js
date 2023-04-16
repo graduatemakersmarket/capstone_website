@@ -13,7 +13,7 @@ accountCreateForm.addEventListener("submit", (event) => {
     {username, email, password, password_verify})
     .then(response =>{
         window
-        .location = "/artists/settings"
+        .location = "/artists/update"
     })
     .catch(error => {
         document
