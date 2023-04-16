@@ -1,16 +1,21 @@
 // Import required components
+const fs = require("fs")
+const path = require("path")
 const express = require("express")
 const bcrypt = require("bcryptjs")
-const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
 const db = require("../../../helpers/database")
+
+// Open the default profile picture and convert it to BASE64
+const defaultAvatar = fs.readFileSync(
+    path.resolve(__dirname, "../../../resources/images/profile.png"), 
+    "base64"
+    )
 
 // Import required database queries
 const { checkAccountExists } = require("../../../helpers/sql")
 const { createAccount } = require("../../../helpers/sql")
 
-// Import default avatar
-const { defaultAvatar } = require("../../../helpers/defaults")
 
 // Import validation components
 const { createAccountValidation } = require("../../../helpers/validation")

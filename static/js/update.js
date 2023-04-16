@@ -23,6 +23,6 @@ form.addEventListener("submit", (e) => {
     .catch(error => {
         document
         .getElementById("errors")
-        .innerHTML = error.data.error
+        .innerHTML = error.response.data.error
     });
 });

@@ -74,51 +74,7 @@ const accountLoginValidation = [
         .withMessage("Passwords may not exceed (60) characters"),
 ]
 
-const accountUpdateValidation = [
-
-    check("firstname")
-        .escape()
-        .trim()
-        .isLength({min: 3})
-        .withMessage("First name must be at least (3) characters")
-        .isLength({max: 30})
-        .withMessage("First name may not exceed (30) characters"),
-
-    check("lastname")
-        .escape()
-        .trim()
-        .isLength({min: 3})
-        .withMessage("Last name must be at least (3) characters")
-        .isLength({max: 30})
-        .withMessage("Last name may not exceed (30) characters"),
-
-    check("avatar")
-        .escape()
-        .trim(),
-
-    check("instagram")
-        .escape()
-        .trim(),
-
-    check("facebook")
-        .escape()
-        .trim(),
-
-    check("twitter")
-        .escape()
-        .trim(),
-
-    check("website")
-        .escape()
-        .trim(),
-
-    check("biography")
-        .escape()
-        .trim(),
-]
-
 module.exports = {
     createAccountValidation,
-    accountLoginValidation,
-    accountUpdateValidation
+    accountLoginValidation
 }

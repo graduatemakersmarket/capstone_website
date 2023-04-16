@@ -4,7 +4,7 @@ const fs = require("fs")
 const db = require("../../helpers/database")
 
 // Import required database queries
-const { getAccountSettings } = require("../../helpers/sql")
+const { getAccountInfo } = require("../../helpers/sql")
 
 // Import session handler
 const { protectPage } = require("../../helpers/sessions")
@@ -12,7 +12,7 @@ const { protectPage } = require("../../helpers/sessions")
 router.get("/", protectPage, async (request, response) => {
 
     // Fetch account settings from the database
-    const accSettings = await db.query(getAccountSettings, [request.artist_name])
+    const accSettings = await db.query(getAccountInfo, [request.artist_name])
 
     // Collect values from query and pack into a JSON string
     const accountSettings = {

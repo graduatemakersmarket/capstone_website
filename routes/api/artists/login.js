@@ -1,7 +1,6 @@
 // Import required components
 const express = require("express")
 const bcrypt = require("bcryptjs")
-const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
 const db = require("../../../helpers/database")
 
