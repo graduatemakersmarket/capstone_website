@@ -23,18 +23,6 @@ Modified for the Maker Market (Spring 23 Capstone)
  14. Footers
  */
 
- /* Flex Box CSS */
- .flex-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.flex-container > div {
-  background-color: #f1f1f1;
-  flex-wrap: wrap;
-}
-
-
 /* 1. Common styles */
 body {
   font-family: Open Sans;
