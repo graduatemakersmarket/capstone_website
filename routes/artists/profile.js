@@ -5,7 +5,7 @@ router.get("/", (request, response) => {
     
     return response
     .status(200)
-    .render("profile", {pages:["artist1", "artist2"]})
+    .render("artists/profile")
 })
 
 module.exports = router
