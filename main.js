@@ -20,6 +20,7 @@ const defaultRoute = require("./routes/index")
 const accountCreate = require("./routes/artists/create")
 const accountUpdate = require("./routes/artists/update")
 const accountLogin = require("./routes/artists/login")
+const adminPage = require("./routes/admin")
 const profile = require("./routes/profile")
 
 // API routes
@@ -32,6 +33,7 @@ market.use("/", defaultRoute)
 market.use("/artists/create", accountCreate)
 market.use("/artists/update", accountUpdate)
 market.use("/artists/login", accountLogin)
+market.use("/admin", adminPage)
 market.use("/profile", profile)
 
 // Initialize endpoints
