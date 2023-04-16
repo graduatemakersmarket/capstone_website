@@ -2,6 +2,8 @@ CREATE TABLE makermarket.artists(
     artist varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
     password_hash varchar(255) NOT NULL,
+    firstname varchar(255) DEFAULT NULL,
+    lastname varchar(255) DEFAULT NULL,
     avatar LONGBLOB NOT NULL,
     facebook varchar(255) DEFAULT NULL,
     instagram varchar(255) DEFAULT NULL,

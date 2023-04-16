@@ -19,7 +19,7 @@ router.post("/", accountLoginValidation, async (request, response) => {
     // Check for an existing session
     if (request.cookies.MakerMarket){
         return response
-        .status(400)
+        .status(400) // Bad request
         .json({success: false, error: "You may only have one active session"})
     }
 

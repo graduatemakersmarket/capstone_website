@@ -23,9 +23,39 @@ VALUES
     (?, ?, ?, ?)
 `
 
+const getAccountSettings = `
+SELECT
+    firstname, lastname, avatar, facebook, instagram, twitter, website, biography
+FROM
+    makermarket.artists
+WHERE
+    artist = ?
+`
+
+const updateAccountSettingsAvatar = `
+UPDATE
+    makermarket.artists
+SET
+    firstname = ?, lastname = ?, avatar = ?, facebook = ?, instagram = ?, twitter = ?, website = ?, biography = ?
+WHERE
+    artist = ?
+`
+
+const updateAccountSettingsNoAvatar = `
+UPDATE
+    makermarket.artists
+SET
+    firstname = ?, lastname = ?, facebook = ?, instagram = ?, twitter = ?, website = ?, biography = ?
+WHERE
+    artist = ?
+`
+
 // Export all of the queries so we can access them from other components
 module.exports = {
     checkAccountExists,
     createAccount,
-    checkAccountDetails
+    checkAccountDetails,
+    getAccountSettings,
+    updateAccountSettingsAvatar,
+    updateAccountSettingsNoAvatar
 }

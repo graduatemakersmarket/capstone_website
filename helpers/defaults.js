@@ -5,7 +5,7 @@ const fs = require("fs")
 const avatarFile = "../resources/images/avatar.png"
 const avatarLocation = path.resolve(__dirname, avatarFile)
 
-const defaultAvatar = fs.readFileSync(avatarLocation)
+const defaultAvatar = fs.readFileSync(avatarLocation, "base64")
 
 module.exports = {
     defaultAvatar
