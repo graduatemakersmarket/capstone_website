@@ -14,6 +14,7 @@
 		<link href="/css/style.css" rel="stylesheet" />
 		<link href="/css/parallax_background.css" rel="stylesheet" />
 		<link href="/css/artistPage.css" rel="stylesheet" />
+		<link href="/css/profile.css" rel="stylesheet" />
 		<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 	</head> 
 <body>
@@ -21,30 +22,31 @@
 <!-- Navigation Menu -->
 <%- include("../partials/navigation") %>
 
-<!-- Artists Section -->
-<div class="Artists">
+<!-- Artist Profiles-->
+<div class="row justify-content-center Artists">
+	<!-- Render profile cards -->
 	<% profiles.forEach((profile, index) => { %>
-	<div class="item" data-aos="fade-up" data-aos-duration="2000">
-	  <div class="artistProfile"><img src="data:image/png;base64,<%= profile.avatar %>" alt="Profile Picture" height="200" width="200"></div>
-	  <div class="card">
-		<!-- Display artist name-->
-		<% if ((profile.firstname === null || profile.firstname === "") || (profile.lastname === null || profile.lastname === "")) { %>
-			<h3><%= profile.artist %></h3>
-		<% } else { %>
-			<h3><%= profile.firstname %> <%= profile.lastname %></h3>
-		<% } %>
+		<div class="item" data-aos="fade-up" data-aos-duration="2000">
+			<div class="artistProfile"><img src="data:image/png;base64,<%= profile.avatar %>" alt="Profile Picture" height="200" width="200"></div>
+			<div class="card">
+				<!-- Display artist name-->
+				<% if ((profile.firstname === null || profile.firstname === "") || (profile.lastname === null || profile.lastname === "")) { %>
+					<h3><%= profile.artist %></h3>
+				<% } else { %>	
+					<h3><%= profile.firstname %> <%= profile.lastname %></h3>
+				<% } %>
 
-		<!-- Display artist bio-->
-		<% if (profile.biography === null || profile.biography === "") { %>
-			<p>This artist has not shared their story yet</p>
-		<% } else { %>
-			<p><%= profile.biography %></p>
-		<% } %>
-		<a href="/artists/profile/<%= profile.artist %>">Visit Profile</a>
-	  </div>
-	</div>
+				<!-- Display artist bio-->
+				<% if (profile.biography === null || profile.biography === "") { %>
+					<p>This artist has not shared their story yet</p>
+				<% } else { %>
+					<p><%= profile.biography %></p>
+				<% } %>
+				<a href="/artists/profile/<%= profile.artist %>">Visit Profile</a>
+			</div>
+		</div>
 	<% }) %>
-  </div>
+</div>
 
 <!-- Footer -->
 <%- include("../partials/footer") %>

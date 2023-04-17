@@ -49,7 +49,6 @@
   background-position: center;
   background-image: url(/images/pexels-steve-johnson-1047525.jpg);
   background-attachment: fixed;
-  height: 1200px;
 }
 
 .articles {
@@ -69,6 +68,10 @@
     height: 1200px;
 }
 
+.card {
+  border: 0px;
+  height: 25vh;
+}
 .card > a {
   display: inline-block;
   padding: 1em 3.5em;
@@ -85,23 +88,24 @@
   margin-right: 2em;
 }
  
+.card > p {
+  max-width: 52ch;
+  line-height: 1.5;
+  padding: 1em;
+}
+
 h3 {
     font-weight: 700;
     font-size: 1.6rem;
     margin-top: 1em;
 }
 
-.card > p {
-    max-width: 52ch;
-    line-height: 1.5;
-    padding: 1em;
-}
 
 .item {
     display: flex;
-    max-width: 320px;
-    background-color: white;;
     flex-direction: column;
+    max-width: 320px;
+    background-color: white;
     align-items: center;
     border-radius: .5em;
     -webkit-box-shadow: 0px 29px 38px -15px rgba(0,0,0,0.43);
@@ -112,7 +116,7 @@ h3 {
 .img-first {
     width: 90%;
     height: 200px;
-    background-color: lightgrey;
+    background-color: transparent;
     background-size: cover;
     background-position: center;
     margin-top: 20px;
@@ -123,7 +127,7 @@ h3 {
 .img-second {
   width: 90%;
   height: 200px;
-  background-color: lightgrey;
+  background-color: transparent;
   background-size: cover;
   background-position: center;
   margin-top: 20px;
@@ -135,7 +139,7 @@ h3 {
 .img-third {
   width: 90%;
   height: 200px;
-  background-color: lightgrey;
+  background-color: transparent;
   background-size: cover;
   background-position: center;
   margin-top: 20px;
@@ -146,7 +150,7 @@ h3 {
 .artistProfile {
   width: 90%;
   height: 200px;
-  background-color: lightgrey;
+  background-color: transparent;
   background-size: cover;
   background-position: center;
   margin-top: 20px;
@@ -156,7 +160,7 @@ h3 {
 .productProfile {
   width: 90%;
   height: 200px;
-  background-color: lightgrey;
+  background-color: transparent;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
