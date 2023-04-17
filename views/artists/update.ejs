@@ -36,16 +36,16 @@
             <div class="card-body p-md-5">
               <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                  <img src="data:image/png;base64,<%= avatar %>" alt="Profile Picture" height="200" width="200">
+                  <h4><%= username %></h4>
+                  <img src="data:image/png;base64,<%= profile.avatar %>" alt="Profile Picture" height="200" width="200">
                   <br />
                   <br />
                   <form id="update" action="/api/artists/update" method="post" enctype="multipart/form-data">
-                    <div id="errors"></div>
-                    <div id="success"></div>
+                    <div class="text-ceter text-danger h4 mb-5 mx-1 mx-md-4 mt-4" id="errors"></div>
                     <div class="input-group">
                         <span class="input-group-text">First and last name</span>
-                        <input type="text" aria-label="First name" class="form-control" placeholder="First Name" value="<%= first_name %>" id="firstname">
-                        <input type="text" aria-label="Last name" class="form-control" placeholder="Last Name" value="<%= last_name %>" id="lastname">
+                        <input type="text" aria-label="First name" class="form-control" maxlength="30" placeholder="First Name" value="<%= profile.firstname %>" id="firstname">
+                        <input type="text" aria-label="Last name" class="form-control" maxlength="30" placeholder="Last Name" value="<%= profile.lastname %>" id="lastname">
                     </div>
 
                     <div class="mb-5"></div>
@@ -59,7 +59,7 @@
                         <label for="instagramInput" class="form-label">Instagram</label>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping">@</span>
-                            <input type="text" class="form-control" placeholder="instagram handle" aria-label="instagram input" aria-describedby="addon-wrapping" value="<%= instagram %>" id="instagram">
+                            <input type="text" class="form-control" placeholder="instagram handle" maxlength="254" aria-label="instagram input" aria-describedby="addon-wrapping" value="<%= profile.instagram %>" id="instagram">
                           </div>
                     </div>
 
@@ -67,7 +67,7 @@
                         <label for="facebookInput" class="form-label">Facebook</label>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping">@</span>
-                            <input type="text" class="form-control" placeholder="facebook handle" aria-label="facebook input" aria-describedby="addon-wrapping" value="<%= facebook %>" id="facebook">
+                            <input type="text" class="form-control" placeholder="facebook handle" maxlength="254" aria-label="facebook input" aria-describedby="addon-wrapping" value="<%= profile.facebook %>" id="facebook">
                           </div>
                     </div>
 
@@ -75,7 +75,7 @@
                         <label for="twitterInput" class="form-label">Twitter</label>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping">@</span>
-                            <input type="text" class="form-control" placeholder="twitter handle" aria-label="twitter input" aria-describedby="addon-wrapping" value="<%= twitter %>" id="twitter">
+                            <input type="text" class="form-control" placeholder="twitter handle" maxlength="254" aria-label="twitter input" aria-describedby="addon-wrapping" value="<%= profile.twitter %>" id="twitter">
                           </div>
                     </div>
 
@@ -83,13 +83,13 @@
                       <label for="websiteInput" class="form-label">Website</label>
                       <div class="input-group flex-nowrap">
                           <span class="input-group-text" id="addon-wrapping">http://</span>
-                          <input type="text" class="form-control" placeholder="website address" aria-label="website input" aria-describedby="addon-wrapping" value="<%= website %>" id="website">
+                          <input type="text" class="form-control" placeholder="website address" maxlength="254" aria-label="website input" aria-describedby="addon-wrapping" value="<%= profile.website %>" id="website">
                         </div>
                   </div>
 
                     <div class="input-group">
                         <span class="input-group-text">Bio</span>
-                        <textarea class="form-control" aria-label="Bio" placeholder="Your story goes here" text="<%= biography %>" id="biography"><%= biography %></textarea>
+                        <textarea class="form-control" aria-label="Bio" placeholder="Your story goes here" maxlength="2000" id="biography"><%= profile.biography %></textarea>
                     </div>
 
                     <div class="mb-5"></div>

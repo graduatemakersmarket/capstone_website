@@ -35,24 +35,42 @@ VALUES
     (?, ?, ?, ?)
 `
 
-// Grab the account profile information for a specific username
+// Grab all account information
 const getAccountInfo = `
 SELECT
-    firstname, lastname, avatar, facebook, instagram, twitter, website, biography
+    artist, firstname, lastname, avatar, facebook, instagram, twitter, website, biography, is_featured, is_admin, in_delete_queue
+FROM
+    makermarket.artists
+`
+
+// Grab the account profile information for a specific username
+const getAccountProfile = `
+SELECT
+    artist, firstname, lastname, avatar, facebook, instagram, twitter, website, biography
 FROM
     makermarket.artists
 WHERE
     artist = ?
 `
 
-// Update the account information for a specific username
-const updateAccountInfo = `
+// Update the profile information for a specific username
+const updateAccountProfile = `
 UPDATE
     makermarket.artists
 SET
     firstname = ?, lastname = ?, avatar = ?, facebook = ?, instagram = ?, twitter = ?, website = ?, biography = ?
 WHERE
     artist = ?
+`
+
+// Grab basic information for featured users
+const getFeaturedArtists = `
+SELECT
+    firstname, lastname, avatar, biography
+FROM
+    makermarket.artists
+WHERE
+    is_featured = 1
 `
 
 //*******************************************************************
@@ -67,5 +85,7 @@ module.exports = {
     createAccount,
     checkAccountDetails,
     getAccountInfo,
-    updateAccountInfo
+    getAccountProfile,
+    updateAccountProfile,
+    getFeaturedArtists
 }

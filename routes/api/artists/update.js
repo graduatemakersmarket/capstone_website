@@ -12,11 +12,11 @@ const upload = multer({ storage: storage })
 const db = require("../../../helpers/database")
 
 // Import required database queries
-const { updateAccountInfo } = require("../../../helpers/sql")
-const { getAccountInfo } = require("../../../helpers/sql")
+const { updateAccountProfile } = require("../../../helpers/sql")
+const { getAccountProfile } = require("../../../helpers/sql")
 
 // Import validators
-const { test } = require("../../../helpers/validation")
+const { accountUpdateValidation } = require("../../../helpers/validation")
 const { validationResult } = require("express-validator")
 
 // Import the custom protectAPI middleware
@@ -26,7 +26,7 @@ const { protectEndpoint } = require("../../../helpers/sessions")
 const router = express.Router()
 
 // Update account profile
-router.post("/", protectEndpoint, upload.single("avatar"), test, async (request, response) => {
+router.post("/", protectEndpoint, upload.single("avatar"), accountUpdateValidation, async (request, response) => {
     // Validate the incoming form fields
     if (!validationResult(request).isEmpty()){
         return response
@@ -67,7 +67,7 @@ router.post("/", protectEndpoint, upload.single("avatar"), test, async (request,
 
     // Use the current profile picture if one is not supplied
     if (!request.file){
-        const accountInfo = await db.query(getAccountInfo, [artist])
+        const accountInfo = await db.query(getAccountProfile, [artist])
         artistProfile = [
             firstname,
             lastname,
@@ -82,18 +82,19 @@ router.post("/", protectEndpoint, upload.single("avatar"), test, async (request,
     }
 
     // Update the account information
-    await db.query(updateAccountInfo, artistProfile)
+    await db.query(updateAccountProfile, artistProfile)
 
     return response
     .json({success: true, response: "Settings successfully updated"})
 
 })
 
+// Reject GET requests
 router.get("/", async (request, response) => {
     return response
     .status(400) // Bad Response
     .json({success: false, error: "This endpoint does not support GET requests"})
 })
 
-// Export routing
+// Export route middleware so it can be used in other components
 module.exports = router

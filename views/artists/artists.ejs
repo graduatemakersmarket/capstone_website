@@ -21,24 +21,26 @@
 <!-- Navigation Menu -->
 <%- include("../partials/navigation") %>
 
-<!-- Artist Page Introduction Title -->
-<section class="content_31 bg-dark pt-50 pb-70 text-center color-white">
-	<div class="container px-xl-0">
-		<div class="row justify-content-center">
-			<p class="Title" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Creator and Artist Profiles</p>
-		</div>
-	</div>
-  </section>
-
 <!-- Artists Section -->
 <div class="Artists">
 	<% profiles.forEach((profile, index) => { %>
 	<div class="item" data-aos="fade-up" data-aos-duration="2000">
-	  <div class="artistProfile"></div>
+	  <div class="artistProfile"><img src="data:image/png;base64,<%= profile.avatar %>" alt="Profile Picture" height="200" width="200"></div>
 	  <div class="card">
-		<h3><%= profile.artist %></h3>
-		<p>Bio</p>
-		<a href="#">Visit Profile</a>
+		<!-- Display artist name-->
+		<% if ((profile.firstname === null || profile.firstname === "") || (profile.lastname === null || profile.lastname === "")) { %>
+			<h3><%= profile.artist %></h3>
+		<% } else { %>
+			<h3><%= profile.firstname %> <%= profile.lastname %></h3>
+		<% } %>
+
+		<!-- Display artist bio-->
+		<% if (profile.biography === null || profile.biography === "") { %>
+			<p>This artist has not shared their story yet</p>
+		<% } else { %>
+			<p><%= profile.biography %></p>
+		<% } %>
+		<a href="/artists/profile/<%= profile.artist %>">Visit Profile</a>
 	  </div>
 	</div>
 	<% }) %>

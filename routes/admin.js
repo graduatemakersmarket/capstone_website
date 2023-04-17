@@ -1,19 +1,38 @@
+/*
+Author: Capstone Spring 2023
+Description: Maker Market admin panel controller
+Documentation: N/A
+*/
+
+// Import the required middleware
 const express = require("express")
 const db = require("../helpers/database")
+
+// Import required database queries
+const { getAccountInfo } = require("../helpers/sql")
+
+// Import the custom protectAPI middleware
+const { protectWebPage } = require("../helpers/sessions")
+
+// Import router middleware
 const router = express.Router()
 
-router.get("/", async (request, response) => {
+// Handle admin panel requests
+router.get("/", protectWebPage, async (request, response) => {
 
-    // I will improve this tomorrow, but for now this will pull the user
-    // information from the database and pass it into the template
+    // Reject non-admins
+    if (request.is_admin === 0){
+        return response
+        .render("errors/unauthorized")
+    }
 
-    // I also improved the loop in the template so it is much easier to
-    // call specific data out, especially if there is a lot of data
-    const artists = await db.query("SELECT artist FROM makermarket.artists")
+    // Grab all artists from the database
+    const artists = await db.query(getAccountInfo)
 
     return response
     .status(200)
     .render("admin", {profiles: artists[0]})
 })
 
+// Export route middleware so it can be used in other components
 module.exports = router

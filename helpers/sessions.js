@@ -7,7 +7,11 @@ Documentation: https://www.npmjs.com/package/jsonwebtoken,
 // Import the the JsonWebToken middleware
 const jwt = require("jsonwebtoken")
 
-// Require a valid session to access protected pages
+/*
+protectWebPage will only allow authenticated user session to access
+any page it is protecting. Unauthorized or bad session will be redirected
+to the login page where they can sign in
+*/
 const protectWebPage = async (request, response, next) => {
     // Redirect unauthenticated users to the login page
     if (!request.cookies.MakerMarket){
@@ -35,7 +39,11 @@ const protectWebPage = async (request, response, next) => {
     })
 }
 
-// Require a valid session to access protected API endpoints
+/*
+protectEndpoint will only allow authenticated user session to access
+any API it is protecting. Unauthorized or bad session will be rejected by
+the endpoint
+*/
 const protectEndpoint = async (request, response, next) => {
     // Redirect unauthenticated users to the login page
     if (!request.cookies.MakerMarket){
@@ -65,7 +73,12 @@ const protectEndpoint = async (request, response, next) => {
     })
 }
 
-// Detect if a user is a guest or has a session
+/*
+allowGuests is used on pages where the user may or may not have a session.
+If a session does exist, the session will be verified before extracting
+the session data. However, if a session is not active, it will default
+to a guest session that can be used to view the page
+*/
 const allowGuests = async (request, response, next) => {
     // Assume the visitor is a guest until the session is verified
     request.artist_name = "guest"

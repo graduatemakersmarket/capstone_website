@@ -85,22 +85,54 @@ const accountLoginValidation = [
 ]
 
 // Validate account login user input
-const test = [
+const accountUpdateValidation = [
 
     check("firstname")
         .escape()
         .trim()
-        .notEmpty()
-        .withMessage("Blank usernames are not allowed")
-        .isLength({min: 3})
-        .withMessage("Usernames must be at least (3) characters")
         .isLength({max: 30})
-        .withMessage("Usernames may not exceed (30) characters"),
+        .withMessage("First name may not exceed (30) characters"),
+
+    check("lastname")
+        .escape()
+        .trim()
+        .isLength({max: 30})
+        .withMessage("Last name may not exceed (30) characters"),
+
+    check("instagram")
+        .escape()
+        .trim()
+        .isLength({max: 254})
+        .withMessage("Instagram handle name may not exceed (254) characters"),
+
+    check("facebook")
+        .escape()
+        .trim()
+        .isLength({max: 254})
+        .withMessage("Facebook handle name may not exceed (254) characters"),
+
+    check("twitter")
+        .escape()
+        .trim()
+        .isLength({max: 254})
+        .withMessage("Twitter handle may not exceed (254) characters"),
+
+    check("website")
+        .escape()
+        .trim()
+        .isLength({max: 254})
+        .withMessage("Website address may not exceed (254) characters"),
+
+    check("biography")
+        .escape()
+        .trim()
+        .isLength({max: 2000})
+        .withMessage("Biography may not exceed (2000) characters"),
 ]
 
 // Import the validators so they can be used in different components
 module.exports = {
     createAccountValidation,
     accountLoginValidation,
-    test
+    accountUpdateValidation
 }

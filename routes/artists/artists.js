@@ -1,6 +1,6 @@
 /*
 Author: Capstone Spring 2023
-Description: Maker Market artist profile page controller
+Description: Maker Market artist page controller
 Documentation: N/A
 */
 
@@ -9,20 +9,20 @@ const express = require("express")
 const db = require("../../helpers/database")
 
 // Import required database queries
-const { getAccountProfile } = require("../../helpers/sql")
+const { getAccountInfo } = require("../../helpers/sql")
 
 // Import router middleware
 const router = express.Router()
 
-// Handle artist profile requests
-router.get("/:artist", async (request, response) => {
-
+// Handle artist requests
+router.get("/", async (request, response) => {
+    
     // Grab all artists from the database
-    const artistInfo = await db.query(getAccountProfile, [request.params.artist])
+    const artists = await db.query(getAccountInfo)
 
     return response
     .status(200)
-    .render("artists/profile", {profile: artistInfo[0][0]})
+    .render("artists/artists", {profiles: artists[0]})
 })
 
 // Export route middleware so it can be used in other components
