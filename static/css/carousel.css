@@ -3,7 +3,6 @@
   background-image: none !important;
 }
 
-
 /* Change fill=whatever to change the arrow color */
 .carousel-control-next-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
@@ -15,6 +14,6 @@
 
 /* This needs to be tweaked to make images look good */
 .carousel img {
-    height: 540px;
-    width: 625px;
-  }
+  height: 540px;
+  width: 625px;
+}
