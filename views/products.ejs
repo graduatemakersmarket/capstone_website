@@ -21,28 +21,20 @@
 <!-- Navigation Menu -->
 <%- include("./partials/navigation") %>
 
-<!-- Artist Page Introduction Title -->
-<section class="content_31 bg-dark pt-50 pb-70 text-center color-white">
-	<div class="container px-xl-0">
-		<div class="row justify-content-center">
-			<p class="Title" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Browse Amazing Products From All Creators</p>
-		</div>
-	</div>
-  </section>
-
-<!-- Products Section -->
-<div class="Products">
+<!-- Product Profiles-->
+<div class="row justify-content-center Products">
+	<!-- Render profile cards -->
 	<% products.forEach((product, index) => { %>
-	<div class="item" data-aos="fade-up" data-aos-duration="2000">
-	  <div class="productProfile"></div>
-	  <div class="card">
-		<h3><%= product.artist %></h3>
-		<p>Product bio</p>
-		<a href="#">Visit Product</a>
-	  </div>
-	</div>
+		<div class="item" data-aos="fade-up" data-aos-duration="2000">
+			<div class="productProfile"></div>
+			<div class="card">
+			  <h3><%= product.artist %></h3>
+			  <p>Product bio</p>
+			  <a href="#">Visit Product</a>
+			</div>
+		</div>
 	<% }) %>
-  </div>
+</div>
 
 <!-- Footer -->
 <%- include("./partials/footer") %>
