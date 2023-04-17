@@ -65,12 +65,11 @@
     background-position: center;
     background-image: url("/images/pexels-julio-nery-edited.png");
     background-attachment: fixed;
-    height: 1200px;
 }
 
 .card {
   border: 0px;
-  height: 25vh;
+  flex: 1;
 }
 .card > a {
   display: inline-block;
