@@ -17,3 +17,8 @@
     background-clip: text;
     -webkit-background-clip: text;
 }
+
+#profilePic {
+  height: 400px; 
+  width: auto;
+}

@@ -22,25 +22,36 @@
 <%- include("../partials/navigation") %>
 
 <% if (locals.profile) { %> 
+
+  <section class="content_31 bg-light pt-50 pb-10 text-center color-black">
+        <div class="row justify-content-center">
+            <h2 class="small col-lg-8" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0"><%= profile.firstname %> <%= profile.lastname %></h2>
+        </div>
+  </section>
+  
 <!-- Artist Profile -->
-<section class="feature_13 bg-light pt-100 pb-50">
+<section class="feature_13 bg-light pt-50 pb-50">
 	<div class="container px-xl-0">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">
         <div class="card text-black" style="border-radius: 25px;">
-            <h3> Warning: The profile page needs a lot of styling work!</h3>
           <div class="card-body p-md-5">
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"><%= profile.artist %>'s profile</p>
+                <h3>Bio:</h3>
                 <p><%= profile.biography %></p>
-
+                <h3>Socials: </h3>
+                <h6>Facebook:</h6>
+                <p>@<%= profile.facebook %></p>
+                <h6>Instagram:</h6>
+                <p>@<%= profile.instagram %></p>
+                <h6>Twitter:</h6>
+                <p>@<%= profile.twitter %></p>
+                <h6>Website:</h6>
+                <a href="<%= profile.website %>"><%= profile.website %></a>
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="data:image/png;base64,<%= profile.avatar %>" alt="Profile Picture" height="200" width="200">
-
+                <img src="data:image/png;base64,<%= profile.avatar %>" id="profilePic" alt="Profile Picture">
               </div>
             </div>
           </div>
@@ -49,6 +60,20 @@
     </div>
   </div>
 </section>
+
+<!-- Artist Products Section -->
+<div class="ProfileProducts">
+	<div class="item" data-aos="fade-up" data-aos-duration="2000">
+	  <div class="productProfile"></div>
+	  <div class="card">
+		<h3>Ryan Cazares</h3>
+		<p>Product bio</p>
+		<a href="#">Visit Product Page</a>
+	  </div>
+	</div>
+  </div>
+
+
 <% } %>
 
 
