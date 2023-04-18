@@ -77,8 +77,36 @@ WHERE
 //* Product Queries
 //*******************************************************************
 
-// Coming soon
 
+// Grab all product information
+const getProductInfo = `
+SELECT
+    product, summary, purchase_link, website_link, is_featured, product_owner
+FROM
+    makermarket.products
+`
+
+// Grab product information by owner
+const getProductProfile = `
+SELECT
+    product, summary, purchase_link, website_link, is_featured, product_owner
+FROM
+    makermarket.products
+WHERE
+    product = ?
+`
+
+// Grab product information by owner
+const getProductByOwner = `
+SELECT
+    product, summary, purchase_link, website_link, is_featured, product_owner
+FROM
+    makermarket.products
+WHERE
+    product_owner = ?
+`
+
+// TODO: Create a JOIN query with the products and product_images table to get all product images
 // Export all of the queries so we can access them from other components
 module.exports = {
     checkAccountExists,
@@ -87,5 +115,8 @@ module.exports = {
     getAccountInfo,
     getAccountProfile,
     updateAccountProfile,
-    getFeaturedArtists
+    getFeaturedArtists,
+    getProductInfo,
+    getProductByOwner,
+    getProductProfile
 }
