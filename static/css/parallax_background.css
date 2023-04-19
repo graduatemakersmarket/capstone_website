@@ -6,22 +6,21 @@
 
 .sponsor_section {
     text-align: center;
-    width: 100%;
+    width: 100vw;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background-size: cover;
     background-position: center;
-    background-image: url("/images/pexels-andrew-neel-2123337.jpg");
+    background-image: url("/images/pexels-julio-nery-edited.png");
     background-attachment: fixed;
-    height: 800px;
 }
 
 .Products {
   text-align: center;
   color: var(--color);
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: row;
@@ -37,7 +36,7 @@
 .Artists {
   text-align: center;
   color: var(--color);
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: row;
@@ -53,7 +52,7 @@
 .articles {
     text-align: center;
     color: var(--color);
-    width: 100%;
+    width: 100vw;
     min-height: 100vh;
     display: flex;
     flex-direction: row;
@@ -170,7 +169,7 @@ h3 {
 .ProfileProducts {
   text-align: center;
   color: var(--color);
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: row;
@@ -181,5 +180,4 @@ h3 {
   background-position: center;
   background-image: url(/images/pexels-anni-roenkae-2457284.jpg);
   background-attachment: fixed;
-  height: 600px;
 }

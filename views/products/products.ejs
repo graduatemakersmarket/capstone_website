@@ -22,20 +22,22 @@
 <%- include("../partials/navigation") %>
 
 <!-- Product Profiles-->
-<div class="row justify-content-center Products">
-	<!-- Render profile cards -->
-	<% products.forEach((product, index) => { %>
-		<div class="item" data-aos="fade-up" data-aos-duration="2000">
-			<div class="productProfile"></div>
-			<div class="card">
-			  <h3><%= product.product %></h3>
-			  <p><%= product.summary %></p>
-			  <a href="/products/profile/<%= product.product %>">View Product</a>
+<section class="feature_13 bg-light">
+	<div class="row justify-content-center Products">
+		<!-- Render profile cards -->
+		<% products.forEach((product, index) => { %>
+			<div class="item" data-aos="fade-up" data-aos-duration="2000">
+				<div class="productProfile"></div>
+				<div class="card">
+				  <h3><%= product.product %></h3>
+				  <p><%= product.summary %></p>
+				  <a href="/products/profile/<%= product.product %>">View Product</a>
+				</div>
 			</div>
-		</div>
-	<% }) %>
-</div>
-
+		<% }) %>
+	</div>
+	
+</section>
 <!-- Footer -->
 <%- include("../partials/footer") %>
 
