@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@400;700&display=swap');
+
+:root{
+--color: #333; 
+}
+
+.sponsor_section {
+    text-align: center;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-image: url("/images/pexels-julio-nery-edited.png");
+    background-attachment: fixed;
+}
+
+.Products {
+  text-align: center;
+  color: var(--color);
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-image: url(/images/pexels-steve-johnson-1047525.jpg);
+  background-attachment: fixed;
+}
+
+.Artists {
+  text-align: center;
+  color: var(--color);
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-image: url(/images/pexels-steve-johnson-1047525.jpg);
+  background-attachment: fixed;
+}
+
+.articles {
+    text-align: center;
+    color: var(--color);
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-image: url("/images/pexels-julio-nery-edited.png");
+    background-attachment: fixed;
+}
+
+.card {
+  border: 0px;
+  flex: 1;
+}
+.card > a {
+  display: inline-block;
+  padding: 1em 3.5em;
+  background-color: var(--color);
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 0.3em;
+  font-weight: 700;
+  letter-spacing: .5px;
+  font-size: .875rem;
+  margin-bottom: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+ 
+.card > p {
+  max-width: 52ch;
+  line-height: 1.5;
+  padding: 1em;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-top: 1em;
+}
+
+
+.item {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    background-color: white;
+    align-items: center;
+    border-radius: .5em;
+    -webkit-box-shadow: 0px 29px 38px -15px rgba(0,0,0,0.43);
+    -moz-box-shadow: 0px 29px 38px -15px rgba(0,0,0,0.43);
+    box-shadow: 0px 29px 38px -15px rgba(0,0,0,0.43);
+}
+
+.img-first {
+    width: 90%;
+    height: 200px;
+    background-color: transparent;
+    background-size: cover;
+    background-position: center;
+    margin-top: 20px;
+    border-radius: .3em;
+    background-image: url("/images/the-gift-of-teaching.png");
+}
+
+.img-second {
+  width: 90%;
+  height: 200px;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  margin-top: 20px;
+  border-radius: .3em;
+  background-image: url("/images/carletta1.png");
+
+}
+
+.img-third {
+  width: 90%;
+  height: 200px;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  margin-top: 20px;
+  border-radius: .3em;
+  background-image: url("/images/dejuan3.png");
+}
+
+.artistProfile {
+  width: 90%;
+  height: 200px;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  margin-top: 20px;
+  border-radius: .3em;
+}
+
+.productProfile {
+  width: 90%;
+  height: 200px;
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 20px;
+  border-radius: .3em;
+  background-image: url("/images/dejuan-product1.png");
+}
+
+.ProfileProducts {
+  text-align: center;
+  color: var(--color);
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-image: url(/images/pexels-anni-roenkae-2457284.jpg);
+  background-attachment: fixed;
+}
