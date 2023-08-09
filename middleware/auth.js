@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const time = require('../utils/time');
+const controller = require('../controllers/accountController');
 
 const memberAccess = async (req, res, next) => {
   let token = null;
@@ -22,11 +23,10 @@ const memberAccess = async (req, res, next) => {
 
   await jwt.verify(token, process.env.SESSION_SECRET, async (error, decoded) => {
     if (error) {
-      if (req.cookies.makerSession) return res.clearCookie('makerSession').redirect('/account/login');
-      if (req.headers.authorization) return res.redirect('/account/login');
+      return res.clearCookie('makerSession').redirect('/account/login');
     }
 
-    const profile = await controller.getProfile(decoded.makerUsername);
+    const profile = await controller.getBasicProfile(decoded.vpUsername);
 
     const session = {
       vpUsername: decoded.vpUsername,
@@ -35,21 +35,26 @@ const memberAccess = async (req, res, next) => {
       vpIP: decoded.vpIP,
     };
 
-    // Extend session if a user is active on the website within a reasonable window
-    if (time.getDifferenceMinutes(decoded.exp) <= 30 && req.cookies.makerSession) {
-      const refresh = await jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '1h' });
-      res.cookie('makerSession', refresh, { httpOnly: true, secure: true, samesite: true });
-    }
+    const refresh = {
+      vpUsername: decoded.vpUsername,
+      vpEmail: decoded.vpEmail,
+      vpIP: decoded.vpIP,
+    };
 
     req.session = session;
 
-    return true;
+    if (time.getDifferenceMinutes(decoded.exp) < 30 && req.cookies.makerSession) {
+      const extend = await jwt.sign(refresh, process.env.SESSION_SECRET, { expiresIn: '2h' });
+      res.cookie('makerSession', extend, { httpOnly: true, secure: true, samesite: true });
+    }
+
+    return next();
   });
 
-  return next();
+  return false;
 };
 
-const memberAPIAccess = async (req, res, next) => {
+const APIAccess = async (req, res, next) => {
   let token = null;
 
   if (!req.cookies.makerSession && !req.headers.authorization) {
@@ -88,18 +93,23 @@ const memberAPIAccess = async (req, res, next) => {
       vpIP: decoded.vpIP,
     };
 
-    // Extend session if a user is active on the website within a reasonable window
-    if (time.getDifferenceMinutes(decoded.exp) <= 30 && req.cookies.makerSession) {
-      const refresh = await jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '1h' });
-      res.cookie('makerSession', refresh, { httpOnly: true, secure: true, samesite: true });
-    }
+    const refresh = {
+      vpUsername: decoded.vpUsername,
+      vpEmail: decoded.vpEmail,
+      vpIP: decoded.vpIP,
+    };
 
     req.session = session;
 
-    return true;
+    if (time.getDifferenceMinutes(decoded.exp) < 30 && req.cookies.makerSession) {
+      const extend = await jwt.sign(refresh, process.env.SESSION_SECRET, { expiresIn: '2h' });
+      res.cookie('makerSession', extend, { httpOnly: true, secure: true, samesite: true });
+    }
+
+    return next();
   });
 
-  return next();
+  return false;
 };
 
 const guestAccess = async (req, res, next) => {
@@ -108,7 +118,7 @@ const guestAccess = async (req, res, next) => {
   if (!req.cookies.makerSession && !req.headers.authorization) {
     const session = {
       vpUsername: 'guest',
-      vpEmail: 'guest@vplaces.online',
+      vpEmail: 'guest@vpchat.net',
       vpIP: req.headers['x-real-ip'] || req.socket.remoteAddress,
     };
 
@@ -133,17 +143,16 @@ const guestAccess = async (req, res, next) => {
     if (error) {
       const session = {
         vpUsername: 'guest',
-        vpEmail: 'guest@vplaces.online',
+        vpEmail: 'guest@vpchat.net',
         vpIP: req.headers['x-real-ip'] || req.socket.remoteAddress,
       };
 
       req.session = session;
 
-      if (req.cookies.makerSession) return res.clearCookie('makerSession').redirect('/account/login');
-      if (req.headers.authorization) return res.redirect('/account/login');
+      return res.clearCookie('makerSession').redirect('/account/login');
     }
 
-    const profile = await controller.getProfile(decoded.vpUsername);
+    const profile = await controller.getBasicProfile(decoded.vpUsername);
 
     const session = {
       vpUsername: decoded.vpUsername,
@@ -152,22 +161,27 @@ const guestAccess = async (req, res, next) => {
       vpIP: decoded.vpIP,
     };
 
-    // Extend session if a user is active on the website within a reasonable window
-    if (time.getDifferenceMinutes(decoded.exp) <= 30 && req.cookies.makerSession) {
-      const refresh = await jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '1h' });
-      res.cookie('makerSession', refresh, { httpOnly: true, secure: true, samesite: true });
-    }
+    const refresh = {
+      vpUsername: decoded.vpUsername,
+      vpEmail: decoded.vpEmail,
+      vpIP: decoded.vpIP,
+    };
 
     req.session = session;
 
-    return true;
+    if (time.getDifferenceMinutes(decoded.exp) < 30 && req.cookies.makerSession) {
+      const extend = await jwt.sign(refresh, process.env.SESSION_SECRET, { expiresIn: '2h' });
+      res.cookie('makerSession', extend, { httpOnly: true, secure: true, samesite: true });
+    }
+
+    return next();
   });
 
-  return next();
+  return false;
 };
 
 module.exports = {
   memberAccess,
-  memberAPIAccess,
+  APIAccess,
   guestAccess,
 };

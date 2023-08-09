@@ -3,8 +3,20 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/', auth.guestAccess, (req, res) => res.render('index', {
-  session: req.session,
-}));
+router.get('/logout', auth.guestAccess, (req, res) => {
+  return res.clearCookie('makerSession').redirect('/');
+});
+
+router.get('/login', auth.guestAccess, (req, res) => {
+  return res.render('account/login', {
+    session: req.session,
+  });
+});
+
+router.get('/register', auth.guestAccess, (req, res) => {
+  return res.render('account/register', {
+    session: req.session,
+  });
+});
 
 module.exports = router;

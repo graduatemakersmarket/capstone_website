@@ -49,7 +49,7 @@ const Account = db.define('accounts', {
 
   product_limit: {
     type: Sequelize.DataTypes.INTEGER,
-    defaultValue: 3,
+    defaultValue: 50,
   },
 
   change_password: {

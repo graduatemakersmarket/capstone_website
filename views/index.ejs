@@ -3,19 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="./css/main.css" rel="stylesheet">
-	<link href="./css/featured.css" rel="stylesheet">
-	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link href="https://use.fontawesome.com/releases/v6.4.2/css/all.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-	<script src="./js/animate.js"></script>
-	<title>Maker Market</title>
+	<%- include("./partials/header") %>
 </head>
 <body>
-	
-	<!-- Include navigation -->
+
+	<!-- Include navigation-->
 	<%- include("./partials/navigation") %>
 
 	<!-- Include featured-->
@@ -24,18 +16,21 @@
 	<!-- Include articles-->
 	<%- include("./partials/articles") %>
 
+ 	<!-- BEGIN PAGE CONTENT-->
+	 <div class="content-container content-wrap">
+		<div class="container px-4 py-2" id="about-gsmm" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom">GSMM Information</h2>
+			<p>The Graduate Student's Maker's Market (GSMM) is a platform for the professional work of graduate students at the University of Arkansas in Fayetteville, Arkansas. This market offers a variety of services including workshops, consultations, and most importantly first hand experience and feedback. Each month we highlight the work of at least one maker who has completed our three part workshop series.</p>
+		</div>
 
-	<div class="container px-4 py-2" id="about-gsmm" data-aos="fade-right">
-		<h2 class="pb-1 border-bottom">GSMM Information</h2>
-		<p>The Graduate Student's Maker's Market (GSMM) is a platform for the professional work of graduate students at the University of Arkansas in Fayetteville, Arkansas. This market offers a variety of services including workshops, consultations, and most importantly first hand experience and feedback. Each month we highlight the work of at least one maker who has completed our three part workshop series.</p>
-	</div>
+		<div class="container px-4 py-2" id="join-gsmm" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom">Become a GSMM Vendor <a class="btn btn-sm btn-primary" href="#">START APPLICATION</a></h2>
+			<p>The Graduate Student's Maker's Market (GSMM) will begin hosting monthly markets in January 2023 to help promote and advertise student products and services. Please fill out the form and submit your application. All products should be original products. If you have a website, please feel free to advertise your online products as well.</p>
+		</div>
+  </div>
+ 	<!-- END PAGE CONTENT-->
 
-	<div class="container px-4 py-2" id="join-gsmm" data-aos="fade-right">
-		<h2 class="pb-1 border-bottom">Become a GSMM Vendor <a class="btn btn-sm btn-primary" href="#">START APPLICATION</a></h2>
-		<p>The Graduate Student's Maker's Market (GSMM) will begin hosting monthly markets in January 2023 to help promote and advertise student products and services. Please fill out the form and submit your application. All products should be original products. If you have a website, please feel free to advertise your online products as well.</p>
-	</div>
 
-	<br>
 	<!-- Include footer-->
 	<%- include("./partials/footer") %>
 
