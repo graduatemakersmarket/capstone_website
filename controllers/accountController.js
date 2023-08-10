@@ -1,9 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const sharp = require('sharp');
 const accountService = require('../services/accountService')
 const roleService = require('../services/roleService')
 const validator = require('express-validator');
 const encode = require('../utils/encode');
+const time = require('../utils/time');
 
 const registerAccount = async (req, res) => {
   // Gracefully fail if form validation fails
@@ -166,7 +168,81 @@ const loginAccount = async (req, res) => {
 }
 
 const updateAccount = async (req, res) => {
-  // LOGIC HERE
+  // Gracefully fail if form validation fails
+  if (!validator.validationResult(req).isEmpty()) {
+    return res.status(422).json({
+      success: false,
+      error: validator.validationResult(req).errors[0].msg,
+    });
+  }
+
+  // Check for session cookie or authorization header
+  if (!req.cookies.makerSession && !req.headers.authorization) {
+    return res.status(403).json({
+      success: false,
+      error: 'You are not authorized to use this endpoint',
+    });
+  }
+
+  const accountInfo = await accountService.getAccountInfo(req.session.makerEmail)
+
+  // Check if the account exists
+  if (!accountInfo) {
+    return res.status(401).json({
+      success: false,
+      error: 'You are not authorized to make changes to this account',
+    });
+  }
+
+  // Process the avatar image if one is supplied
+  if (req.file) {
+    const allowed = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+
+    if (!allowed.includes(req.file.mimetype)) {
+      return res.status(422).json({
+        success: false,
+        error: 'Your profile picture must be in the PNG, JPG, or GIF file format',
+      });
+    }
+
+    if (req.file.size > 1048576) {
+      return res.status(422).json({
+        success: false,
+        error: 'Your profile picture may not exceed 1MB',
+      });
+    }
+
+    // Resize avatar if it is too big or too small
+    let avatar = await sharp(req.file.buffer);
+    const metadata = await avatar.metadata();
+
+    if (metadata.height > 150 || metadata.width > 150) {
+      avatar = (await avatar.resize(150, 150, { fit: 'inside' }));
+    }
+
+    if (metadata.height < 100 || metadata.width < 100) {
+      avatar = (await avatar.resize(100, 100, { fit: 'inside' }));
+    }
+
+    avatar = (await avatar.toBuffer()).toString('base64');
+
+    accountService.updateAccountAvatar(avatar, req.session.makerEmail)
+  }
+
+  const account = {
+    email: req.session.makerEmail,
+    first_name: req.body['update-firstname'],
+    last_name: req.body['update-lastname'],
+    biography: req.body['update-biography'],
+    updated_date: time.getCurrentTimestamp(),
+  };
+
+  await accountService.updateAccount(account, req.session.makerEmail);
+
+  return res.status(200).json({
+    success: true,
+    response: 'Your account was successfully updated',
+  });
 }
 
 module.exports = {

@@ -27,8 +27,16 @@ const createAccount = async (account) => {
   return true;
 };
 
-const updateAccount = async (account) => {
-  await accountModel.update(account).catch((error) => {
+const updateAccountAvatar = async (avatar, email) => {
+  await accountModel.update({ avatar }, { where: { email } }).catch((error) => {
+    logger.error(error);
+  });
+
+  return true;
+};
+
+const updateAccount = async (account, email) => {
+  await accountModel.update(account, { where: { email } }).catch((error) => {
     logger.error(error);
   });
 
@@ -39,5 +47,6 @@ module.exports = {
   getAccountInfo,
   getAccountCount,
   createAccount,
+  updateAccountAvatar,
   updateAccount,
 };

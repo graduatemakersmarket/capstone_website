@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/account.css" rel="stylesheet">
+	<%- include("../partials/header") %>
+</head>
+<body>
+
+	<!-- Include navigation-->
+	<%- include("../partials/navigation") %>
+
+	<!-- Include featured-->
+	<%- include("../partials/featured") %>
+
+ 	<!-- BEGIN PAGE CONTENT-->
+	 <div class="content-container content-wrap">
+		<div class="container px-4 py-2" id="login-header" data-aos="fade-right">
+			<h2>ACCOUNT SETTINGS</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="update-response"></h4>
+			<form id="update-form">
+                <div class="mb-4 d-flex justify-content-center">
+                    <input type="file" id="avatar" class="avatar__input" name="avatar" accept="image/png, image/jpeg, image/gif, image/jpg" value="Upload Picture" onchange="loadFile(event)">
+                    <label for="avatar" class="avatar">
+                        <div class="img-overlay">
+                            <img src="data:image/png;base64,<%= locals.session.makerAvatar %>" alt="Avatar" id="user-avatar" class="avatar">
+                        </div>
+                    </label>
+                </div>
+                <br />
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-firstname" name="update-firstname" placeholder="Jane" maxlength="254" value="<%= clean(locals.account.first_name) %>" required>
+					<label for="update-firstname">First name</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-lastname" name="update-lastname" placeholder="Doe" maxlength="254" value="<%= clean(locals.account.last_name) %>" required>
+					<label for="update-lastname">Last name</label>
+				</div>
+                <div class="form-floating">
+                    <textarea class="form-control" id="update-biography" name="update-biography" rows="10" maxlength="1000" style="resize: none; height:100%;"><%= clean(locals.account.biography) %></textarea>
+                    <label for="update-biography">Biography</label>
+				</div>
+				<br>
+				<button class="btn btn-primary w-100 py-2" type="submit">Update Account</button>
+			  </form>
+		</div>
+  </div>
+ 	<!-- END PAGE CONTENT-->
+
+	<!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/response.js"></script>
+	<script type="application/javascript" src="/js/request.js"></script>
+
+	<script>
+		const accountLogin = document.getElementById('update-form');
+    	accountLogin.addEventListener('submit', (e) => {
+      		e.preventDefault();
+
+      		const formID = 'update-form';
+      		const outputID = 'update-response';
+            const fileID = 'avatar';
+      		const endpoint = '/api/account/update';
+			const redirect = false;
+
+			document.getElementById(outputID).innerHTML = "";
+            putMultipart(formID, outputID, fileID, endpoint, redirect, false);
+   	 	});
+
+
+        var loadFile = function(event) {
+            var output = document.getElementById('user-avatar');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src)
+            }
+        };
+	</script>
+	<!-- Include footer-->
+	<%- include("../partials/footer") %>
+
+</body>
+</html>

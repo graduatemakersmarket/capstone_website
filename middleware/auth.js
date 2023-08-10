@@ -27,7 +27,7 @@ const memberAccess = async (req, res, next) => {
     }
 
     const account = await accountService.getAccountInfo(decoded.makerEmail);
-    console.log(account)
+
     const session = {
       makerEmail: decoded.makerEmail,
       makerVerified: decoded.makerVerified,

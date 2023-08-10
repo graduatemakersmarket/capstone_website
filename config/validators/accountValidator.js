@@ -79,22 +79,22 @@ const updateAccount = [
     .escape()
     .trim()
     .optional({checkFalsy: true})
-    .isLength({ max: 40 })
-    .withMessage('Your first name exceeds (40) characters'),
+    .isLength({ max: 254 })
+    .withMessage('Your first name may not exceed (254) characters'),
 
   validator.check('update-lastname')
     .escape()
     .trim()
     .optional({checkFalsy: true})
-    .isLength({ max: 40 })
-    .withMessage('Your last name exceeds (40) characters'),
+    .isLength({ max: 254 })
+    .withMessage('Your last name may not exceed (254) characters'),
 
   validator.check('update-biography')
     .escape()
     .trim()
     .optional({checkFalsy: true})
-    .isLength({ max: 500 })
-    .withMessage('Your biography exceeds (500) characters'),
+    .isLength({ max: 1000 })
+    .withMessage('Your biography may not exceed (1000) characters'),
 ];
 
 module.exports = {

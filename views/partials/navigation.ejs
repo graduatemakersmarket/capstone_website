@@ -19,17 +19,33 @@
           <a class="nav-link" href="#"><i class="fa-solid fa-life-ring fa-sm" style="color: #c3cad5;"></i>&nbsp;Help</a>
         </li>
       </ul>
-			<ul class="navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-robot" fa-sm" style="color: #c3cad5;"></i>&nbsp;Maker Account
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/account/login">Login</a></li>
-            <li><a class="dropdown-item" href="/account/register">Register</a></li>
-          </ul>
-        </li>
-			</ul>
+
+      <% if (locals.session.makerEmail.toLowerCase() === "guest@makermarket.local") { %>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span><img src="/images/profile.png" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;">&nbsp;GSMM Account</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/account/login">Login</a></li>
+              <li><a class="dropdown-item" href="/account/register">Register</a></li>
+            </ul>
+          </li>
+        </ul>
+      <% } else { %>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span><img src="data:image/png;base64,<%= locals.session.makerAvatar %>" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;">&nbsp;<%= locals.session.makerEmail %></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/account">Account Settings</a></li>
+              <li><a class="dropdown-item" href="#">Create Product</a></li>
+              <li><a class="dropdown-item" href="/account/logout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      <% } %>
     </div>
   </div>
 </nav>
