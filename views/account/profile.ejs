@@ -16,8 +16,8 @@
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
 		<div class="container px-4 py-2" id="profile" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">USER'S PROFILE</h2>
-			<p>This is a placeholder page for user profiles</p>
+			<h2 class="pb-1 border-bottom"><%= locals.account.first_name.toUpperCase() %>'S PROFILE</h2>
+			<p>This is a placeholder page for <%= locals.account.first_name.charAt(0).toUpperCase() + locals.account.first_name.slice(1); %>&nbsp;<%= locals.account.last_name.charAt(0).toUpperCase() + locals.account.last_name.slice(1); %>'s profile</p>
 		</div>
   </div>
  	<!-- END PAGE CONTENT-->

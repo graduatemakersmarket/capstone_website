@@ -43,10 +43,22 @@ const updateAccount = async (account, email) => {
   return true;
 };
 
+const getAllAccounts = async (limit, offset) => {
+  const accounts = await accountModel.findAll({
+    limit,
+    offset,
+  }).catch((error) => {
+    logger.error(error);
+  });
+
+  return accounts;
+};
+
 module.exports = {
   getAccountInfo,
   getAccountCount,
   createAccount,
   updateAccountAvatar,
   updateAccount,
+  getAllAccounts,
 };

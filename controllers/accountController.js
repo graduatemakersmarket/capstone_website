@@ -217,11 +217,11 @@ const updateAccount = async (req, res) => {
     const metadata = await avatar.metadata();
 
     if (metadata.height > 150 || metadata.width > 150) {
-      avatar = (await avatar.resize(150, 150, { fit: 'inside' }));
+      avatar = (await avatar.resize(100, 100, { fit: 'inside' }));
     }
 
-    if (metadata.height < 100 || metadata.width < 100) {
-      avatar = (await avatar.resize(100, 100, { fit: 'inside' }));
+    if (metadata.height < 150 || metadata.width < 150) {
+      avatar = (await avatar.resize(150, 150, { fit: 'inside' }));
     }
 
     avatar = (await avatar.toBuffer()).toString('base64');

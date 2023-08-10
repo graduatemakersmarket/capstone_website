@@ -17,10 +17,77 @@
 	 <div class="content-container content-wrap">
 		<div class="container px-4 py-2" id="makers" data-aos="fade-right">
 			<h2 class="pb-1 border-bottom">MAKERS</h2>
-			<p>There are no makers in the database to display</p>
+
+			<% if (locals.makers) { %>
+			<div class="row row-cols-1 row-cols-md-3 g-4">
+				<% locals.makers.forEach(maker => { %>
+					<div class="col">
+						<div class="card h-100">
+							<img src="data:image/png;base64,<%= maker.avatar %>" class="card-img-top" alt="user-avatar" style="height: auto; width: auto;">
+							<div class="card-body">
+								<h5 class="card-title"><%= maker.first_name.charAt(0).toUpperCase() + maker.first_name.slice(1); %>&nbsp;<%= maker.last_name.charAt(0).toUpperCase() + maker.last_name.slice(1); %></h5>
+								<p class="card-text"><%= clean(maker.biography) %></p>
+							</div>
+							<div class="card-footer">
+								<small class="text-body-secondary"><a class="btn btn-primary btn-sm" href="/makers/<%= maker.email %>" role="button">VIEW PROFILE</a></small>
+							</div>
+						</div>
+					</div>
+				<% }) %>
+			</div>
+			<% } else { %>
+				<p>There are no makers in the database to display</p>
+			<% } %>
+			<br>
+			<!-- BEGIN PAGINATION-->
+			<% if (locals.total > 1) { %>
+				<nav>
+				<ul class="pagination justify-content-center">
+					<% if (locals.offset === 0) { %>
+					<li class="page-item disabled">
+						<a class="page-link">Previous</a>
+					</li>
+					<% } else { %>
+					<a class="page-link" href="/makers/page/<%= locals.page - 1 %>" tabindex="-1"> 
+					Previous
+					</a>
+					<%  } %>
+					<% var i = (Number(locals.page) > 5 ? Number(locals.page) - 4 : 1) %>
+					<% for(; i <= (Number(locals.page) + 4) && i <= locals.total; i++) { %>
+					<% if (locals.page === i) { %>
+						<li class="page-item active">
+						<a class="page-link" href="#"><%=i%> <span class="sr-only">
+							(current)
+						</span></a>
+					</li>
+					<% } else { %>
+						<li class="page-item">
+						<a class="page-link" href="/makers/page/<%=i%>">
+							<%=i%>
+						</a>
+						</li>
+					<% } %>
+					<% } %>
+					<li class="page-item">
+					<% if ((locals.page + 1) > locals.total) { %>
+						<li class="page-item disabled">
+						<a class="page-link">Next</a>
+						</li>
+					<% } else { %>
+						<a class="page-link" href="/makers/page/<%= locals.page + 1 %>">
+						Next
+						</a>
+					<% } %>
+					</li>
+				</ul>
+				</nav>
+	  		<%}%>
+			<!-- END PAGINATION-->
 		</div>
-  </div>
- 	<!-- END PAGE CONTENT-->
+  	</div>
+	<!-- END PAGE CONTENT-->
+
+	
 
 
 	<!-- Include footer-->

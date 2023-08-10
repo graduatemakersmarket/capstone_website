@@ -31,6 +31,7 @@ router.get('/register', auth.guestAccess, (req, res) => {
   });
 });
 
+
 router.get('/', auth.memberAccess, async (req, res) => {
   return res.render('account/account', {
     session: req.session,
