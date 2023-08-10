@@ -11,3 +11,17 @@ body *{
 .content-wrap {
   padding-bottom: 8rem; /* This must match the height of the footer class in footer.css*/
 }
+
+.response-error {
+  display:block; 
+  margin-top:10px; 
+  color:red;
+  font-weight: bold;
+}
+
+.response-success {
+  display:block; 
+  margin-top:10px; 
+  color:green;
+  font-weight: bold;
+}

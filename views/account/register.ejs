@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%- include("../partials/header") %>
+</head>
+<body>
+
+	<!-- Include navigation-->
+	<%- include("../partials/navigation") %>
+
+	<!-- Include featured-->
+	<%- include("../partials/featured") %>
+
+ 	<!-- BEGIN PAGE CONTENT-->
+	 <div class="content-container content-wrap">
+		<div class="container px-4 py-2" id="register-header" data-aos="fade-right">
+			<h2>REGISTER</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="register-response"></h4>
+			<form id="register-form">
+				<div class="form-floating">
+				  <input type="email" class="form-control" id="register-email" name="register-email" placeholder="name@example.com" maxlength="254" required>
+				  <label for="register-email">Email address</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="register-firstname" name="register-firstname" placeholder="Jane" maxlength="254" required>
+					<label for="register-firstname">First name</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="register-lastname" name="register-lastname" placeholder="Doe" maxlength="254" required>
+					<label for="register-lastname">Last name</label>
+				</div>
+				<div class="form-floating">
+				  <input type="password" class="form-control" id="register-password" name="register-password" placeholder="Password" minlength="8" maxlength="60" required>
+				  <label for="register-password">Password</label>
+				</div>
+				<div class="form-floating">
+					<input type="password" class="form-control" id="register-password-confirm" name="register-password-confirm" placeholder="Confirm Password" minlength="8" maxlength="60" required>
+					<label for="register-password-confirm">Confirm Password</label>
+				</div>
+				<br>
+				<button class="btn btn-primary w-100 py-2" type="submit">Sign Up</button>
+			  </form>
+		</div>
+  </div>
+ 	<!-- END PAGE CONTENT-->
+
+	<!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/response.js"></script>
+	<script type="application/javascript" src="/js/request.js"></script>
+
+	<script>
+		const accountLogin = document.getElementById('register-form');
+    	accountLogin.addEventListener('submit', (e) => {
+      		e.preventDefault();
+
+      		const formID = 'register-form';
+      		const outputID = 'register-response';
+      		const endpoint = '/api/account/register';
+			const redirect = '/account';
+
+			document.getElementById(outputID).innerHTML = "";
+      		postData(formID, outputID, endpoint, redirect, false);
+   	 	});
+	</script>
+	<!-- Include footer-->
+	<%- include("../partials/footer") %>
+
+</body>
+</html>

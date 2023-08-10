@@ -4,7 +4,7 @@ const router = express.Router();
 const controller = require('../../../controllers/accountController');
 const validator = require('../../../config/validators/accountValidator');
 
-router.post('/create', validator.createAccount, controller.createAccount);
+router.post('/register', validator.registerAccount, controller.registerAccount);
 router.post('/login', validator.loginAccount, controller.loginAccount);
 router.put('/update', validator.loginAccount, controller.loginAccount);
 

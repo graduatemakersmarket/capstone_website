@@ -29,7 +29,7 @@ const Account = db.define('accounts', {
   },
 
   avatar: {
-    type: Sequelize.DataTypes.BLOB,
+    type: Sequelize.DataTypes.BLOB('long'),
   },
 
   account_balance: {

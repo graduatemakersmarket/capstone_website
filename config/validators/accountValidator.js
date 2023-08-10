@@ -1,7 +1,7 @@
 const validator = require('express-validator');
 
-const createAccount = [
-  validator.check('create-email')
+const registerAccount = [
+  validator.check('register-email')
     .escape()
     .trim()
     .notEmpty()
@@ -12,7 +12,23 @@ const createAccount = [
     .isLength({ max: 254 })
     .withMessage('Please provide a valid email address'),
 
-  validator.check('create-password')
+  validator.check('register-firstname')
+    .escape()
+    .trim()
+    .notEmpty()
+    .withMessage('Please provide your first name')
+    .isLength({ max: 254 })
+    .withMessage('Your first name may not exceed (254) characters'),
+
+  validator.check('register-lastname')
+    .escape()
+    .trim()
+    .notEmpty()
+    .withMessage('Please provide your last name')
+    .isLength({ max: 254 })
+    .withMessage('Your last name may not exceed (254) characters'),
+
+  validator.check('register-password')
     .escape()
     .trim()
     .notEmpty()
@@ -22,7 +38,7 @@ const createAccount = [
     .isLength({ max: 60 })
     .withMessage('Passwords may not exceed 60 characters'),
 
-  validator.check('create-password-confirm')
+  validator.check('register-password-confirm')
     .escape()
     .trim()
     .notEmpty()
@@ -31,7 +47,7 @@ const createAccount = [
     .withMessage('Passwords must be at least 8 characters')
     .isLength({ max: 60 })
     .withMessage('Passwords may not exceed 60 characters')
-    .custom((pass, { req }) => (pass === req.body['create-password']))
+    .custom((pass, { req }) => (pass === req.body['register-password']))
     .withMessage('Your password and password confirmation do not match'),
 ];
 
@@ -40,12 +56,12 @@ const loginAccount = [
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a valid email address')
+    .withMessage('Please provide a valid email address!')
     .normalizeEmail()
     .isEmail()
-    .withMessage('Please provide a valid email address')
+    .withMessage('Please provide a valid email address!!')
     .isLength({ max: 254 })
-    .withMessage('Please provide a valid email address'),
+    .withMessage('Please provide a valid email address!!!'),
 
   validator.check('login-password')
     .escape()
@@ -82,7 +98,7 @@ const updateAccount = [
 ];
 
 module.exports = {
-  createAccount,
+  registerAccount,
   loginAccount,
   updateAccount,
 };

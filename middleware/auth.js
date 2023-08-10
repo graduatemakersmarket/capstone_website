@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const time = require('../utils/time');
-const controller = require('../controllers/accountController');
+const encode = require('../utils/encode');
+const accountService = require('../services/accountService');
 
 const memberAccess = async (req, res, next) => {
   let token = null;
@@ -26,27 +26,15 @@ const memberAccess = async (req, res, next) => {
       return res.clearCookie('makerSession').redirect('/account/login');
     }
 
-    const profile = await controller.getBasicProfile(decoded.vpUsername);
-
+    const account = await accountService.getAccountInfo(decoded.makerEmail);
+    console.log(account)
     const session = {
-      vpUsername: decoded.vpUsername,
-      vpEmail: decoded.vpEmail,
-      vpAvatar: profile.avatar,
-      vpIP: decoded.vpIP,
-    };
-
-    const refresh = {
-      vpUsername: decoded.vpUsername,
-      vpEmail: decoded.vpEmail,
-      vpIP: decoded.vpIP,
+      makerEmail: decoded.makerEmail,
+      makerVerified: decoded.makerVerified,
+      makerAvatar: account.avatar,
     };
 
     req.session = session;
-
-    if (time.getDifferenceMinutes(decoded.exp) < 30 && req.cookies.makerSession) {
-      const extend = await jwt.sign(refresh, process.env.SESSION_SECRET, { expiresIn: '2h' });
-      res.cookie('makerSession', extend, { httpOnly: true, secure: true, samesite: true });
-    }
 
     return next();
   });
@@ -88,23 +76,11 @@ const APIAccess = async (req, res, next) => {
     }
 
     const session = {
-      vpUsername: decoded.vpUsername,
-      vpEmail: decoded.vpEmail,
-      vpIP: decoded.vpIP,
-    };
-
-    const refresh = {
-      vpUsername: decoded.vpUsername,
-      vpEmail: decoded.vpEmail,
-      vpIP: decoded.vpIP,
+      makerEmail: decoded.makerEmail,
+      makerVerified: decoded.makerVerified,
     };
 
     req.session = session;
-
-    if (time.getDifferenceMinutes(decoded.exp) < 30 && req.cookies.makerSession) {
-      const extend = await jwt.sign(refresh, process.env.SESSION_SECRET, { expiresIn: '2h' });
-      res.cookie('makerSession', extend, { httpOnly: true, secure: true, samesite: true });
-    }
 
     return next();
   });
@@ -117,9 +93,9 @@ const guestAccess = async (req, res, next) => {
 
   if (!req.cookies.makerSession && !req.headers.authorization) {
     const session = {
-      vpUsername: 'guest',
-      vpEmail: 'guest@vpchat.net',
-      vpIP: req.headers['x-real-ip'] || req.socket.remoteAddress,
+      makerEmail: 'guest@makermarket.local',
+      makerVerified: 0,
+      makerAvatar: await encode.imageToBase64('../resources/images/profile.png'),
     };
 
     req.session = session;
@@ -142,9 +118,9 @@ const guestAccess = async (req, res, next) => {
   await jwt.verify(token, process.env.SESSION_SECRET, async (error, decoded) => {
     if (error) {
       const session = {
-        vpUsername: 'guest',
-        vpEmail: 'guest@vpchat.net',
-        vpIP: req.headers['x-real-ip'] || req.socket.remoteAddress,
+        makerEmail: 'guest@makermarket.local',
+        makerVerified: 0,
+        makerAvatar: await encode.imageToBase64('../resources/images/profile.png'),
       };
 
       req.session = session;
@@ -152,27 +128,15 @@ const guestAccess = async (req, res, next) => {
       return res.clearCookie('makerSession').redirect('/account/login');
     }
 
-    const profile = await controller.getBasicProfile(decoded.vpUsername);
+    const account = await accountService.getAccountInfo(decoded.makerEmail);
 
     const session = {
-      vpUsername: decoded.vpUsername,
-      vpEmail: decoded.vpEmail,
-      vpAvatar: profile.avatar,
-      vpIP: decoded.vpIP,
-    };
-
-    const refresh = {
-      vpUsername: decoded.vpUsername,
-      vpEmail: decoded.vpEmail,
-      vpIP: decoded.vpIP,
+      makerEmail: decoded.makerEmail,
+      makerVerified: decoded.makerVerified,
+      makerAvatar: account.avatar,
     };
 
     req.session = session;
-
-    if (time.getDifferenceMinutes(decoded.exp) < 30 && req.cookies.makerSession) {
-      const extend = await jwt.sign(refresh, process.env.SESSION_SECRET, { expiresIn: '2h' });
-      res.cookie('makerSession', extend, { httpOnly: true, secure: true, samesite: true });
-    }
 
     return next();
   });

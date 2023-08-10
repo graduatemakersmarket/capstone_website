@@ -15,25 +15,44 @@
 
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
-		<div class="container px-4 py-2" id="about-gsmm" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">LOGIN</h2>
-
-			<div class="form-floating">
-				<input type="email" class="form-control" id="email" placeholder="name@example.com">
-				<label for="floatingInput">Email address</label>
-			</div>
-			<div class="form-floating">
-				<input type="password" class="form-control" id="password" placeholder="Password">
-				<label for="floatingPassword">Password</label>
-			</div>
-			<br>
-			<button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-		</form>
+		<div class="container px-4 py-2" id="login-header" data-aos="fade-right">
+			<h2>LOGIN</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="login-response"></h4>
+			<form id="login-form">
+				<div class="form-floating">
+				  <input type="email" class="form-control" id="login-email" name="login-email" placeholder="name@example.com" maxlength="254" required>
+				  <label for="login-email">Email address</label>
+				</div>
+				<div class="form-floating">
+				  <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password" minlength="8" maxlength="60" required>
+				  <label for="login-password">Password</label>
+				</div>
+				<br>
+				<button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+			  </form>
 		</div>
   </div>
  	<!-- END PAGE CONTENT-->
 
+	<!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/response.js"></script>
+	<script type="application/javascript" src="/js/request.js"></script>
 
+	<script>
+		const accountLogin = document.getElementById('login-form');
+    	accountLogin.addEventListener('submit', (e) => {
+      		e.preventDefault();
+
+      		const formID = 'login-form';
+      		const outputID = 'login-response';
+      		const endpoint = '/api/account/login';
+			const redirect = '/account';
+
+			document.getElementById(outputID).innerHTML = "";
+      		postData(formID, outputID, endpoint, redirect, false);
+   	 	});
+	</script>
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>
 

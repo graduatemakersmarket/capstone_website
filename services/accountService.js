@@ -1,7 +1,7 @@
 const accountModel = require('../models/accountModel');
 const logger = require('../config/logger');
 
-const queryGetAccount = async (email) => {
+const getAccountInfo = async (email) => {
   const account = await accountModel.findOne({
     where: { email },
   }).catch((error) => {
@@ -11,7 +11,7 @@ const queryGetAccount = async (email) => {
   return account;
 };
 
-const queryCountAccounts = async () => {
+const getAccountCount = async () => {
   const count = await accountModel.count().catch((error) => {
     logger.error(error);
   });
@@ -19,7 +19,7 @@ const queryCountAccounts = async () => {
   return count;
 };
 
-const queryCreateAccount = async (account) => {
+const createAccount = async (account) => {
   await accountModel.create(account).catch((error) => {
     logger.error(error);
   });
@@ -27,29 +27,17 @@ const queryCreateAccount = async (account) => {
   return true;
 };
 
-const queryUpdateVerification = async (email) => {
-  await accountModel.update({ account_verified: 1 }, { where: { email } }).catch((error) => {
+const updateAccount = async (account) => {
+  await accountModel.update(account).catch((error) => {
     logger.error(error);
   });
-};
 
-const queryUpdatePassword = async (email, password) => {
-  await accountModel.update({ password }, { where: { email } }).catch((error) => {
-    logger.error(error);
-  });
-};
-
-const queryUpdateChangePassword = async (email) => {
-  await accountModel.update({ change_password: 0 }, { where: { email } }).catch((error) => {
-    logger.error(error);
-  });
+  return true;
 };
 
 module.exports = {
-  queryGetAccount,
-  queryCountAccounts,
-  queryCreateAccount,
-  queryUpdateVerification,
-  queryUpdatePassword,
-  queryUpdateChangePassword,
+  getAccountInfo,
+  getAccountCount,
+  createAccount,
+  updateAccount,
 };

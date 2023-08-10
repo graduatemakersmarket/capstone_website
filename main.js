@@ -7,10 +7,10 @@ const cookieParser = require('cookie-parser');
 const market = express();
 
 market.use(express.json());
-market.use(bodyParser.json());
-market.use(bodyParser.urlencoded({extended: true}));
+market.use(bodyParser.json({ limit: '20MB' }));
+market.use(bodyParser.urlencoded({ limit: '20MB', extended: true }));
 
-market.use(cookieParser());
+market.use(cookieParser({ limit: '20MB' }));
 market.use(express.static(path.join(__dirname, 'views/static')));
 market.set("views", path.join(__dirname, 'views'));
 market.set("view engine", "ejs");
@@ -21,5 +21,11 @@ market.use('/', require('./routes/root'));
 market.use('/account', require('./routes/account'));
 market.use('/product', require('./routes/product'));
 market.use('/admin', require('./routes/admin'));
+
+const auth = require('./middleware/auth');
+
+market.get('*', auth.guestAccess, (req, res) => {
+    res.status(404).render('errors/404.ejs', { session: req.session });
+  });
 
 market.listen(3001)

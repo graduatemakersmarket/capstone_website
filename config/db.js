@@ -7,8 +7,8 @@ const db = new sequelize.Sequelize(
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: process.env.DB_TYPE,
-    dialectOptions: { useUTC: false },
     timezone: '-06:00',
+    logging: false,
   },
 );
 
