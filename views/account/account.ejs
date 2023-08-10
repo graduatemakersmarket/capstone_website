@@ -62,7 +62,7 @@
       		const outputID = 'update-response';
             const fileID = 'avatar';
       		const endpoint = '/api/account/update';
-			const redirect = false;
+			const redirect = '/account';
 
 			document.getElementById(outputID).innerHTML = "";
             putMultipart(formID, outputID, fileID, endpoint, redirect, false);
