@@ -18,8 +18,9 @@ market.set("view engine", "ejs");
 market.use('/api/account', require('./routes/api/v1/accountAPI'));
 
 market.use('/', require('./routes/root'));
+market.use('/makers', require('./routes/makers'));
 market.use('/account', require('./routes/account'));
-market.use('/product', require('./routes/product'));
+market.use('/products', require('./routes/products'));
 market.use('/admin', require('./routes/admin'));
 
 const auth = require('./middleware/auth');
