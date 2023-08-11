@@ -230,7 +230,6 @@ const updateAccount = async (req, res) => {
   }
 
   const account = {
-    email: req.session.makerEmail,
     first_name: req.body['update-firstname'],
     last_name: req.body['update-lastname'],
     biography: req.body['update-biography'],
@@ -245,8 +244,58 @@ const updateAccount = async (req, res) => {
   });
 }
 
+const updateSocials = async (req, res) => {
+  // Gracefully fail if form validation fails
+  if (!validator.validationResult(req).isEmpty()) {
+    return res.status(422).json({
+      success: false,
+      error: validator.validationResult(req).errors[0].msg,
+    });
+  }
+
+  // Check for session cookie or authorization header
+  if (!req.cookies.makerSession && !req.headers.authorization) {
+    return res.status(403).json({
+      success: false,
+      error: 'You are not authorized to use this endpoint',
+    });
+  }
+
+  const accountInfo = await accountService.getAccountInfo(req.session.makerEmail)
+
+  // Check if the account exists
+  if (!accountInfo) {
+    return res.status(401).json({
+      success: false,
+      error: 'You are not authorized to make changes to this account',
+    });
+  }
+
+  const socials = {
+    facebook: req.body['update-facebook'],
+    twitter: req.body['update-twitter'],
+    instagram: req.body['update-instagram'],
+    reddit: req.body['update-reddit'],
+    youtube: req.body['update-youtube'],
+    tiktok: req.body['update-tiktok'],
+    pinterest: req.body['update-pinterest'],
+    twitch: req.body['update-twitch'],
+    linkedin: req.body['update-linkedin'],
+    website: req.body['update-website'],
+    updated_date: time.getCurrentTimestamp(),
+  };
+
+  await accountService.updateAccount(socials, req.session.makerEmail);
+
+  return res.status(200).json({
+    success: true,
+    response: 'Your socials were successfully updated',
+  });
+}
+
 module.exports = {
   registerAccount,
   loginAccount,
   updateAccount,
+  updateSocials,
 }

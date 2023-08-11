@@ -32,6 +32,46 @@ const Account = db.define('accounts', {
     type: Sequelize.DataTypes.BLOB('long'),
   },
 
+  facebook: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  twitter: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  instagram: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  reddit: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  youtube: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  tiktok: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  pinterest: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  twitch: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  linkedin: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
+  website: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
   account_balance: {
     type: Sequelize.DataTypes.FLOAT,
     defaultValue: 0,

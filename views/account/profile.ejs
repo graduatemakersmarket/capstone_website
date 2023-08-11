@@ -15,13 +15,68 @@
 
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
+		<!-- BEGIN PROFILE-->
 		<div class="container px-4 py-2" id="profile" data-aos="fade-right">
 			<h2 class="pb-1 border-bottom"><%= locals.account.first_name.toUpperCase() %>'S PROFILE</h2>
+			<% let hasSocial = false; %>
+			<% if (locals.account.facebook) { %>
+				<a href="<%= clean(locals.account.facebook) %>" target="_blank"><i class="fa-brands fa-facebook fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.twitter) { %>
+				<a href="<%= clean(locals.account.twitter) %>" target="_blank"><i class="fa-brands fa-twitter fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.instagram) { %>
+				<a href="<%= clean(locals.account.instagram) %>" target="_blank"><i class="fa-brands fa-instagram fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.reddit) { %>
+				<a href="<%= clean(locals.account.reddit) %>" target="_blank"><i class="fa-brands fa-reddit fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.youtube) { %>
+				<a href="<%= clean(locals.account.youtube) %>" target="_blank"><i class="fa-brands fa-youtube fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.tiktok) { %>
+				<a href="<%= clean(locals.account.tiktok) %>" target="_blank"><i class="fa-brands fa-tiktok fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.pinterest) { %>
+				<a href="<%= clean(locals.account.pinterest) %>" target="_blank"><i class="fa-brands fa-pinterest fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.twitch) { %>
+				<a href="<%= clean(locals.account.twitch) %>" target="_blank"><i class="fa-brands fa-twitch fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.linkedin) { %>
+				<a href="<%= clean(locals.account.linkedin) %>" target="_blank"><i class="fa-brands fa-linkedin fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (locals.account.website) { %>
+				<a href="<%= clean(locals.account.website) %>" target="_blank"><i class="fa-solid fa-link fa-xl"></i></a>
+				<% hasSocial = true; %>
+			<% } %>
+			<% if (hasSocial) { %>
+				<br>
+				<br>
+			<% } %>
+
 			<p>This is a placeholder page for <%= locals.account.first_name.charAt(0).toUpperCase() + locals.account.first_name.slice(1); %>&nbsp;<%= locals.account.last_name.charAt(0).toUpperCase() + locals.account.last_name.slice(1); %>'s profile</p>
 		</div>
+		<!-- END PROFILE-->
+		<br>
+		<br>
+		<!-- BEGIN FEATURED PRODUCTS-->
+		<div class="container px-4 py-2" id="products" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom"><%= locals.account.first_name.toUpperCase() %>'S PRODUCTS</h2>
+			<p>This is a placeholder page for <%= locals.account.first_name.charAt(0).toUpperCase() + locals.account.first_name.slice(1); %>&nbsp;<%= locals.account.last_name.charAt(0).toUpperCase() + locals.account.last_name.slice(1); %>'s products</p>
+		</div>
+		<!-- END FEATURED PRODUCTS-->
   </div>
  	<!-- END PAGE CONTENT-->
-
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>

@@ -16,10 +16,11 @@
 
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
-		<div class="container px-4 py-2" id="login-header" data-aos="fade-right">
-			<h2>ACCOUNT SETTINGS</h2> 
-			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="update-response"></h4>
-			<form id="update-form">
+		<!-- BEGIN PROFILE SETTINGS-->
+		<div class="container px-4 py-2" id="update-profile-header" data-aos="fade-right">
+			<h2>PROFILE SETTINGS</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="update-profile-response"></h4>
+			<form id="update-profile-form">
                 <div class="mb-4 d-flex justify-content-center">
                     <input type="file" id="avatar" class="avatar__input" name="avatar" accept="image/png, image/jpeg, image/gif, image/jpg" value="Upload Picture" onchange="loadFile(event)">
                     <label for="avatar" class="avatar">
@@ -28,7 +29,6 @@
                         </div>
                     </label>
                 </div>
-                <br />
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-firstname" name="update-firstname" placeholder="Jane" maxlength="254" value="<%= clean(locals.account.first_name) %>" required>
 					<label for="update-firstname">First name</label>
@@ -38,14 +38,67 @@
 					<label for="update-lastname">Last name</label>
 				</div>
                 <div class="form-floating">
-                    <textarea class="form-control" id="update-biography" name="update-biography" rows="10" maxlength="1000" style="resize: none; height:100%;"><%= clean(locals.account.biography) %></textarea>
+					<textarea class="form-control" id="update-biography" name="update-biography" placeholder="Biography" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'><%= clean(locals.account.biography) %></textarea>
                     <label for="update-biography">Biography</label>
 				</div>
 				<br>
-				<button class="btn btn-primary w-100 py-2" type="submit">Update Account</button>
+				<button class="btn btn-primary w-100 py-2" type="submit">Update Profile</button>
 			  </form>
 		</div>
-  </div>
+		<!-- END PROFILE SETTINGS-->
+		<br>
+		<br>
+		<!-- BEGIN SOCIAL SETTINGS-->
+		<div class="container px-4 py-2" id="update-socials-header" data-aos="fade-right">
+			<h2>SOCIAL SETTINGS</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="update-socials-response"></h4>
+			<form id="update-socials-form">
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-facebook" name="update-facebook" placeholder="Facebook" maxlength="254" value="<%= clean(locals.account.facebook) %>">
+					<label for="update-facebook">Facebook</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-twitter" name="update-twitter" placeholder="Twitter" maxlength="254" value="<%= clean(locals.account.twitter) %>">
+					<label for="update-twitter">Twitter</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-instagram" name="update-instagram" placeholder="Instagram" maxlength="254" value="<%= clean(locals.account.instagram) %>">
+					<label for="update-instagram">Instagram</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-reddit" name="update-reddit" placeholder="Reddit" maxlength="254" value="<%= clean(locals.account.reddit) %>">
+					<label for="update-reddit">Reddit</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-youtube" name="update-youtube" placeholder="YouTube" maxlength="254" value="<%= clean(locals.account.youtube) %>">
+					<label for="update-youtube">YouTube</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-tiktok" name="update-tiktok" placeholder="TikTok" maxlength="254" value="<%= clean(locals.account.tiktok) %>">
+					<label for="update-tiktok">TikTok</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-pinterest" name="update-pinterest" placeholder="Pinterest" maxlength="254" value="<%= clean(locals.account.pinterest) %>">
+					<label for="update-pinterest">Pinterest</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-twitch" name="update-twitch" placeholder="Twitch" maxlength="254" value="<%= clean(locals.account.twitch) %>">
+					<label for="update-twitch">Twitch</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-linkedin" name="update-linkedin" placeholder="LinkedIn" maxlength="254" value="<%= clean(locals.account.linkedin) %>">
+					<label for="update-linkedin">LinkedIn</label>
+				</div>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-website" name="update-website" placeholder="Personal Website" maxlength="254" value="<%= clean(locals.account.website) %>">
+					<label for="update-website">Personal Website</label>
+				</div>
+				<br>
+				<button class="btn btn-primary w-100 py-2" type="submit">Update Socials</button>
+				</form>
+		</div>
+		<!-- END SOCIAL SETTINGS-->
+  	</div>
  	<!-- END PAGE CONTENT-->
 
 	<!-- Include scripts-->
@@ -54,12 +107,12 @@
 	<script type="application/javascript" src="/js/request.js"></script>
 
 	<script>
-		const accountLogin = document.getElementById('update-form');
-    	accountLogin.addEventListener('submit', (e) => {
+		const updateAccount = document.getElementById('update-profile-form');
+    	updateAccount.addEventListener('submit', (e) => {
       		e.preventDefault();
 
-      		const formID = 'update-form';
-      		const outputID = 'update-response';
+      		const formID = 'update-profile-form';
+      		const outputID = 'update-profile-response';
             const fileID = 'avatar';
       		const endpoint = '/api/account/update';
 			const redirect = '/account';
@@ -68,6 +121,19 @@
             putMultipart(formID, outputID, fileID, endpoint, redirect, false);
    	 	});
 
+		const updateSocials = document.getElementById('update-socials-form');
+    	updateSocials.addEventListener('submit', (e) => {
+      		e.preventDefault();
+
+      		const formID = 'update-socials-form';
+      		const outputID = 'update-socials-response';
+      		const endpoint = '/api/account/socials/update';
+			const redirect = false;
+
+			document.getElementById(outputID).innerHTML = "";
+
+			putData(formID, outputID, endpoint, redirect, false);
+   	 	});
 
         var loadFile = function(event) {
             var output = document.getElementById('user-avatar');
