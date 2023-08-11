@@ -216,12 +216,12 @@ const updateAccount = async (req, res) => {
     let avatar = await sharp(req.file.buffer);
     const metadata = await avatar.metadata();
 
-    if (metadata.height > 150 || metadata.width > 150) {
-      avatar = (await avatar.resize(100, 100, { fit: 'inside' }));
+    if (metadata.height > 400 || metadata.width > 400) {
+      avatar = (await avatar.resize(400, 400, { fit: 'inside' }));
     }
 
-    if (metadata.height < 150 || metadata.width < 150) {
-      avatar = (await avatar.resize(150, 150, { fit: 'inside' }));
+    if (metadata.height < 400 || metadata.width < 400) {
+      avatar = (await avatar.resize(400, 400, { fit: 'inside' }));
     }
 
     avatar = (await avatar.toBuffer()).toString('base64');
