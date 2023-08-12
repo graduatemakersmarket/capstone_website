@@ -28,6 +28,10 @@ const Account = db.define('accounts', {
     type: Sequelize.DataTypes.TEXT,
   },
 
+  video_link: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
   avatar: {
     type: Sequelize.DataTypes.BLOB('long'),
   },

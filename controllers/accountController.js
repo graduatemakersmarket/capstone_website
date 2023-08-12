@@ -233,6 +233,7 @@ const updateAccount = async (req, res) => {
     first_name: req.body['update-firstname'],
     last_name: req.body['update-lastname'],
     biography: req.body['update-biography'],
+    video_link: req.body['update-video'],
     updated_date: time.getCurrentTimestamp(),
   };
 

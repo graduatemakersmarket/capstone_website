@@ -23,7 +23,7 @@
 				<% locals.makers.forEach(maker => { %>
 					<div class="col">
 						<div class="card h-100" style="max-width: 400px;">
-							<img src="data:image/png;base64,<%= maker.avatar %>" class="card-img-top" alt="user-avatar" style="height: 400px; width: 400px;">
+							<img src="data:image/png;base64,<%= maker.avatar %>" class="card-img-top" alt="user-avatar" style="height: auto; width: auto;">
 							<div class="card-body">
 								<h5 class="card-title"><%= maker.first_name.charAt(0).toUpperCase() + maker.first_name.slice(1); %>&nbsp;<%= maker.last_name.charAt(0).toUpperCase() + maker.last_name.slice(1); %></h5>
 								<p class="card-text"><% if (maker.biography.length > 140) {%> <%= clean(maker.biography.slice(0, 140)) + "..." %> <% } else { %> <%= clean(maker.biography) %> <% } %></p>
@@ -86,9 +86,6 @@
 		</div>
   	</div>
 	<!-- END PAGE CONTENT-->
-
-	
-
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>

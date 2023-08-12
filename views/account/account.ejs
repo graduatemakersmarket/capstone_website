@@ -33,12 +33,19 @@
 					<input type="text" class="form-control" id="update-firstname" name="update-firstname" placeholder="Jane" maxlength="254" value="<%= clean(locals.account.first_name) %>" required>
 					<label for="update-firstname">First name</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-lastname" name="update-lastname" placeholder="Doe" maxlength="254" value="<%= clean(locals.account.last_name) %>" required>
 					<label for="update-lastname">Last name</label>
 				</div>
+				<br>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="update-video" name="update-video" placeholder="tgbNymZ7vqY" maxlength="254" oninput="YouTubeGetID(document.getElementById('update-video').value)" value="<%= clean(locals.account.video_link) %>">
+					<label for="update-video">Video introduction code (YouTube link)</label>
+				</div>
+				<br>
                 <div class="form-floating">
-					<textarea class="form-control" id="update-biography" name="update-biography" placeholder="Biography" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'><%= clean(locals.account.biography) %></textarea>
+					<textarea class="form-control" id="update-biography" name="update-biography" placeholder="Biography" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'><%= clean(locals.account.biography, {wordwrap: false, preserveNewlines: true,}) %></textarea>
                     <label for="update-biography">Biography</label>
 				</div>
 				<br>
@@ -57,38 +64,47 @@
 					<input type="text" class="form-control" id="update-facebook" name="update-facebook" placeholder="Facebook" maxlength="254" value="<%= clean(locals.account.facebook) %>">
 					<label for="update-facebook">Facebook</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-twitter" name="update-twitter" placeholder="Twitter" maxlength="254" value="<%= clean(locals.account.twitter) %>">
 					<label for="update-twitter">Twitter</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-instagram" name="update-instagram" placeholder="Instagram" maxlength="254" value="<%= clean(locals.account.instagram) %>">
 					<label for="update-instagram">Instagram</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-reddit" name="update-reddit" placeholder="Reddit" maxlength="254" value="<%= clean(locals.account.reddit) %>">
 					<label for="update-reddit">Reddit</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-youtube" name="update-youtube" placeholder="YouTube" maxlength="254" value="<%= clean(locals.account.youtube) %>">
 					<label for="update-youtube">YouTube</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-tiktok" name="update-tiktok" placeholder="TikTok" maxlength="254" value="<%= clean(locals.account.tiktok) %>">
 					<label for="update-tiktok">TikTok</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-pinterest" name="update-pinterest" placeholder="Pinterest" maxlength="254" value="<%= clean(locals.account.pinterest) %>">
 					<label for="update-pinterest">Pinterest</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-twitch" name="update-twitch" placeholder="Twitch" maxlength="254" value="<%= clean(locals.account.twitch) %>">
 					<label for="update-twitch">Twitch</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-linkedin" name="update-linkedin" placeholder="LinkedIn" maxlength="254" value="<%= clean(locals.account.linkedin) %>">
 					<label for="update-linkedin">LinkedIn</label>
 				</div>
+				<br>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="update-website" name="update-website" placeholder="Personal Website" maxlength="254" value="<%= clean(locals.account.website) %>">
 					<label for="update-website">Personal Website</label>
@@ -142,6 +158,13 @@
                 URL.revokeObjectURL(output.src)
             }
         };
+
+		function YouTubeGetID(url){ /* https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url */
+			let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+			if (url.match(regex)) {
+				document.getElementById('update-video').value = url.match(regex)[1];
+			}
+		}
 	</script>
 
 	<!-- Include footer-->

@@ -4,7 +4,9 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="/css/makerprofile.css" rel="stylesheet">
+	<link href="/css/boom-lightbox.1.0.0.min.css" rel="stylesheet">
 	<%- include("../partials/header") %>
+	<script type="text/javascript" src="/js/boom-lightbox.1.0.0.min.js"></script>
 </head>
 <body>
 
@@ -26,7 +28,7 @@
 				  </div>
 				  <div class="col-md-10">
 					  <div class="card-body">
-						<p class="card-text"><%= clean(locals.account.biography) %></p>
+						<p class="card-text" style="white-space: pre-wrap"><%= clean(locals.account.biography, {wordwrap: false, preserveNewlines: true,}) %></p>
 						<p class="card-text"><small class="text-body-secondary">
 							<% if (locals.account.facebook) { %>
 								<a href="<%= clean(locals.account.facebook) %>" target="_blank"><i class="fa-brands fa-facebook fa-xl"></i></a>
@@ -75,6 +77,32 @@
 		<!-- END FEATURED PRODUCTS-->
   </div>
  	<!-- END PAGE CONTENT-->
+
+	<!-- BEGIN LIGHTBOX DIV-->
+	<% if (locals.account.video_link !== "" && locals.account.video_link !== null) { %>
+		<div id="divResponsive" class="boom-lightbox" style="display: none;">
+			<iframe id="ytplayer" width="100%" height="100%" src="https://www.youtube.com/embed/<%= locals.account.video_link %>?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>
+		</div>
+	<% } %>
+	<!-- END LIGHTBOX DIV-->
+
+	<!-- Include scripts-->
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			// Use local storage to see if this specific profile has been visited before or not
+			var profileVisited = localStorage.getItem('<%= locals.account.email %>');
+			if (profileVisited == null) {
+				if ('<%= locals.account.video_link %>' !== "" && '<%= locals.account.video_link %>' !== null) {
+					localStorage.setItem('<%= locals.account.email %>', 1)
+					boomLightBoxInit([{ /* https://github.com/boominteractive/boom-lightbox */
+						selector: 'divResponsive',
+						configs: { width: '60%', height: '60%'}
+					}]);
+					document.getElementById('divResponsive').style = 'display: block;';
+				}
+			}
+		});
+	</script>
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>

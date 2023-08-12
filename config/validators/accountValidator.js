@@ -89,6 +89,13 @@ const updateAccount = [
     .isLength({ max: 254 })
     .withMessage('Your last name may not exceed (254) characters'),
 
+  validator.check('update-video')
+    .escape()
+    .trim()
+    .optional({checkFalsy: true})
+    .isLength({ min: 11, max: 11 })
+    .withMessage('Your introduction code is invalid'),
+  
   validator.check('update-biography')
     .escape()
     .trim()
