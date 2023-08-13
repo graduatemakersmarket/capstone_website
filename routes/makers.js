@@ -9,16 +9,16 @@ const MAKERS_PER_PAGE = 6;
 
 router.get('/', auth.guestAccess, async (req, res) => res.render('account/makers', {
   session: req.session,
-  makers: await accountService.getAllAccounts(MAKERS_PER_PAGE, 0),
+  makers: await accountService.getVerifiedAccounts(MAKERS_PER_PAGE, 0),
   page: 1,
   offset: 0,
-  total: Math.ceil(await accountService.getAccountCount() / MAKERS_PER_PAGE),
+  total: Math.ceil(await accountService.getVerifiedAccountCount() / MAKERS_PER_PAGE),
   clean: convert.convert,
 }));
 
 router.get('/page/:page', auth.guestAccess, async (req, res) => {
   const page = parseInt(req.params.page, 10) || 1; // The 10 here represents a base 10 number
-  const total = Math.ceil(await accountService.getAccountCount() / MAKERS_PER_PAGE)
+  const total = Math.ceil(await accountService.getVerifiedAccountCount() / MAKERS_PER_PAGE)
 
   if (!page || page <= 0 || page > total) {
     return res.redirect('/makers');
@@ -28,7 +28,7 @@ router.get('/page/:page', auth.guestAccess, async (req, res) => {
 
   return res.render('account/makers', {
     session: req.session,
-    makers: await accountService.getAllAccounts(MAKERS_PER_PAGE, offset),
+    makers: await accountService.getVerifiedAccounts(MAKERS_PER_PAGE, offset),
     page,
     offset,
     total,

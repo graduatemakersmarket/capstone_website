@@ -11,8 +11,8 @@ const getAccountInfo = async (email) => {
   return account;
 };
 
-const getAccountCount = async () => {
-  const count = await accountModel.count().catch((error) => {
+const getVerifiedAccountCount = async () => {
+  const count = await accountModel.count({where: {account_verified: 1}}).catch((error) => {
     logger.error(error);
   });
 
@@ -43,22 +43,23 @@ const updateAccount = async (account, email) => {
   return true;
 };
 
-const getAllAccounts = async (limit, offset) => {
+const getVerifiedAccounts = async (limit, offset) => {
   const accounts = await accountModel.findAll({
+    where: { account_verified: 1 },
     limit,
-    offset,
+    offset
   }).catch((error) => {
-    logger.error(error);
-  });
+      logger.error(error);
+    });
 
-  return accounts;
+    return accounts;
 };
 
 module.exports = {
   getAccountInfo,
-  getAccountCount,
+  getVerifiedAccountCount,
   createAccount,
   updateAccountAvatar,
   updateAccount,
-  getAllAccounts,
+  getVerifiedAccounts,
 };
