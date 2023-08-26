@@ -16,7 +16,7 @@
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
 		<div class="container px-4 py-2" id="makers" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">MAKERS</h2>
+			<h2 class="pb-1 border-bottom glow-red">MAKERS</h2>
 
 			<% if (locals.makers.length > 0) { %>
 			<div class="row row-cols-1 row-cols-md-3 g-4">
@@ -28,8 +28,8 @@
 								<h5 class="card-title"><%= maker.first_name.charAt(0).toUpperCase() + maker.first_name.slice(1); %>&nbsp;<%= maker.last_name.charAt(0).toUpperCase() + maker.last_name.slice(1); %></h5>
 								<p class="card-text"><% if (maker.biography.length > 140) {%> <%= clean(maker.biography.slice(0, 140)) + "..." %> <% } else { %> <%= clean(maker.biography) %> <% } %></p>
 							</div>
-							<div class="card-footer">
-								<small class="text-body-secondary"><a class="btn btn-primary btn-sm" href="/makers/<%= maker.email %>" role="button" style="width: 100%;">VIEW <%= maker.first_name.toUpperCase() %>'S PROFILE</a></small>
+							<div class="card-footer glow-red">
+								<small class="text-body-secondary"><a class="btn btn-dark btn-sm" href="/makers/<%= maker.email %>" role="button" style="width: 100%;">VIEW <%= maker.first_name.toUpperCase() %>'S PROFILE</a></small>
 							</div>
 						</div>
 					</div>
