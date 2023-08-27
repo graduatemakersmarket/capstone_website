@@ -50,3 +50,24 @@ body *{
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.article1-bg {
+  background-image: url("/images/teaching-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.article2-bg {
+  background-image: url("/images/creating-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.article3-bg {
+  background-image: url("/images/sharing-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
