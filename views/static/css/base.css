@@ -28,7 +28,7 @@ body *{
 
 .jello {
   /* The image used */
-  background-image: url(/views/static/images/jello.jpg);
+  background-image: url("/images/jello.jpg");
 
   /* Set a specific height */
   min-height: 500px;
