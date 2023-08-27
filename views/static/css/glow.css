@@ -1,35 +1,14 @@
-.glow-red {
-    font-size: 50px;
-    color: #A42F2F;
-    text-align: left;
-    -webkit-animation: glow-red 1s ease-in-out infinite alternate;
-    -moz-animation: glow-red 1s ease-in-out infinite alternate;
-    animation: glow-red 1s ease-in-out infinite alternate;
-  }
-  
-  @-webkit-keyframes glow-red {
-    from {
-      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 18px #F60505, 0 0 24px #F60505, 0 0 30px #F60505, 0 0 35px #F60505, 0 0 40px #F60505;
-    }
-    to {
-      text-shadow: 0 0 20px #fff, 0 0 20px #fa2727, 0 0 28px #fa2727, 0 0 34px #fa2727, 0 0 40px #fa2727, 0 0 45px #fa2727, 0 0 50px #fa2727;
-    }
-  }
+.glow{
+  color: #000;
+  text-align: left;
+  animation: glow-animation 1s ease-in-out infinite alternate;
+}
 
-  .glow-blue {
-    font-size: 50px;
-    color: #318F9A;
-    text-align: left;
-    -webkit-animation: glow-blue 1s ease-in-out infinite alternate;
-    -moz-animation: glow-blue 1s ease-in-out infinite alternate;
-    animation: glow-blue 1s ease-in-out infinite alternate;
+@keyframes glow-animation {
+  from {
+    text-shadow: 0 0 2px #2c0318, 0 0 2px #fff, 0 0 2px #2c0318, 0 0 2px #fff, 0 0 2px #2c0318, 0 0 2px #fff, 0 0 2px #2c0318;
   }
-  
-  @-webkit-keyframes glow-blue {
-    from {
-      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 18px #06cfcf, 0 0 24px #06cfcf, 0 0 30px #06cfcf, 0 0 35px #06cfcf, 0 0 40px #06cfcf;
-    }
-    to {
-      text-shadow: 0 0 20px #fff, 0 0 20px #01FFFE, 0 0 28px #01FFFE, 0 0 34px #01FFFE, 0 0 40px #01FFFE, 0 0 45px #01FFFE, 0 0 50px #01FFFE;
-    }
+  to {
+    text-shadow: 0 0 2px #3a6bd4, 0 0 2px #3a6bd4, 0 0 2px #3a6bd4, 0 0 2px #3a6bd4, 0 0 2px #3a6bd4, 0 0 2px #3a6bd4, 0 0 2px #3a6bd4;
   }
+}
