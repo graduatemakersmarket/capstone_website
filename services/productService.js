@@ -3,17 +3,17 @@ const productImageModel = require('../models/productImageModel');
 const accountModel = require('../models/accountModel');
 const logger = require('../config/logger');
 
-const queryGetProduct = async (product, email) => {
-  const products = await productModel.findOne({
-    where: { product, email },
+const getProduct = async (product) => {
+  const productInfo = await productModel.findOne({
+    where: { product },
   }).catch((error) => {
     logger.error(error);
   });
 
-  return products;
+  return productInfo;
 };
 
-const queryGetMakerProducts = async (email) => {
+const getMakerProducts = async (email) => {
   const products = await productModel.findAll({
     where: { email },
   }).catch((error) => {
@@ -23,7 +23,7 @@ const queryGetMakerProducts = async (email) => {
   return products;
 };
 
-const queryGetAllProducts = async (limit, offset) => {
+const getAllProducts = async (limit, offset) => {
   // Accounts may have many products
   accountModel.hasMany(productModel);
 
@@ -37,7 +37,7 @@ const queryGetAllProducts = async (limit, offset) => {
   productImageModel.belongsTo(productModel)
 
   const products = await productModel.findAll({
-    include: [{ model: accountModel, include: [{ model: productImageModel }] }],
+    include: [{ model: productImageModel}],
     order: [['product_featured', 'DESC']],
     limit,
     offset,
@@ -48,7 +48,7 @@ const queryGetAllProducts = async (limit, offset) => {
   return products;
 };
 
-const queryCountProducts = async () => {
+const countProducts = async () => {
   const count = await productModel.count().catch((error) => {
     logger.error(error);
   });
@@ -56,7 +56,7 @@ const queryCountProducts = async () => {
   return count;
 };
 
-const queryCreateProduct = async (product) => {
+const createProduct = async (product) => {
   await productModel.create(product).catch((error) => {
     logger.error(error);
   });
@@ -64,17 +64,17 @@ const queryCreateProduct = async (product) => {
   return true;
 };
 
-const queryUpdateFeatured = async (product) => {
+const featureProduct = async (product) => {
   await productModel.update({ product_featured: 1 }, { where: { product } }).catch((error) => {
     logger.error(error);
   });
 };
 
 module.exports = {
-  queryGetProduct,
-  queryGetMakerProducts,
-  queryGetAllProducts,
-  queryCountProducts,
-  queryCreateProduct,
-  queryUpdateFeatured,
+  getProduct,
+  getMakerProducts,
+  getAllProducts,
+  countProducts,
+  createProduct,
+  featureProduct,
 };

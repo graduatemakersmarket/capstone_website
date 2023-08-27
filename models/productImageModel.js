@@ -9,7 +9,7 @@ const ProductImage = db.define('product_images', {
   },
 
   image: {
-    type: Sequelize.DataTypes.BLOB,
+    type: Sequelize.DataTypes.BLOB('long'),
     allowNull: false,
   },
 

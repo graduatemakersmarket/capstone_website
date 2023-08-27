@@ -15,13 +15,77 @@
 
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
-		<div class="container px-4 py-2" id="products" data-aos="fade-right">
+		<div class="container px-4 py-2" id="makers" data-aos="fade-right">
 			<h2 class="pb-1 border-bottom">MAKER PRODUCTS</h2>
-			<p>There are no products in the database to display</p>
-		</div>
-  </div>
- 	<!-- END PAGE CONTENT-->
 
+			<% if (locals.products.length > 0) { %>
+			<div class="row row-cols-1 row-cols-md-3 g-4">
+				<% locals.products.forEach(product => { %>
+					<div class="col">
+						<div class="card h-100" style="max-width: 400px;">
+							<img src="data:image/png;base64,<%= product.product_images[0].image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">
+							<div class="card-body">
+								<h5 class="card-title"><%= product.product %></h5>
+								<p class="card-text"><% if (product.summary.length > 140) {%> <%= clean(product.summary.slice(0, 140)) + "..." %> <% } else { %> <%= clean(product.summary) %> <% } %></p>
+							</div>
+							<div class="card-footer">
+								<small class="text-body-secondary"><a class="btn btn-dark btn-sm" href="/products/<%= product.product %>" role="button" style="width: 100%;">VIEW <%= product.product.toUpperCase() %></a></small>
+							</div>
+						</div>
+					</div>
+				<% }) %>
+			</div>
+			<% } else { %>
+				<p>There are no verified maker products in the database to display</p>
+			<% } %>
+			<br>
+			<!-- BEGIN PAGINATION-->
+			<% if (locals.total > 1) { %>
+				<nav>
+				<ul class="pagination justify-content-center" data-bs-theme="dark">
+					<% if (locals.offset === 0) { %>
+					<li class="page-item disabled">
+						<a class="page-link">Previous</a>
+					</li>
+					<% } else { %>
+					<a class="page-link" href="/products/page/<%= locals.page - 1 %>" tabindex="-1"> 
+					Previous
+					</a>
+					<%  } %>
+					<% var i = (Number(locals.page) > 5 ? Number(locals.page) - 4 : 1) %>
+					<% for(; i <= (Number(locals.page) + 4) && i <= locals.total; i++) { %>
+					<% if (locals.page === i) { %>
+						<li class="page-item active">
+						<a class="page-link" href="#"><%=i%> <span class="sr-only">
+							(current)
+						</span></a>
+					</li>
+					<% } else { %>
+						<li class="page-item">
+						<a class="page-link" href="/products/page/<%=i%>">
+							<%=i%>
+						</a>
+						</li>
+					<% } %>
+					<% } %>
+					<li class="page-item">
+					<% if ((locals.page + 1) > locals.total) { %>
+						<li class="page-item disabled">
+						<a class="page-link">Next</a>
+						</li>
+					<% } else { %>
+						<a class="page-link" href="/products/page/<%= locals.page + 1 %>">
+						Next
+						</a>
+					<% } %>
+					</li>
+				</ul>
+				</nav>
+	  		<%}%>
+			<!-- END PAGINATION-->
+		</div>
+  	</div>
+	<!-- END PAGE CONTENT-->
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>
