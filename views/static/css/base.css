@@ -39,3 +39,14 @@ body *{
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.makers-bg {
+  /* The image used */
+  background-image: url("/images/makers-bg.jpg");
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

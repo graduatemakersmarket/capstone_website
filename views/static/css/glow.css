@@ -15,3 +15,21 @@
       text-shadow: 0 0 20px #fff, 0 0 20px #fa2727, 0 0 28px #fa2727, 0 0 34px #fa2727, 0 0 40px #fa2727, 0 0 45px #fa2727, 0 0 50px #fa2727;
     }
   }
+
+  .glow-blue {
+    font-size: 50px;
+    color: #318F9A;
+    text-align: left;
+    -webkit-animation: glow-blue 1s ease-in-out infinite alternate;
+    -moz-animation: glow-blue 1s ease-in-out infinite alternate;
+    animation: glow-blue 1s ease-in-out infinite alternate;
+  }
+  
+  @-webkit-keyframes glow-blue {
+    from {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 18px #06cfcf, 0 0 24px #06cfcf, 0 0 30px #06cfcf, 0 0 35px #06cfcf, 0 0 40px #06cfcf;
+    }
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 20px #01FFFE, 0 0 28px #01FFFE, 0 0 34px #01FFFE, 0 0 40px #01FFFE, 0 0 45px #01FFFE, 0 0 50px #01FFFE;
+    }
+  }
