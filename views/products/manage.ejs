@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%- include("../partials/header") %>
+</head>
+<body>
+
+	<!-- Include navigation-->
+	<%- include("../partials/navigation") %>
+
+	<!-- Include featured-->
+	<%- include("../partials/featured") %>
+
+ 	<!-- BEGIN PAGE CONTENT-->
+	<div class="content-container content-wrap">
+        <!-- BEGIN PRODUCT CREATE-->
+		<div class="container px-4 py-2 rounded-4" id="create-product" data-aos="fade-right">
+			<h2>CREATE PRODUCT</h2>
+            <h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="create-product-response"></h4>
+			<form id="create-product-form">
+				<div class="form-floating">
+					<input type="text" class="form-control" id="create-product-name" name="create-product-name" placeholder="Product Name" maxlength="254" required>
+					<label for="create-product-name">Product Name</label>
+				</div>
+				<br>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="create-product-website" name="create-product-website" placeholder="Product Website" maxlength="254" required>
+					<label for="create-product-website">Product Website</label>
+				</div>
+				<br>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="create-product-purchase" name="create-product-purchase" placeholder="Product Purchase Link" maxlength="254" required>
+					<label for="create-product-purchase">Product Purchase Link</label>
+				</div>
+				<br>
+                <div class="form-floating">
+					<textarea class="form-control" id="create-product-summary" name="create-product-summary" placeholder="Product Description" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                    <label for="create-product-summary">Product Description</label>
+				</div>
+				<br>
+                <div class="form-floating">
+					<input type="file" id="create-product-images" name="create-product-images" multiple="multiple" accept="image/*" />
+				</div>
+				<br>
+				<button class="btn btn-dark w-100 py-2" type="submit">Create Product</button>
+			  </form>
+		</div>
+        <!-- END PRODUCT CREATE-->
+        <br>
+		<br>
+        <!-- BEGIN PRODUCT MANAGE-->
+        <div class="container px-4 py-2 rounded-4" id="manage-products" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom">MY PRODUCTS</h2>
+			<p>A form to edit or delete existing products will go here</p>
+		</div>
+        <!-- END PRODUCT MANAGE-->
+    </div>
+ 	<!-- END PAGE CONTENT-->
+    
+    <!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/response.js"></script>
+	<script type="application/javascript" src="/js/request.js"></script>
+
+    <script>
+        const createProduct = document.getElementById('create-product-form');
+    	createProduct.addEventListener('submit', (e) => {
+      		e.preventDefault();
+
+      		const formID = 'create-product-form';
+      		const outputID = 'create-product-response';
+            const fileID = 'create-product-images';
+      		const endpoint = '/api/product/create';
+			const redirect = '/product/manage';
+
+			document.getElementById(outputID).innerHTML = "";
+            postMultipart(formID, outputID, fileID, endpoint, redirect, false);
+   	 	});
+    </script>
+	<!-- Include footer-->
+	<%- include("../partials/footer") %>
+
+</body>
+</html>

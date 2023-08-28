@@ -16,6 +16,13 @@ router.get('/', auth.guestAccess, async (req, res) => res.render('products/produ
   clean: convert.convert,
 }));
 
+router.get('/manage', auth.memberAccess, async (req, res) => {
+  return res.render('products/manage', {
+    session: req.session,
+    clean: convert.convert,
+  });
+});
+
 router.get('/page/:page', auth.guestAccess, async (req, res) => {
   const page = parseInt(req.params.page, 10) || 1; // The 10 here represents a base 10 number
   const total = Math.ceil(await productService.countProducts() / PRODUCTS_PER_PAGE)

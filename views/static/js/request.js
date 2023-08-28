@@ -104,6 +104,32 @@ function getData(formID, outputID, endpoint, location, token) {
   });
 }
 
+// MULTIPART POST (CREATE)
+function postMultipart(formID, outputID, fileID, endpoint, location, token) {
+  const form = document.getElementById(formID);
+  const { files } = document.getElementById(fileID);
+  const formData = new FormData(form);
+
+  if (formData.has('g-recaptcha-response')) {
+    formData.delete('g-recaptcha-response');
+    formData.append('captcha', token);
+  }
+
+  if (files) {
+    formData.append(fileID, files);
+  }
+
+  axios.post(endpoint, formData, { headers: MULTIPART }).then((response) => {
+    if (location) {
+      window.location = location;
+    }
+
+    displayMessage(response.data.response, outputID, 'success');
+  }).catch((error) => {
+    displayMessage(error.response.data.error, outputID, 'error');
+  });
+}
+
 // MULTIPART PUT (UPDATE)
 function putMultipart(formID, outputID, fileID, endpoint, location, token) {
   const form = document.getElementById(formID);

@@ -3,6 +3,12 @@ const productImageModel = require('../models/productImageModel');
 const accountModel = require('../models/accountModel');
 const logger = require('../config/logger');
 
+  
+accountModel.hasMany(productModel); // Accounts may have many products
+productModel.belongsTo(accountModel); // Products belong to an account
+productModel.hasMany(productImageModel); // Products have many images
+productImageModel.belongsTo(productModel) // Product images belong to a product
+
 const getProduct = async (product) => {
   const productInfo = await productModel.findOne({
     where: { product },
@@ -24,21 +30,9 @@ const getMakerProducts = async (email) => {
 };
 
 const getAllProducts = async (limit, offset) => {
-  // Accounts may have many products
-  accountModel.hasMany(productModel);
-
-  // Products belong to an account
-  productModel.belongsTo(accountModel);
-
-  // Products have many images
-  productModel.hasMany(productImageModel);
-
-  // Product images belong to a product
-  productImageModel.belongsTo(productModel)
-
   const products = await productModel.findAll({
     include: [{ model: productImageModel}],
-    order: [['product_featured', 'DESC']],
+    order: [['updated_date', 'DESC']],
     limit,
     offset,
   }).catch((error) => {

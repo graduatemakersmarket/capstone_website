@@ -32,8 +32,8 @@ router.get('/register', auth.guestAccess, (req, res) => {
 });
 
 
-router.get('/', auth.memberAccess, async (req, res) => {
-  return res.render('account/account', {
+router.get('/manage', auth.memberAccess, async (req, res) => {
+  return res.render('account/manage', {
     session: req.session,
     account: await accountService.getAccountInfo(req.session.makerEmail),
     clean: convert.convert,
