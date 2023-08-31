@@ -19,6 +19,32 @@ router.get('/', auth.guestAccess, async (req, res) => res.render('products/produ
 router.get('/manage', auth.memberAccess, async (req, res) => {
   return res.render('products/manage', {
     session: req.session,
+    products: await productService.getMakerProducts(req.session.makerEmail),
+    clean: convert.convert,
+  });
+});
+
+router.get('/edit/:product', auth.memberAccess, async (req, res) => {
+  const product = req.params.product || null;
+
+  if (!product) {
+    return res.redirect('/products/manage');
+  }
+
+  const productInfo = await productService.getProduct(product);
+
+  if (!productInfo) {
+    return res.redirect('/products/manage');
+  }
+
+  // Prevent users from editing someone elses product entry
+  if (productInfo.account_email !== req.session.makerEmail) {
+    return res.redirect('/products/manage');
+  }
+
+  return res.render('products/edit', {
+    session: req.session,
+    product: productInfo,
     clean: convert.convert,
   });
 });

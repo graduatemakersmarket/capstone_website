@@ -21,7 +21,7 @@ const getProduct = async (product) => {
 
 const getMakerProducts = async (email) => {
   const products = await productModel.findAll({
-    where: { email },
+    where: { account_email: email },
   }).catch((error) => {
     logger.error(error);
   });

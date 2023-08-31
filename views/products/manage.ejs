@@ -53,7 +53,34 @@
         <!-- BEGIN PRODUCT MANAGE-->
         <div class="container px-4 py-2 rounded-4" id="manage-products" data-aos="fade-right">
 			<h2 class="pb-1 border-bottom">MY PRODUCTS</h2>
-			<p>A form to edit or delete existing products will go here</p>
+			<% if (locals.products.length > 0) { %>
+				<table>
+				<tr>
+					<th>Product</th>
+					<th>Featured</th>
+					<th>Website</th>
+					<th>Purchase Link</th>
+					<th>Action</th>
+				</tr>
+				<% locals.products.forEach(product => { %>
+					<tr>
+						<td><%= product.product %></td>
+						
+						<% if (Number(product.product_featured)) { %>
+							<td>Yes</td>
+						<% } else { %>
+							<td>No</td>
+						<% } %>
+		
+						<td><a href="https://<%= product.product_website %>" target="_blank"><%= product.product_website %></a></td>
+						<td><a href="https://<%= product.purchase_link %>" target="_blank"><%= product.purchase_link %></a></td>
+						<td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/products/edit/<%= product.product %>';">EDIT</button></td>
+					</tr>
+				<% }) %>
+				</table>
+			<% } else { %>
+				<p>You have no products to display</p>
+			<% } %>
 		</div>
         <!-- END PRODUCT MANAGE-->
     </div>
@@ -73,7 +100,7 @@
       		const outputID = 'create-product-response';
             const fileID = 'create-product-images';
       		const endpoint = '/api/product/create';
-			const redirect = '/product/manage';
+			const redirect = '/products/manage';
 
 			document.getElementById(outputID).innerHTML = "";
             postMultipart(formID, outputID, fileID, endpoint, redirect, false);
