@@ -20,18 +20,20 @@
 			<h2>CREATE PRODUCT</h2>
             <h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="create-product-response"></h4>
 			<form id="create-product-form">
+				<input type="checkbox" class="form-check-input" id="create-product-featured" name="create-product-featured">
+				<label for="create-product-featured" class="form-label">Feature product on your GSMM profile</label>
 				<div class="form-floating">
 					<input type="text" class="form-control" id="create-product-name" name="create-product-name" placeholder="Product Name" maxlength="254" required>
 					<label for="create-product-name">Product Name</label>
 				</div>
 				<br>
 				<div class="form-floating">
-					<input type="text" class="form-control" id="create-product-website" name="create-product-website" placeholder="Product Website" maxlength="254" required>
+					<input type="url" class="form-control" id="create-product-website" name="create-product-website" placeholder="Product Website" maxlength="254" required>
 					<label for="create-product-website">Product Website</label>
 				</div>
 				<br>
 				<div class="form-floating">
-					<input type="text" class="form-control" id="create-product-purchase" name="create-product-purchase" placeholder="Product Purchase Link" maxlength="254" required>
+					<input type="url" class="form-control" id="create-product-purchase" name="create-product-purchase" placeholder="Product Purchase Link" maxlength="254" required>
 					<label for="create-product-purchase">Product Purchase Link</label>
 				</div>
 				<br>
@@ -40,13 +42,8 @@
                     <label for="create-product-summary">Product Description</label>
 				</div>
 				<br>
-				<input type="checkbox" id="create-product-featured" name="create-product-featured">
-				<label for="create-product-featured">Feature product on your GSMM profile</label>
-				<br>
-				<br>
-                <div class="form-floating">
-					<input type="file" id="create-product-images" name="create-product-images" multiple="multiple" accept="image/*" />
-				</div>
+				<label for="create-product-images" class="form-label">Product Images</label>
+				<input class="form-control" type="file" id="create-product-images" name="create-product-images" multiple="multiple" accept="image/*" />
 				<br>
 				<button class="btn btn-dark w-100 py-2" type="submit">Create Product</button>
 			  </form>
@@ -76,8 +73,8 @@
 							<td>No</td>
 						<% } %>
 		
-						<td><a href="https://<%= product.product_website %>" target="_blank"><%= product.product_website %></a></td>
-						<td><a href="https://<%= product.purchase_link %>" target="_blank"><%= product.purchase_link %></a></td>
+						<td><a href="<%= clean(product.product_website) %>" target="_blank"><%= clean(product.product_website) %></a></td>
+						<td><a href="<%= clean(product.purchase_link) %>" target="_blank"><%= clean(product.purchase_link) %></a></td>
 						<td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/products/edit/<%= product.product %>';">EDIT</button></td>
 					</tr>
 				<% }) %>

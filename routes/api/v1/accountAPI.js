@@ -13,11 +13,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     fileFilter: (req, file, cb) => {
-        req.isImageValid = (file.mimetype.startsWith('image/')) ? true : false;
-        return cb(null, req.isImageValid);
+        // Only upload image files
+        if (file.mimetype.startsWith('image/')) {
+            req.isImageValid = 'valid';
+            return cb(null, true);
+        }else{
+            req.isImageValid = 'invalid';
+            return cb(null, false);
+        }
     },
     storage: storage
 });
+
 
 const router = express.Router();
 

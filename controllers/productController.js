@@ -28,22 +28,6 @@ const createProduct = async (req, res) => {
     });
   }
 
-  // Check if user tried to upload an invalid file type
-  if (!req.isImageValid) {
-    return res.status(422).json({
-      success: false,
-      error: 'Invalid image format',
-    });
-  }
-
-  // Check if the user submitted any product images
-  if (req.files.length === 0) {
-    return res.status(422).json({
-      success: false,
-      error: 'You must provide at least (1) product image',
-    });
-  }
-
   // Check if this product name already exists
   if (await productService.getProduct(req.body['create-product-name'])) {
     return res.status(422).json({
@@ -52,10 +36,19 @@ const createProduct = async (req, res) => {
     });
   }
 
+  // Check if user is trying to upload anything other than an image file
+  if (req.files.length === 0 && req.isImageValid === 'invalid') {
+    return res.status(422).json({
+      success: false,
+      error: 'One or more of your product images are in an invalid file format',
+    });
+  }
+
+  // Create a new product object
   const product = {
     product: req.body['create-product-name'],
     summary: req.body['create-product-summary'],
-    product_featured: (req.body['create-product-featured'] == "on") ? 1 : 0,
+    product_featured: (req.body['create-product-featured'] === "on") ? 1 : 0,
     product_website: req.body['create-product-website'],
     purchase_link: req.body['create-product-purchase'],
     account_email: req.session.makerEmail,
@@ -64,16 +57,17 @@ const createProduct = async (req, res) => {
   // Add product to the database
   await productService.createProduct(product);
 
-  // Add product images to the database
-  req.files.forEach(async (image) => {
-    const productImage = {
-      image: image.filename,
-      product_product: req.body['create-product-name'],
-    }
-    
-    // Add product image to the database
-    await productImageService.createProductImage(productImage);
-  });
+  // Check if user did not provide any product images
+  if (req.files.length === 0 && req.isImageValid === undefined) {
+    await productImageService.createProductImage({image: 'default.png', product_product: req.body['create-product-name']});
+  }
+
+  // Process the users product images
+  if (req.files.length > 0 && req.isImageValid === 'valid') {
+    req.files.forEach(async (image) => {
+      await productImageService.createProductImage({image: image.filename, product_product: req.body['create-product-name']});
+    });
+  }
 
   return res.status(200).json({
     success: true,

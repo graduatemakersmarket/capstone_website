@@ -5,7 +5,7 @@ const createProduct = [
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a valid product name')
+    .withMessage('Please provide a product name')
     .isLength({ max: 254 })
     .withMessage('Product names may not exceed (254) characters'),
 
@@ -13,9 +13,7 @@ const createProduct = [
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a valid product website')
-    .isURL()
-    .withMessage('Please provide a valid product website')
+    .withMessage('Please provide a product website')
     .isLength({ max: 254 })
     .withMessage('Product websites may not exceed more than (254) characters'),
 
@@ -23,9 +21,7 @@ const createProduct = [
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a valid product purchase link')
-    .isURL()
-    .withMessage('Please provide a valid product purchase link')
+    .withMessage('Please provide a product purchase link')
     .isLength({ max: 254 })
     .withMessage('Product purchase links may not exceed more than (254) characters'),
 
