@@ -30,4 +30,4 @@ market.get('*', auth.guestAccess, (req, res) => {
     res.status(404).render('errors/404.ejs', { session: req.session });
 });
 
-market.listen(3001)
+market.listen(3001, 'localhost')

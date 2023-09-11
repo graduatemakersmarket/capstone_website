@@ -16,17 +16,14 @@ const Account = db.define('accounts', {
 
   first_name: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false,
   },
 
   last_name: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false,
   },
 
   biography: {
     type: Sequelize.DataTypes.TEXT,
-    defaultValue: 'The user did not provide a biography.',
   },
 
   video_link: {
@@ -76,11 +73,6 @@ const Account = db.define('accounts', {
 
   website: {
     type: Sequelize.DataTypes.STRING,
-  },
-
-  account_balance: {
-    type: Sequelize.DataTypes.FLOAT,
-    defaultValue: 0,
   },
 
   account_featured: {
