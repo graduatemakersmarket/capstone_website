@@ -25,7 +25,7 @@
                     <input type="file" id="avatar" class="avatar__input" name="avatar" accept="image/png, image/jpeg, image/gif, image/jpg" value="Upload Picture" onchange="loadFile(event)">
                     <label for="avatar" class="avatar">
                         <div class="img-overlay">
-                            <img src="data:image/png;base64,<%= locals.session.makerAvatar %>" alt="Avatar" id="user-avatar" class="avatar">
+                            <img src="/avatar_images/<%= locals.session.makerAvatar %>" alt="Avatar" id="user-avatar" class="avatar">
                         </div>
                     </label>
                 </div>

@@ -23,7 +23,7 @@
 				<% locals.products.forEach(product => { %>
 					<div class="col">
 						<div class="card h-100" style="max-width: 400px;">
-							<img src="data:image/png;base64,<%= product.product_images[0].image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">
+							<img src="/product_images/<%= product.product_images[0].image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">
 							<div class="card-body">
 								<h5 class="card-title"><%= product.product %></h5>
 								<p class="card-text"><% if (product.summary.length > 140) {%> <%= clean(product.summary.slice(0, 140)) + "..." %> <% } else { %> <%= clean(product.summary) %> <% } %></p>

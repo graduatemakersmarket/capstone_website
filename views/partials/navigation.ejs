@@ -24,7 +24,7 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <span><img src="/images/profile.png" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;">&nbsp;GSMM Account</span>
+              <span><img src="/avatar_images/default.png" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;">&nbsp;GSMM Account</span>
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/account/login">Login</a></li>
@@ -36,7 +36,7 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <span><img src="data:image/png;base64,<%= locals.session.makerAvatar %>" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;">&nbsp;<%= locals.session.makerEmail %></span>
+              <span><img src="/avatar_images/<%= locals.session.makerAvatar %>" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;">&nbsp;<%= locals.session.makerEmail %></span>
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/account/manage">Manage Account</a></li>

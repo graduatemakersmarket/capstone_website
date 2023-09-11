@@ -25,7 +25,7 @@
 				<div class="card mb-3" style="border: none;">
 					<div class="row g-0">
 					<div class="col-md-2 py-4">
-						<img src="data:image/png;base64,<%= locals.account.avatar %>" alt="Avatar" id="user-avatar" class="avatar img-fluid rounded-start">
+						<img src="/avatar_images/<%= locals.account.avatar %>" alt="Avatar" id="user-avatar" class="avatar img-fluid rounded-start">
 					</div>
 					<div class="col-md-10">
 						<div class="card-body">
@@ -90,8 +90,8 @@
 		<% if (Number(locals.account.account_verified)) { %>
 			<!-- BEGIN FEATURED PRODUCTS-->
 			<div class="container px-4 py-2" id="products" data-aos="fade-right">
-				<h2 class="pb-1 border-bottom"><%= locals.account.first_name.toUpperCase() %>'S PRODUCTS</h2>
-				<p><%= locals.account.first_name.charAt(0).toUpperCase() + locals.account.first_name.slice(1); %>&nbsp; does not have any products to display</p>
+				<h2 class="pb-1 border-bottom"><%= locals.account.first_name.toUpperCase() %>'S FEATURED PRODUCTS</h2>
+				<p><%= locals.account.first_name.charAt(0).toUpperCase() + locals.account.first_name.slice(1); %>&nbsp; does not have any featured products to display</p>
 			</div>
 			<!-- END FEATURED PRODUCTS-->
 		<% } %>

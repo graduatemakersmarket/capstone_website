@@ -26,6 +26,7 @@ const Account = db.define('accounts', {
 
   biography: {
     type: Sequelize.DataTypes.TEXT,
+    defaultValue: 'The user did not provide a biography.',
   },
 
   video_link: {
@@ -33,7 +34,8 @@ const Account = db.define('accounts', {
   },
 
   avatar: {
-    type: Sequelize.DataTypes.BLOB('long'),
+    type: Sequelize.DataTypes.STRING,
+    defaultValue: 'default.png',
   },
 
   facebook: {

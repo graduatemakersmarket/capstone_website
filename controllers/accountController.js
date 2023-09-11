@@ -4,7 +4,6 @@ const sharp = require('sharp');
 const accountService = require('../services/accountService')
 const roleService = require('../services/roleService')
 const validator = require('express-validator');
-const encode = require('../utils/encode');
 const time = require('../utils/time');
 
 const registerAccount = async (req, res) => {
@@ -46,7 +45,6 @@ const registerAccount = async (req, res) => {
     password: await bcrypt.hash(req.body['register-password'], 12),
     first_name: req.body['register-firstname'],
     last_name: req.body['register-lastname'],
-    avatar: await encode.imageToBase64('../resources/images/profile.png'),
   };
 
   // Create a new role object
@@ -194,39 +192,17 @@ const updateAccount = async (req, res) => {
     });
   }
 
+  // Check if user tried to upload an invalid file type
+  if (!req.isImageValid) {
+    return res.status(422).json({
+      success: false,
+      error: 'Invalid image format',
+    });
+  }
+
   // Process the avatar image if one is supplied
   if (req.file) {
-    const allowed = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-
-    if (!allowed.includes(req.file.mimetype)) {
-      return res.status(422).json({
-        success: false,
-        error: 'Your profile picture must be in the PNG, JPG, or GIF file format',
-      });
-    }
-
-    if (req.file.size > 1048576) {
-      return res.status(422).json({
-        success: false,
-        error: 'Your profile picture may not exceed 1MB',
-      });
-    }
-
-    // Resize avatar if it is too big or too small
-    let avatar = await sharp(req.file.buffer);
-    const metadata = await avatar.metadata();
-
-    if (metadata.height > 400 || metadata.width > 400) {
-      avatar = (await avatar.resize(400, 400, { fit: 'inside' }));
-    }
-
-    if (metadata.height < 400 || metadata.width < 400) {
-      avatar = (await avatar.resize(400, 400, { fit: 'inside' }));
-    }
-
-    avatar = (await avatar.toBuffer()).toString('base64');
-
-    accountService.updateAccountAvatar(avatar, req.session.makerEmail)
+    accountService.updateAccountAvatar(req.file.filename, req.session.makerEmail)
   }
 
   const account = {

@@ -1,13 +1,25 @@
 const express = require('express');
 const multer = require('multer');
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-const router = express.Router();
-
+const path = require('path');
+const crypto = require('crypto');
 const auth = require('../../../middleware/auth');
 const controller = require('../../../controllers/accountController');
 const validator = require('../../../config/validators/accountValidator');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {return cb(null, 'views/static/avatar_images');},
+    filename: (req, file, cb) => {return cb(null, `${crypto.randomUUID()}${path.extname(file.originalname)}`);},
+});
+
+const upload = multer({
+    fileFilter: (req, file, cb) => {
+        req.isImageValid = (file.mimetype.startsWith('image/')) ? true : false;
+        return cb(null, req.isImageValid);
+    },
+    storage: storage
+});
+
+const router = express.Router();
 
 router.post('/register', validator.registerAccount, controller.registerAccount);
 router.post('/login', validator.loginAccount, controller.loginAccount);

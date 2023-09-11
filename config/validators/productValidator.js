@@ -36,6 +36,11 @@ const createProduct = [
     .withMessage('Please provide a product description')
     .isLength({ max: 1000 })
     .withMessage('Product descriptions may not exceed (1000) characters'),
+
+    validator.check('create-product-featured')
+    .escape()
+    .trim()
+    .optional({checkFalsy: true})
 ];
 
 module.exports = {

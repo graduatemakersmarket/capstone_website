@@ -13,11 +13,6 @@ const Product = db.define('products', {
     type: Sequelize.DataTypes.TEXT,
   },
 
-  product_stock: {
-    type: Sequelize.DataTypes.INTEGER,
-    defaultValue: 0,
-  },
-
   product_featured: {
     type: Sequelize.DataTypes.BOOLEAN,
     defaultValue: 0,
@@ -29,11 +24,6 @@ const Product = db.define('products', {
 
   purchase_link: {
     type: Sequelize.DataTypes.STRING,
-  },
-
-  delete_product: {
-    type: Sequelize.DataTypes.BOOLEAN,
-    defaultValue: 0,
   },
 
   creation_date: {
