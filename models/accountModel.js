@@ -84,22 +84,7 @@ const Account = db.define('accounts', {
     type: Sequelize.DataTypes.BOOLEAN,
     defaultValue: 0,
   },
-
-  product_limit: {
-    type: Sequelize.DataTypes.INTEGER,
-    defaultValue: 50,
-  },
-
-  change_password: {
-    type: Sequelize.DataTypes.BOOLEAN,
-    defaultValue: 0,
-  },
-
-  delete_account: {
-    type: Sequelize.DataTypes.BOOLEAN,
-    defaultValue: 0,
-  },
-
+  
   creation_date: {
     type: Sequelize.DataTypes.DATE,
     defaultValue: Sequelize.DataTypes.NOW,
