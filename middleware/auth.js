@@ -26,7 +26,7 @@ const memberAccess = async (req, res, next) => {
       return res.clearCookie('makerSession').redirect('/account/login');
     }
 
-    const account = await accountService.getAccountInfo(decoded.makerEmail);
+    const account = await accountService.getAccountInfoByEmail(decoded.makerEmail);
 
     const session = {
       makerEmail: decoded.makerEmail,
@@ -95,7 +95,7 @@ const guestAccess = async (req, res, next) => {
     const session = {
       makerEmail: 'guest@makermarket.local',
       makerVerified: 0,
-      makerAvatar: await encode.imageToBase64('../resources/images/profile.png'),
+      makerAvatar: '/avatar_images/default.png',
     };
 
     req.session = session;
@@ -120,7 +120,7 @@ const guestAccess = async (req, res, next) => {
       const session = {
         makerEmail: 'guest@makermarket.local',
         makerVerified: 0,
-        makerAvatar: await encode.imageToBase64('../resources/images/profile.png'),
+        makerAvatar: '/avatar_images/default.png',
       };
 
       req.session = session;
@@ -128,7 +128,7 @@ const guestAccess = async (req, res, next) => {
       return res.clearCookie('makerSession').redirect('/account/login');
     }
 
-    const account = await accountService.getAccountInfo(decoded.makerEmail);
+    const account = await accountService.getAccountInfoByEmail(decoded.makerEmail);
 
     const session = {
       makerEmail: decoded.makerEmail,

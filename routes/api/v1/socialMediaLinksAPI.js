@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/create', auth.authenticatedAPI, validator.checkSocialMediaLink, controller.createLink);
 router.put('/update', auth.authenticatedAPI, validator.checkSocialMediaLink, controller.updateLink);
-router.delete('/delete', auth.authenticatedAPI, validator.checkSocialMediaLink, controller.deleteLink);
+router.delete('/delete', auth.authenticatedAPI, controller.deleteLink);
 
 module.exports = router;

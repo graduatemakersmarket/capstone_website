@@ -49,7 +49,8 @@ const createLink = async (req, res) => {
 
   return res.status(200).json({
     success: true,
-    response: 'The provided link was successfully added',
+    link: req.body['social-media-link'],
+    id: (await socialMediaLinkService.getSocialMediaLinkByURL(req.body['social-media-link']))[0].id
   });
 }
 
@@ -89,24 +90,24 @@ const updateLink = async (req, res) => {
         error: 'You are not authorized to use this endpoint',
       });
     }
-  
-    // Check if the requesting user has a verified role
-    if (!(await roleService.getRoles(req.session.makerEmail)).includes('verified')) {
+
+    // Verify the requesting user is the link owner
+    if ((await socialMediaLinkService.getSocialMediaLinkByID(req.body['linkID']))[0].account_email != req.session.makerEmail) {
       return res.status(403).json({
         success: false,
-        error: 'Only verified accounts may add new social media links',
-      });
-    }
-  
-    // Halt if there is a problem with validating the user input
-    if (!validator.validationResult(req).isEmpty()) {
-      return res.status(422).json({
-        success: false,
-        error: validator.validationResult(req).errors[0].msg,
+        error: 'You may not delete links you do not own',
       });
     }
 
-    //TODO: Add logic here
+
+    //TODO: DELETE THE LINK FROM DATABASE
+
+    console.log(req.body['linkID'])
+
+    return res.status(200).json({
+      success: true,
+      response: 'Deleted link',
+    });
   }
 
 module.exports = {

@@ -18,14 +18,14 @@
 	 <div class="content-container content-wrap">
 		<!-- BEGIN PROFILE SETTINGS-->
 		<div class="container px-4 py-2" id="update-profile-header" data-aos="fade-right">
-			<h2>YOUR PROFILE</h2> 
-			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="update-profile-response"></h4>
-			<form id="update-profile-form">
+			<h2 class="pb-1 border-bottom">MANAGE ACCOUNT</h2> 
+			<h4 class="h4 mb-3 fw-normal" id="update-profile-response"></h4>
+			<form class="updateProfile" action="/api/account/update">
                 <div class="mb-4 d-flex justify-content-center">
                     <input type="file" id="avatar" class="avatar__input" name="avatar" accept="image/png, image/jpeg, image/gif, image/jpg" value="Upload Picture" onchange="loadFile(event)">
                     <label for="avatar" class="avatar">
                         <div class="img-overlay">
-                            <img src="/avatar_images/<%= locals.session.makerAvatar %>" alt="Avatar" id="user-avatar" class="avatar">
+                            <img src="<%= locals.session.makerAvatar %>" alt="Avatar" id="user-avatar" class="avatar">
                         </div>
                     </label>
                 </div>
@@ -57,9 +57,9 @@
 		<br>
 		<!-- BEGIN SOCIAL SETTINGS-->
 		<div class="container px-4 py-2" id="update-socials-header" data-aos="fade-right">
-			<h2>YOUR LINKS</h2> 
-			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="create-social-response"></h4>
-			<form id="create-social-form">
+			<h2 class="pb-1 border-bottom">MANAGE LINKS</h2> 
+			<h4 class="h4 mb-3 fw-normal" id="create-social-response"></h4>
+			<form class="createLink" action="/api/socials/create">
 				<div class="form-floating">
 					<input type="url" class="form-control" id="social-media-link" name="social-media-link" placeholder="Link" maxlength="255">
 					<label for="social-media-link">Link</label>
@@ -69,20 +69,25 @@
 				</form>
 				<br>
 				<% if (locals.links.length > 0) { %>
-					<table>
+					<table id="link-table">
 					<tr>
 						<th>URL</th>
 						<th>Action</th>
 					</tr>
 					<% locals.links.forEach(link => { %>
-						<tr>
+						<tr id="<%= link.id %>">
 							<td><%= clean(link.url) %></td>
-							<td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/socials/edit/<%= link.id %>';">EDIT</button></td>
+							<td><form class="actionDelete" id="<%= link.id %>" action="/api/socials/delete"><button class="btn btn-dark w-100 py-2">DELETE</button></form></td>
 						</tr>
 					<% }) %>
 					</table>
 				<% } else { %>
-					<p>You have no links to display</p>
+					<table id="link-table" hidden>
+						<tr>
+							<th>URL</th>
+							<th>Action</th>
+						</tr>
+					</table>
 				<% } %>
 		</div>
 		<!-- END SOCIAL SETTINGS-->
@@ -91,45 +96,64 @@
 
 	<!-- Include scripts-->
 	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script type="application/javascript" src="/js/response.js"></script>
-	<script type="application/javascript" src="/js/request.js"></script>
 
 	<script>
-		const updateAccount = document.getElementById('update-profile-form');
-    	updateAccount.addEventListener('submit', (e) => {
-      		e.preventDefault();
 
-      		const formID = 'update-profile-form';
-      		const outputID = 'update-profile-response';
-            const fileID = 'avatar';
-      		const endpoint = '/api/account/update';
-			const redirect = '/account/manage';
+		// INTERCEPT UPDATE PROFILE
+		$(document).on('submit', '.updateProfile', async (e) => {
+			e.preventDefault();
 
-			document.getElementById(outputID).innerHTML = "";
-            putMultipart(formID, outputID, fileID, endpoint, redirect, false);
-   	 	});
+			axios.put(e.target.action, new FormData(e.target), { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
+    			$('#update-profile-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> ${response.data.response}`).delay(4000).fadeOut(300);
+  			}).catch((error) => {
+    			$('#update-profile-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> ${error.data.response.error}`).delay(4000).fadeOut(300);
+  			});
+		});
 
-		const createSocialMediaLink = document.getElementById('create-social-form');
-    	createSocialMediaLink.addEventListener('submit', (e) => {
-      		e.preventDefault();
+		// INTERCEPT CREATE LINK FORM
+		$(document).on('submit', '.createLink', async (e) => {
+			e.preventDefault();
 
-      		const formID = 'create-social-form';
-      		const outputID = 'create-social-response';
-      		const endpoint = '/api/socials/create';
-			const redirect = '/account/manage';
+			const args = {};
+			const formData = new FormData(e.target);
 
-			document.getElementById(outputID).innerHTML = "";
-			postData(formID, outputID, endpoint, redirect, false);
-   	 	});
+			// Backend expects form data as key-value pairs
+			formData.forEach((value, key) => { args[key] = value; });
 
-        var loadFile = function(event) {
-            var output = document.getElementById('user-avatar');
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
-                URL.revokeObjectURL(output.src)
-            }
+			axios.post(e.target.action, args).then( async (response) => {
+				$('#create-social-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> Successfully added ${response.data.link}`).delay(4000).fadeOut(300);
+				$('#link-table').removeAttr('hidden').show();
+				$('#link-table').append(`<tr><td>${response.data.link}</td><td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/socials/delete/${response.data.id}';">DELETE</button></td></tr>`);
+  			}).catch((error) => {
+				$('#create-social-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
+  			});
+		});
+
+		// INTERCEPT DELETE ACTION
+		$(document).on('submit', '.actionDelete', async (e) => {
+			e.preventDefault();
+
+			axios.delete(e.target.action, {data: {linkID: e.target.id}}).then((response) => {
+				console.log('DELETED!');
+				$(`#${e.target.id}`).remove();
+    			$('#create-social-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> ${response.data.response}`).delay(4000).fadeOut(300);
+  			}).catch((error) => {
+    			$('#create-social-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
+  			});
+		});
+
+		// DISPLAY THE SELECTED AVATAR IMAGE ON THE PAGE
+        var loadFile = function(e) {
+			if (e.target.files[0].type.includes('image/')) {
+				var output = document.getElementById('user-avatar');
+            	output.src = URL.createObjectURL(e.target.files[0]);
+            	output.onload = function() {
+                	URL.revokeObjectURL(output.src)
+            	}
+			}
         };
 
+		// CONVERT YOUTUBE LINKS INTO THE APPROPRIATE VIDEO ID
 		function YouTubeGetID(url){ /* https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url */
 			let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
 			if (url.match(regex)) {

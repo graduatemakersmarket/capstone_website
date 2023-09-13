@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const sharp = require('sharp');
 const accountService = require('../services/accountService')
 const roleService = require('../services/roleService')
 const validator = require('express-validator');
@@ -81,7 +80,7 @@ const registerAccount = async (req, res) => {
 }
 
 const loginAccount = async (req, res) => {
-  // Gracefully fail if form validation fails
+  // Halt if there is a problem with validating the user input
   if (!validator.validationResult(req).isEmpty()) {
     return res.status(422).json({
       success: false,
@@ -89,16 +88,8 @@ const loginAccount = async (req, res) => {
     });
   }
 
-  // Check if session cookie exists
-  if (req.cookies.makerSession) {
-    return res.status(403).json({
-      success: false,
-      error: 'You already have an active user session',
-    });
-  }
-
-  // Check if authorization header exists
-  if (req.headers.authorization) {
+  // Halt if the user already has an active session
+  if (req.cookies.makerSession || req.headers.authorization) {
     return res.status(403).json({
       success: false,
       error: 'You already have an active user session',
@@ -106,21 +97,13 @@ const loginAccount = async (req, res) => {
   }
 
   // Look up the account by email address
-  const accountInfo = await accountService.getAccountInfo(req.body['login-email'])
+  const accountInfo = await accountService.getAccountInfoByEmail(req.body['login-email'])
 
   // Check if the account exists
   if (!accountInfo) {
     return res.status(401).json({
       success: false,
       error: 'Bad username or password',
-    });
-  }
-
-  // Check if the account has been flagged for a forced password change
-  if (Number(accountInfo.change_password)) {
-    return res.status(403).json({
-      success: false,
-      error: 'You must change your password using the account recovery service to proceed',
     });
   }
 
@@ -157,7 +140,7 @@ const loginAccount = async (req, res) => {
   };
 
   // Create a new web token for the session
-  const token = await jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '2h' });
+  const token = jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '2h' });
 
   return res.status(201).cookie('makerSession', token, options).json({
     success: true,
@@ -166,15 +149,7 @@ const loginAccount = async (req, res) => {
 }
 
 const updateAccount = async (req, res) => {
-  // Gracefully fail if form validation fails
-  if (!validator.validationResult(req).isEmpty()) {
-    return res.status(422).json({
-      success: false,
-      error: validator.validationResult(req).errors[0].msg,
-    });
-  }
-
-  // Check for session cookie or authorization header
+  // Only allow users with a valid session to access this endpoint
   if (!req.cookies.makerSession && !req.headers.authorization) {
     return res.status(403).json({
       success: false,
@@ -182,29 +157,28 @@ const updateAccount = async (req, res) => {
     });
   }
 
-  const accountInfo = await accountService.getAccountInfo(req.session.makerEmail)
-
-  // Check if the account exists
-  if (!accountInfo) {
-    return res.status(401).json({
-      success: false,
-      error: 'You are not authorized to make changes to this account',
-    });
-  }
-
-  // Check if user tried to upload an invalid file type
-  if (!req.isImageValid) {
+  // Halt if there is a problem with validating the user input
+  if (!validator.validationResult(req).isEmpty()) {
     return res.status(422).json({
       success: false,
-      error: 'Invalid image format',
+      error: validator.validationResult(req).errors[0].msg,
     });
   }
 
-  // Process the avatar image if one is supplied
-  if (req.file) {
-    accountService.updateAccountAvatar(req.file.filename, req.session.makerEmail)
+  // Halt if the user tries to upload a bad file
+  if (req.isBadFiletype) {
+    return res.status(422).json({
+      success: false,
+      error: 'You have tried to upload an invalid image',
+    });
   }
 
+  // Update the user's avatar if they provided one
+  if (req.file) {
+    accountService.updateAccountAvatar(`/avatar_images/${req.file.filename}`, req.session.makerEmail);
+  }
+
+  // Create a new account object
   const account = {
     first_name: req.body['update-firstname'],
     last_name: req.body['update-lastname'],
@@ -213,6 +187,7 @@ const updateAccount = async (req, res) => {
     updated_date: time.getCurrentTimestamp(),
   };
 
+  // Update the account
   await accountService.updateAccount(account, req.session.makerEmail);
 
   return res.status(200).json({
@@ -221,58 +196,8 @@ const updateAccount = async (req, res) => {
   });
 }
 
-const updateSocials = async (req, res) => {
-  // Gracefully fail if form validation fails
-  if (!validator.validationResult(req).isEmpty()) {
-    return res.status(422).json({
-      success: false,
-      error: validator.validationResult(req).errors[0].msg,
-    });
-  }
-
-  // Check for session cookie or authorization header
-  if (!req.cookies.makerSession && !req.headers.authorization) {
-    return res.status(403).json({
-      success: false,
-      error: 'You are not authorized to use this endpoint',
-    });
-  }
-
-  const accountInfo = await accountService.getAccountInfo(req.session.makerEmail)
-
-  // Check if the account exists
-  if (!accountInfo) {
-    return res.status(401).json({
-      success: false,
-      error: 'You are not authorized to make changes to this account',
-    });
-  }
-
-  const socials = {
-    facebook: req.body['update-facebook'],
-    twitter: req.body['update-twitter'],
-    instagram: req.body['update-instagram'],
-    reddit: req.body['update-reddit'],
-    youtube: req.body['update-youtube'],
-    tiktok: req.body['update-tiktok'],
-    pinterest: req.body['update-pinterest'],
-    twitch: req.body['update-twitch'],
-    linkedin: req.body['update-linkedin'],
-    website: req.body['update-website'],
-    updated_date: time.getCurrentTimestamp(),
-  };
-
-  await accountService.updateAccount(socials, req.session.makerEmail);
-
-  return res.status(200).json({
-    success: true,
-    response: 'Your socials were successfully updated',
-  });
-}
-
 module.exports = {
   registerAccount,
   loginAccount,
   updateAccount,
-  updateSocials,
 }

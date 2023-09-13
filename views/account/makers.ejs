@@ -23,7 +23,7 @@
 				<% locals.makers.forEach(maker => { %>
 					<div class="col">
 						<div class="card h-100" style="max-width: 400px;">
-							<img src="/avatar_images/<%= maker.avatar %>" class="card-img-top" alt="user-avatar" style="height: auto; width: auto;">
+							<img src="<%= maker.avatar %>" class="card-img-top" alt="user-avatar" style="height: auto; width: auto;">
 							<div class="card-body">
 								<h5 class="card-title"><%= maker.first_name.charAt(0).toUpperCase() + maker.first_name.slice(1); %>&nbsp;<%= maker.last_name.charAt(0).toUpperCase() + maker.last_name.slice(1); %></h5>
 								<% if (maker.biography != null) { %>

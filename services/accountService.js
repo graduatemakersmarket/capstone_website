@@ -1,7 +1,7 @@
 const accountModel = require('../models/accountModel');
 const logger = require('../config/logger');
 
-const getAccountInfo = async (email) => {
+const getAccountInfoByEmail = async (email) => {
   const account = await accountModel.findOne({
     where: { email },
   }).catch((error) => {
@@ -66,7 +66,7 @@ const getVerifiedAccounts = async (limit, offset) => {
 };
 
 module.exports = {
-  getAccountInfo,
+  getAccountInfoByEmail,
   getAccountInfoByID,
   getVerifiedAccountCount,
   createAccount,

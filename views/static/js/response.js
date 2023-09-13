@@ -6,11 +6,12 @@ function getIcon(type) {
   return ICON_ERROR;
 }
 
-function displayMessage(responseMsg, formID, responseType) {
+function displayMessage(responseMsg, outputDiv, responseType) {
   const output = `
     <div class="response-${responseType}">
         <i class="fa-solid ${getIcon(responseType)}"></i>&nbsp;${responseMsg}
     </div>
   `;
-  document.getElementById(formID).innerHTML = output;
+
+  outputDiv.innerHTML = output;
 }

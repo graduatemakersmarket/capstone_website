@@ -131,32 +131,15 @@ function postMultipart(formID, outputID, fileID, endpoint, location, token) {
 }
 
 // MULTIPART PUT (UPDATE)
-function putMultipart(formID, outputID, fileID, endpoint, location, token) {
-  const form = document.getElementById(formID);
-  const { files } = document.getElementById(fileID);
-  const formData = new FormData(form);
+function putMultipart(data, output, endpoint, redirect) {
 
-  if (formData.has('g-recaptcha-response')) {
-    formData.delete('g-recaptcha-response');
-    formData.append('captcha', token);
-  }
-
-  if (files[0] && files[0].size > 1048576) {
-    displayMessage('Your avatar may not exceed 1MB', outputID, 'error');
-    return false;
-  }
-
-  if (files) {
-    formData.append(fileID, files);
-  }
-
-  axios.put(endpoint, formData, { headers: MULTIPART }).then((response) => {
-    if (location) {
-      window.location = location;
+  axios.put(endpoint, data, { headers: MULTIPART }).then((response) => {
+    if (redirect) {
+      window.location = redirect;
     }
 
-    displayMessage(response.data.response, outputID, 'success');
+    displayMessage(response.data.response, output, 'success');
   }).catch((error) => {
-    displayMessage(error.response.data.error, outputID, 'error');
+    displayMessage(error.response.data.error, output, 'error');
   });
 }

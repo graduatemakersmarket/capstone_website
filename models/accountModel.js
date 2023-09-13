@@ -39,7 +39,7 @@ const Account = db.define('accounts', {
 
   avatar: {
     type: Sequelize.DataTypes.STRING,
-    defaultValue: 'default.png',
+    defaultValue: '/avatar_images/default.png',
   },
 
   facebook: {

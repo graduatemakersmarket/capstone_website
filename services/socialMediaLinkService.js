@@ -23,6 +23,17 @@ const getSocialMediaLinkByURL = async (url) => {
   return link;
 };
 
+// Get a social media link associated with a specific ID
+const getSocialMediaLinkByID = async (id) => {
+  const link = await socialMediaLinkModel.findAll({
+    where: { id },
+  }).catch((error) => {
+    logger.error(error);
+  });
+
+  return link;
+};
+
 // Create a new social media link
 const createSocialMediaLink = async (socialMediaLink) => {
   await socialMediaLinkModel.create(socialMediaLink).catch((error) => {
@@ -44,6 +55,7 @@ const updateSocialMediaLink = async (socialMediaLink, account_email) => {
 module.exports = {
   getSocialMediaLinkByEmail,
   getSocialMediaLinkByURL,
+  getSocialMediaLinkByID,
   createSocialMediaLink,
   updateSocialMediaLink
 };
