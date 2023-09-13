@@ -18,7 +18,7 @@
 	 <div class="content-container content-wrap">
 		<!-- BEGIN PROFILE SETTINGS-->
 		<div class="container px-4 py-2" id="update-profile-header" data-aos="fade-right">
-			<h2>PROFILE SETTINGS</h2> 
+			<h2>YOUR PROFILE</h2> 
 			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="update-profile-response"></h4>
 			<form id="update-profile-form">
                 <div class="mb-4 d-flex justify-content-center">
@@ -57,61 +57,33 @@
 		<br>
 		<!-- BEGIN SOCIAL SETTINGS-->
 		<div class="container px-4 py-2" id="update-socials-header" data-aos="fade-right">
-			<h2>SOCIAL SETTINGS</h2> 
-			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="update-socials-response"></h4>
-			<form id="update-socials-form">
+			<h2>YOUR LINKS</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="create-social-response"></h4>
+			<form id="create-social-form">
 				<div class="form-floating">
-					<input type="text" class="form-control" id="update-facebook" name="update-facebook" placeholder="Facebook" maxlength="254" value="<%= clean(locals.account.facebook) %>">
-					<label for="update-facebook">Facebook</label>
+					<input type="url" class="form-control" id="social-media-link" name="social-media-link" placeholder="Link" maxlength="255">
+					<label for="social-media-link">Link</label>
 				</div>
 				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-twitter" name="update-twitter" placeholder="Twitter" maxlength="254" value="<%= clean(locals.account.twitter) %>">
-					<label for="update-twitter">Twitter</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-instagram" name="update-instagram" placeholder="Instagram" maxlength="254" value="<%= clean(locals.account.instagram) %>">
-					<label for="update-instagram">Instagram</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-reddit" name="update-reddit" placeholder="Reddit" maxlength="254" value="<%= clean(locals.account.reddit) %>">
-					<label for="update-reddit">Reddit</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-youtube" name="update-youtube" placeholder="YouTube" maxlength="254" value="<%= clean(locals.account.youtube) %>">
-					<label for="update-youtube">YouTube</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-tiktok" name="update-tiktok" placeholder="TikTok" maxlength="254" value="<%= clean(locals.account.tiktok) %>">
-					<label for="update-tiktok">TikTok</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-pinterest" name="update-pinterest" placeholder="Pinterest" maxlength="254" value="<%= clean(locals.account.pinterest) %>">
-					<label for="update-pinterest">Pinterest</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-twitch" name="update-twitch" placeholder="Twitch" maxlength="254" value="<%= clean(locals.account.twitch) %>">
-					<label for="update-twitch">Twitch</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-linkedin" name="update-linkedin" placeholder="LinkedIn" maxlength="254" value="<%= clean(locals.account.linkedin) %>">
-					<label for="update-linkedin">LinkedIn</label>
-				</div>
-				<br>
-				<div class="form-floating">
-					<input type="text" class="form-control" id="update-website" name="update-website" placeholder="Personal Website" maxlength="254" value="<%= clean(locals.account.website) %>">
-					<label for="update-website">Personal Website</label>
-				</div>
-				<br>
-				<button class="btn btn-dark w-100 py-2" type="submit">Update Socials</button>
+				<button class="btn btn-dark w-100 py-2" type="submit">Add Link</button>
 				</form>
+				<br>
+				<% if (locals.links.length > 0) { %>
+					<table>
+					<tr>
+						<th>URL</th>
+						<th>Action</th>
+					</tr>
+					<% locals.links.forEach(link => { %>
+						<tr>
+							<td><%= clean(link.url) %></td>
+							<td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/socials/edit/<%= link.id %>';">EDIT</button></td>
+						</tr>
+					<% }) %>
+					</table>
+				<% } else { %>
+					<p>You have no links to display</p>
+				<% } %>
 		</div>
 		<!-- END SOCIAL SETTINGS-->
   	</div>
@@ -137,18 +109,17 @@
             putMultipart(formID, outputID, fileID, endpoint, redirect, false);
    	 	});
 
-		const updateSocials = document.getElementById('update-socials-form');
-    	updateSocials.addEventListener('submit', (e) => {
+		const createSocialMediaLink = document.getElementById('create-social-form');
+    	createSocialMediaLink.addEventListener('submit', (e) => {
       		e.preventDefault();
 
-      		const formID = 'update-socials-form';
-      		const outputID = 'update-socials-response';
-      		const endpoint = '/api/account/socials/update';
-			const redirect = false;
+      		const formID = 'create-social-form';
+      		const outputID = 'create-social-response';
+      		const endpoint = '/api/socials/create';
+			const redirect = '/account/manage';
 
 			document.getElementById(outputID).innerHTML = "";
-
-			putData(formID, outputID, endpoint, redirect, false);
+			postData(formID, outputID, endpoint, redirect, false);
    	 	});
 
         var loadFile = function(event) {

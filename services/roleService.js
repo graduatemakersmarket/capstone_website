@@ -1,9 +1,9 @@
 const roleModel = require('../models/roleModel');
 const logger = require('../config/logger');
 
-const getRoles = async (email) => {
+const getRoles = async (account_email) => {
   const roles = await roleModel.findAll({
-    where: { account_email: email },
+    where: { account_email },
   }).catch((error) => {
     logger.error(error);
   });

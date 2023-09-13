@@ -28,6 +28,6 @@ const upload = multer({
 
 const router = express.Router();
 
-router.post('/create', auth.APIAccess, upload.array('create-product-images'), validator.createProduct, controller.createProduct);
+router.post('/create', auth.authenticatedAPI, upload.array('create-product-images'), validator.createProduct, controller.createProduct);
 
 module.exports = router;

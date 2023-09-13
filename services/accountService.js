@@ -11,6 +11,16 @@ const getAccountInfo = async (email) => {
   return account;
 };
 
+const getAccountInfoByID = async (id) => {
+  const account = await accountModel.findOne({
+    where: { id },
+  }).catch((error) => {
+    logger.error(error);
+  });
+
+  return account;
+};
+
 const getVerifiedAccountCount = async () => {
   const count = await accountModel.count({where: {account_verified: 1}}).catch((error) => {
     logger.error(error);
@@ -57,6 +67,7 @@ const getVerifiedAccounts = async (limit, offset) => {
 
 module.exports = {
   getAccountInfo,
+  getAccountInfoByID,
   getVerifiedAccountCount,
   createAccount,
   updateAccountAvatar,

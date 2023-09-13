@@ -7,16 +7,17 @@ const cookieParser = require('cookie-parser');
 const market = express();
 
 market.use(express.json());
-market.use(bodyParser.json({ limit: '20MB' }));
-market.use(bodyParser.urlencoded({ limit: '20MB', extended: true }));
+market.use(bodyParser.json({ limit: '1MB' }));
+market.use(bodyParser.urlencoded({ limit: '1MB', extended: true }));
 
-market.use(cookieParser({ limit: '20MB' }));
+market.use(cookieParser({ limit: '1MB' }));
 market.use(express.static(path.join(__dirname, 'views/static')));
 market.set("views", path.join(__dirname, 'views'));
 market.set("view engine", "ejs");
 
 market.use('/api/account', require('./routes/api/v1/accountAPI'));
 market.use('/api/product', require('./routes/api/v1/productAPI'));
+market.use('/api/socials', require('./routes/api/v1/socialMediaLinksAPI'));
 
 market.use('/', require('./routes/root'));
 market.use('/makers', require('./routes/makers'));

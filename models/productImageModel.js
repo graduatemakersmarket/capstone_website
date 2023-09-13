@@ -6,6 +6,8 @@ const ProductImage = db.define('product_images', {
     type: Sequelize.DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    unique: true,
+    allowNull: false,
   },
 
   image: {

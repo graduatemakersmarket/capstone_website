@@ -104,81 +104,19 @@ const updateAccount = [
     .withMessage('Your biography may not exceed (1000) characters'),
 ];
 
-const updateSocials = [
-  validator.check('update-facebook')
+const createSocialMediaLink = [
+  validator.check('social-media-link')
     .escape()
     .trim()
-    .optional({checkFalsy: true})
+    .notEmpty()
+    .withMessage('The link field is required')
     .isLength({ max: 254 })
-    .withMessage('Your Facebook link exceeds (254) characters'),
-
-  validator.check('update-twitter')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your Twitter link exceeds (254) characters'),
-
-  validator.check('update-instagram')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your Instagram link exceeds (254) characters'),
-
-  validator.check('update-reddit')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your Reddit link exceeds (254) characters'),
-  
-  validator.check('update-youtube')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your YouTube link exceeds (254) characters'),
-
-  validator.check('update-tiktok')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your TikTok link exceeds (254) characters'),
-
-  validator.check('update-pinterest')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your Pinterest link exceeds (254) characters'),
-
-  validator.check('update-twitch')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your Twitch link exceeds (254) characters'),
-
-  validator.check('update-kick')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your Kick link exceeds (254) characters'),
-
-  validator.check('update-website')
-    .escape()
-    .trim()
-    .optional({checkFalsy: true})
-    .isLength({ max: 254 })
-    .withMessage('Your website link exceeds (254) characters'),
+    .withMessage('The provided link is larger than 255 characters'),
 ];
 
 module.exports = {
   registerAccount,
   loginAccount,
   updateAccount,
-  updateSocials,
+  createSocialMediaLink,
 };

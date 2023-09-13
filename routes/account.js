@@ -1,6 +1,7 @@
 const express = require('express');
 const auth = require('../middleware/auth');
 const convert = require('html-to-text');
+const socialMediaLinksController = require('../controllers/socialMediaLinkController');
 const accountService = require('../services/accountService');
 
 const router = express.Router();
@@ -36,6 +37,7 @@ router.get('/manage', auth.memberAccess, async (req, res) => {
   return res.render('account/manage', {
     session: req.session,
     account: await accountService.getAccountInfo(req.session.makerEmail),
+    links: await socialMediaLinksController.getLinksByEmail(req.session.makerEmail),
     clean: convert.convert,
   });
 });

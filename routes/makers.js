@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('../middleware/auth');
 const convert = require('html-to-text');
 const accountService = require('../services/accountService');
+const socialMediaLinksController = require('../controllers/socialMediaLinkController');
 
 const router = express.Router();
 
@@ -36,14 +37,14 @@ router.get('/page/:page', auth.guestAccess, async (req, res) => {
   });
 });
 
-router.get('/:maker', auth.guestAccess, async (req, res) => {
-  const maker = req.params.maker || null;
+router.get('/:makerID', auth.guestAccess, async (req, res) => {
+  const makerID = req.params.makerID || null;
 
-  if (!maker) {
+  if (!makerID) {
     return res.redirect('/makers');
   }
 
-  const account = await accountService.getAccountInfo(maker);
+  const account = await accountService.getAccountInfoByID(makerID);
 
   if (!account) {
     return res.redirect('/makers');
@@ -52,6 +53,7 @@ router.get('/:maker', auth.guestAccess, async (req, res) => {
   return res.render('account/profile', {
     session: req.session,
     account,
+    links: await socialMediaLinksController.getLinksByEmail(req.session.makerEmail),
     clean: convert.convert,
   });
 });

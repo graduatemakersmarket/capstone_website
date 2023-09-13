@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Role = db.define('roles', {
+const SocialMediaLink = db.define('socialmedia_links', {
   id: {
     type: Sequelize.DataTypes.INTEGER,
     autoIncrement: true,
@@ -10,27 +10,30 @@ const Role = db.define('roles', {
     allowNull: false,
   },
 
-  role: {
+  url: {
     type: Sequelize.DataTypes.STRING,
-    defaultValue: 'maker',
-  },
-
-  issuer: {
-    type: Sequelize.DataTypes.STRING,
-    defaultValue: 'system',
+    allowNull: false,
   },
 
   creation_date: {
     type: Sequelize.DataTypes.DATE,
     defaultValue: Sequelize.DataTypes.NOW,
+    allowNull: false,
+  },
+
+  updated_date: {
+    type: Sequelize.DataTypes.DATE,
+    defaultValue: Sequelize.DataTypes.NOW,
+    allowNull: false,
   },
 
   account_email: {
     type: Sequelize.DataTypes.STRING,
+    allowNull: false,
   },
 }, {
   timestamps: false,
   underscored: true,
 });
 
-module.exports = Role;
+module.exports = SocialMediaLink;

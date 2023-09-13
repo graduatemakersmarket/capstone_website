@@ -2,6 +2,13 @@ const Sequelize = require('sequelize');
 const db = require('../config/db');
 
 const Account = db.define('accounts', {
+  id: {
+    type: Sequelize.DataTypes.INTEGER,
+    autoIncrement: true,
+    unique: true,
+    allowNull: false,
+  },
+
   email: {
     type: Sequelize.DataTypes.STRING,
     unique: true,

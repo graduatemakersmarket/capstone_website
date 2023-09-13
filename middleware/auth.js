@@ -42,7 +42,7 @@ const memberAccess = async (req, res, next) => {
   return false;
 };
 
-const APIAccess = async (req, res, next) => {
+const authenticatedAPI = async (req, res, next) => {
   let token = null;
 
   if (!req.cookies.makerSession && !req.headers.authorization) {
@@ -146,6 +146,6 @@ const guestAccess = async (req, res, next) => {
 
 module.exports = {
   memberAccess,
-  APIAccess,
+  authenticatedAPI,
   guestAccess,
 };

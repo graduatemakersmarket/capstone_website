@@ -30,6 +30,6 @@ const router = express.Router();
 
 router.post('/register', validator.registerAccount, controller.registerAccount);
 router.post('/login', validator.loginAccount, controller.loginAccount);
-router.put('/update', auth.APIAccess, upload.single('avatar'), validator.updateAccount, controller.updateAccount);
-router.put('/socials/update', auth.APIAccess, validator.updateSocials, controller.updateSocials);
+router.put('/update', auth.authenticatedAPI, upload.single('avatar'), validator.updateAccount, controller.updateAccount);
+
 module.exports = router;

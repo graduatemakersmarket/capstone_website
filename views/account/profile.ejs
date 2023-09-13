@@ -31,35 +31,30 @@
 						<div class="card-body">
 							<p class="card-text" style="white-space: pre-wrap"><%= clean(locals.account.biography, {wordwrap: false, preserveNewlines: true,}) %></p>
 							<p class="card-text"><small class="text-body-secondary">
-								<% if (locals.account.facebook) { %>
-									<a href="<%= clean(locals.account.facebook) %>" target="_blank"><i class="fa-brands fa-facebook fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.twitter) { %>
-									<a href="<%= clean(locals.account.twitter) %>" target="_blank"><i class="fa-brands fa-twitter fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.instagram) { %>
-									<a href="<%= clean(locals.account.instagram) %>" target="_blank"><i class="fa-brands fa-instagram fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.reddit) { %>
-									<a href="<%= clean(locals.account.reddit) %>" target="_blank"><i class="fa-brands fa-reddit fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.youtube) { %>
-									<a href="<%= clean(locals.account.youtube) %>" target="_blank"><i class="fa-brands fa-youtube fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.tiktok) { %>
-									<a href="<%= clean(locals.account.tiktok) %>" target="_blank"><i class="fa-brands fa-tiktok fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.pinterest) { %>
-									<a href="<%= clean(locals.account.pinterest) %>" target="_blank"><i class="fa-brands fa-pinterest fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.twitch) { %>
-									<a href="<%= clean(locals.account.twitch) %>" target="_blank"><i class="fa-brands fa-twitch fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.linkedin) { %>
-									<a href="<%= clean(locals.account.linkedin) %>" target="_blank"><i class="fa-brands fa-linkedin fa-xl"></i></a>
-								<% } %>
-								<% if (locals.account.website) { %>
-									<a href="<%= clean(locals.account.website) %>" target="_blank"><i class="fa-solid fa-link fa-xl"></i></a>
+								<% if (locals.links.length > 0) { %>
+									<% locals.links.forEach(link => { %>
+										<% if(link.url.includes('facebook')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-facebook fa-xl"></i></a>
+										<% } else if (link.url.includes('twitter')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-twitter fa-xl"></i></a>
+										<% } else if (link.url.includes('instagram')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-instagram fa-xl"></i></a>
+										<% } else if (link.url.includes('reddit')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-reddit fa-xl"></i></a>
+										<% } else if (link.url.includes('youtube')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-youtube fa-xl"></i></a>
+										<% } else if (link.url.includes('tiktok')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-tiktok fa-xl"></i></a>
+										<% } else if (link.url.includes('pinterest')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-pinterest fa-xl"></i></a>
+										<% } else if (link.url.includes('twitch')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-twitch fa-xl"></i></a>
+										<% } else if (link.url.includes('linkedin')) { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-brands fa-linkedin fa-xl"></i></a>
+										<% } else { %>
+											<a href="<%= clean(link.url) %>" target="_blank"><i class="fa-solid fa-link fa-xl"></i></a>
+										<% } %>	
+									<% }) %>
 								<% } %>
 							</small></p>
 						</div>
