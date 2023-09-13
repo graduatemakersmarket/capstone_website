@@ -53,7 +53,7 @@ router.get('/:makerID', auth.guestAccess, async (req, res) => {
   return res.render('account/profile', {
     session: req.session,
     account,
-    links: await socialMediaLinksController.getLinksByEmail(req.session.makerEmail),
+    links: await socialMediaLinksController.getLinksByEmail(account.email),
     clean: convert.convert,
   });
 });
