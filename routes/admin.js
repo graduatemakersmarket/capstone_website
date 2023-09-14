@@ -9,7 +9,10 @@ router.get('/', auth.adminAccess, (req, res) => res.render('admin/admin', {
   session: req.session,
 }));
 
-router.get('/edit', auth.guestAccess, (req, res) => res.render('admin/edit', {
+/*************************************************************************************************/
+/* Render the page that will allow admins to edit a user's account
+/*************************************************************************************************/
+router.get('/edit', auth.adminAccess, (req, res) => res.render('admin/edit', {
   session: req.session,
 }));
 
