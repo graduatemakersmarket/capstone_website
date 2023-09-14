@@ -7,30 +7,31 @@ const ProductImage = db.define('product_images', {
     autoIncrement: true,
     primaryKey: true,
     unique: true,
-    allowNull: false,
+    allowNull: false
   },
 
   image: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   },
 
   creation_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW,
+    defaultValue: Sequelize.DataTypes.NOW
   },
 
   updated_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW,
+    defaultValue: Sequelize.DataTypes.NOW
   },
 
   product_product: {
     type: Sequelize.DataTypes.STRING,
+    allowNull: false
   },
 }, {
   timestamps: false,
-  underscored: true,
+  underscored: true
 });
 
 module.exports = ProductImage;

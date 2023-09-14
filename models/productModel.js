@@ -6,18 +6,18 @@ const Product = db.define('products', {
     type: Sequelize.DataTypes.INTEGER,
     autoIncrement: true,
     unique: true,
-    allowNull: false,
+    allowNull: false
   },
 
   product: {
     type: Sequelize.DataTypes.STRING,
     unique: true,
     allowNull: false,
-    primaryKey: true,
+    primaryKey: true
   },
 
   summary: {
-    type: Sequelize.DataTypes.TEXT,
+    type: Sequelize.DataTypes.TEXT
   },
 
   product_featured: {
@@ -26,29 +26,29 @@ const Product = db.define('products', {
   },
 
   product_website: {
-    type: Sequelize.DataTypes.STRING,
+    type: Sequelize.DataTypes.STRING
   },
 
   purchase_link: {
-    type: Sequelize.DataTypes.STRING,
+    type: Sequelize.DataTypes.STRING
   },
 
   creation_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW,
+    defaultValue: Sequelize.DataTypes.NOW
   },
 
   updated_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW,
+    defaultValue: Sequelize.DataTypes.NOW
   },
 
   account_email: {
-    type: Sequelize.DataTypes.STRING,
+    type: Sequelize.DataTypes.STRING
   },
 }, {
   timestamps: false,
-  underscored: true,
+  underscored: true
 });
 
 module.exports = Product;

@@ -14,14 +14,65 @@
 	<%- include("../partials/featured") %>
 
  	<!-- BEGIN PAGE CONTENT-->
-	 <div class="content-container content-wrap">
-		<div class="container px-4 py-2" id="edit" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">EDIT PRODUCT</h2>
-			<p>This is a placeholder page for editing product entries</p>
+	<div class="content-container content-wrap">
+        <!-- BEGIN PRODUCT EDIT-->
+		<div class="container px-4 py-2 rounded-4" id="update-product" data-aos="fade-right">
+			<h2 class="border-bottom">UPDATE PRODUCT (This feature is a work in progress and is not complete)</h2>
+            <h4 class="h4 mb-3 fw-normal pb-1" id="update-product-response"></h4>
+			<form class="updateProduct" action="/api/product/create">
+				<input type="checkbox" class="form-check-input" id="update-product-featured" name="create-product-featured">
+				<label for="create-product-featured" class="form-label">Feature product on your GSMM profile</label>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="create-product-name" name="create-product-name" placeholder="Product Name" maxlength="254" value="<%= clean(locals.product.product) %>" required>
+					<label for="create-product-name">Product Name</label>
+				</div>
+				<br>
+				<div class="form-floating">
+					<input type="url" class="form-control" id="create-product-website" name="create-product-website" placeholder="Product Website" maxlength="254" value="<%= clean(locals.product.product_website) %>" required>
+					<label for="create-product-website">Product Website</label>
+				</div>
+				<br>
+				<div class="form-floating">
+					<input type="url" class="form-control" id="create-product-purchase" name="create-product-purchase" placeholder="Product Purchase Link" maxlength="254" value="<%= clean(locals.product.purchase_link) %>" required>
+					<label for="create-product-purchase">Product Purchase Link</label>
+				</div>
+				<br>
+                <div class="form-floating">
+					<textarea class="form-control" id="create-product-summary" name="create-product-summary" placeholder="Product Description" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;"><%= clean(locals.product.summary, {wordwrap: false, preserveNewlines: true,}) %></textarea>
+                    <label for="create-product-summary">Product Description</label>
+				</div>
+				<br>
+				<label for="create-product-images" class="form-label">Product Images</label>
+				<input class="form-control" type="file" id="create-product-images" name="create-product-images" multiple="multiple" accept="image/*" />
+				<br>
+				<button class="btn btn-dark w-100 py-2" type="submit" disabled>Update Product</button>
+			  </form>
 		</div>
-  </div>
- 	<!-- END PAGE CONTENT-->
+        <!-- END PRODUCT EDIT-->
+		<br>
+		<br>
+		<!-- BEGIN PRODUCT IMAGE MANAGE-->
+        <div class="container px-4 py-2 rounded-4" id="manage-products" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom">MANAGE PRODUCT IMAGES</h2>
 
+			<% if (locals.images && locals.images.length > 0) { %>
+				<% locals.images.forEach(image => { %>
+					<img src="<%= image.image %>">
+					<button class="btn btn-dark w-100 py-2" type="submit">Delete Image</button>
+					<br>
+				<% }) %>
+				</table>
+			<% } else { %>
+				<p id="no-images">You have no product images to display</p>
+			<% } %>
+		</div>
+        <!-- END PRODUCT IMAGE MANAGE-->
+    </div>
+ 	<!-- END PAGE CONTENT-->
+    
+    <!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/network.js"></script>
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>

@@ -3,15 +3,15 @@ const path = require('path');
 const crypto = require('crypto');
 
 /*************************************************************************************************/
-/* Configure storage destination and filenames for avatar uploads
+/* Configure storage destination and filenames for image uploads
 /*************************************************************************************************/
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {return cb(null, 'views/static/avatar_images');},
+    destination: (req, file, cb) => {return cb(null, 'views/static/product_images');},
     filename: (req, file, cb) => {return cb(null, `${crypto.randomUUID()}${path.extname(file.originalname)}`);},
 });
 
 /*************************************************************************************************/
-/* Configure a file filter for avatar uploads
+/* Configure a file filter for image uploads
 /*************************************************************************************************/
 const upload = multer({
     fileFilter: (req, file, cb) => {

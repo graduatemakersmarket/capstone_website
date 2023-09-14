@@ -6,100 +6,60 @@ const Account = db.define('accounts', {
     type: Sequelize.DataTypes.INTEGER,
     autoIncrement: true,
     unique: true,
-    allowNull: false,
+    allowNull: false
   },
 
   email: {
     type: Sequelize.DataTypes.STRING,
     unique: true,
     allowNull: false,
-    primaryKey: true,
+    primaryKey: true
   },
 
   password: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   },
 
   first_name: {
-    type: Sequelize.DataTypes.STRING,
+    type: Sequelize.DataTypes.STRING
   },
 
   last_name: {
-    type: Sequelize.DataTypes.STRING,
+    type: Sequelize.DataTypes.STRING
   },
 
   biography: {
-    type: Sequelize.DataTypes.TEXT,
+    type: Sequelize.DataTypes.TEXT
   },
 
   video_link: {
-    type: Sequelize.DataTypes.STRING,
+    type: Sequelize.DataTypes.STRING
   },
 
   avatar: {
     type: Sequelize.DataTypes.STRING,
-    defaultValue: '/avatar_images/default.png',
-  },
-
-  facebook: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  twitter: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  instagram: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  reddit: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  youtube: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  tiktok: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  pinterest: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  twitch: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  linkedin: {
-    type: Sequelize.DataTypes.STRING,
-  },
-
-  website: {
-    type: Sequelize.DataTypes.STRING,
+    defaultValue: '/avatar_images/default.png'
   },
 
   account_featured: {
     type: Sequelize.DataTypes.BOOLEAN,
-    defaultValue: 0,
+    defaultValue: 0
   },
 
   account_verified: {
     type: Sequelize.DataTypes.BOOLEAN,
-    defaultValue: 0,
+    defaultValue: 0
   },
   
   creation_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW,
+    defaultValue: Sequelize.DataTypes.NOW
   },
 
   updated_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW,
+    defaultValue: Sequelize.DataTypes.NOW
   },
 }, {
   timestamps: false,

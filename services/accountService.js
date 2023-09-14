@@ -1,58 +1,9 @@
 const accountModel = require('../models/accountModel');
 const logger = require('../config/logger');
 
-const getAccountInfoByEmail = async (email) => {
-  const account = await accountModel.findOne({
-    where: { email },
-  }).catch((error) => {
-    logger.error(error);
-  });
-
-  return account;
-};
-
-const getAccountInfoByID = async (id) => {
-  const account = await accountModel.findOne({
-    where: { id },
-  }).catch((error) => {
-    logger.error(error);
-  });
-
-  return account;
-};
-
-const getVerifiedAccountCount = async () => {
-  const count = await accountModel.count({where: {account_verified: 1}}).catch((error) => {
-    logger.error(error);
-  });
-
-  return count;
-};
-
-const createAccount = async (account) => {
-  await accountModel.create(account).catch((error) => {
-    logger.error(error);
-  });
-
-  return true;
-};
-
-const updateAccountAvatar = async (avatar, email) => {
-  await accountModel.update({ avatar }, { where: { email } }).catch((error) => {
-    logger.error(error);
-  });
-
-  return true;
-};
-
-const updateAccount = async (account, email) => {
-  await accountModel.update(account, { where: { email } }).catch((error) => {
-    logger.error(error);
-  });
-
-  return true;
-};
-
+/*************************************************************************************************/
+/* Get all verified accounts
+/*************************************************************************************************/
 const getVerifiedAccounts = async (limit, offset) => {
   const accounts = await accountModel.findAll({
     where: { account_verified: 1 },
@@ -65,12 +16,83 @@ const getVerifiedAccounts = async (limit, offset) => {
     return accounts;
 };
 
+/*************************************************************************************************/
+/* Get an account associated with a specific email
+/*************************************************************************************************/
+const getAccountByEmail = async (email) => {
+  const account = await accountModel.findOne({
+    where: { email },
+  }).catch((error) => {
+    logger.error(error);
+  });
+
+  return account;
+};
+
+/*************************************************************************************************/
+/* Get an account associated with a specific ID
+/*************************************************************************************************/
+const getAccountByID = async (id) => {
+  const account = await accountModel.findOne({
+    where: { id },
+  }).catch((error) => {
+    logger.error(error);
+  });
+
+  return account;
+};
+
+/*************************************************************************************************/
+/* Insert a new account into the database
+/*************************************************************************************************/
+const createAccount = async (account) => {
+  await accountModel.create(account).catch((error) => {
+    logger.error(error);
+  });
+
+  return true;
+};
+
+/*************************************************************************************************/
+/* Update an existing account
+/*************************************************************************************************/
+const updateAccount = async (account, email) => {
+  await accountModel.update(account, { where: { email } }).catch((error) => {
+    logger.error(error);
+  });
+
+  return true;
+};
+
+
+/*************************************************************************************************/
+/* Delete an account
+/*************************************************************************************************/
+const deleteAccount = async (email) => {
+  await accountModel.destroy({ where: { email } }).catch((error) => {
+    logger.error(error);
+  });
+
+  return true;
+};
+
+/*************************************************************************************************/
+/* Count all verified accounts in the database
+/*************************************************************************************************/
+const countVerifiedAccounts = async () => {
+  const count = await accountModel.count({where: {account_verified: 1}}).catch((error) => {
+    logger.error(error);
+  });
+
+  return count;
+};
+
 module.exports = {
-  getAccountInfoByEmail,
-  getAccountInfoByID,
-  getVerifiedAccountCount,
-  createAccount,
-  updateAccountAvatar,
-  updateAccount,
   getVerifiedAccounts,
+  getAccountByEmail,
+  getAccountByID,
+  createAccount,
+  updateAccount,
+  deleteAccount,
+  countVerifiedAccounts
 };

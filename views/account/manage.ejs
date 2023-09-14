@@ -17,15 +17,15 @@
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
 		<!-- BEGIN PROFILE SETTINGS-->
-		<div class="container px-4 py-2" id="update-profile-header" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">MANAGE ACCOUNT</h2> 
-			<h4 class="h4 mb-3 fw-normal" id="update-profile-response"></h4>
-			<form class="updateProfile" action="/api/account/update">
+		<div class="container px-4 py-2" id="update-account-header" data-aos="fade-right">
+			<h2 class="border-bottom">MANAGE ACCOUNT</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1" id="update-account-response"></h4>
+			<form class="updateAccount" action="/api/account/update">
                 <div class="mb-4 d-flex justify-content-center">
                     <input type="file" id="avatar" class="avatar__input" name="avatar" accept="image/png, image/jpeg, image/gif, image/jpg" value="Upload Picture" onchange="loadFile(event)">
                     <label for="avatar" class="avatar">
                         <div class="img-overlay">
-                            <img src="<%= locals.session.makerAvatar %>" alt="Avatar" id="user-avatar" class="avatar">
+                            <img src="<%= locals.session.avatar %>" alt="Avatar" id="user-avatar" class="avatar">
                         </div>
                     </label>
                 </div>
@@ -45,11 +45,11 @@
 				</div>
 				<br>
                 <div class="form-floating">
-					<textarea class="form-control" id="update-biography" name="update-biography" placeholder="Biography" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'><%= clean(locals.account.biography, {wordwrap: false, preserveNewlines: true,}) %></textarea>
+					<textarea class="form-control" id="update-biography" name="update-biography" placeholder="Biography" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;"><%= clean(locals.account.biography, {wordwrap: false, preserveNewlines: true,}) %></textarea>
                     <label for="update-biography">Biography</label>
 				</div>
 				<br>
-				<button class="btn btn-dark w-100 py-2" type="submit">Update Profile</button>
+				<button class="btn btn-dark w-100 py-2" type="submit">Update Account</button>
 			  </form>
 		</div>
 		<!-- END PROFILE SETTINGS-->
@@ -57,9 +57,9 @@
 		<br>
 		<!-- BEGIN SOCIAL SETTINGS-->
 		<div class="container px-4 py-2" id="update-socials-header" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">MANAGE LINKS</h2> 
-			<h4 class="h4 mb-3 fw-normal" id="create-social-response"></h4>
-			<form class="createLink" action="/api/socials/create">
+			<h2 class="border-bottom">MANAGE SOCIALS</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1" id="create-socials-response"></h4>
+			<form class="createSocialMediaLink" action="/api/socials/create">
 				<div class="form-floating">
 					<input type="url" class="form-control" id="social-media-link" name="social-media-link" placeholder="Link" maxlength="255">
 					<label for="social-media-link">Link</label>
@@ -68,20 +68,21 @@
 				<button class="btn btn-dark w-100 py-2" type="submit">Add Link</button>
 				</form>
 				<br>
-				<% if (locals.links.length > 0) { %>
+				<% if (locals.socials.length > 0) { %>
 					<table id="link-table">
 					<tr>
 						<th>URL</th>
 						<th>Action</th>
 					</tr>
-					<% locals.links.forEach(link => { %>
-						<tr id="<%= link.id %>">
+					<% locals.socials.forEach(link => { %>
+						<tr id="row-<%= link.id %>">
 							<td><%= clean(link.url) %></td>
-							<td><form class="actionDelete" id="<%= link.id %>" action="/api/socials/delete"><button class="btn btn-dark w-100 py-2">DELETE</button></form></td>
+							<td><form class="deleteSocialMediaLink" id="<%= link.id %>" action="/api/socials/delete"><button class="btn btn-dark w-100 py-2">DELETE</button></form></td>
 						</tr>
 					<% }) %>
 					</table>
 				<% } else { %>
+					<p id="no-links">You have no links to display</p>
 					<table id="link-table" hidden>
 						<tr>
 							<th>URL</th>
@@ -96,71 +97,8 @@
 
 	<!-- Include scripts-->
 	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-	<script>
-
-		// INTERCEPT UPDATE PROFILE
-		$(document).on('submit', '.updateProfile', async (e) => {
-			e.preventDefault();
-
-			axios.put(e.target.action, new FormData(e.target), { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
-    			$('#update-profile-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> ${response.data.response}`).delay(4000).fadeOut(300);
-  			}).catch((error) => {
-    			$('#update-profile-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> ${error.data.response.error}`).delay(4000).fadeOut(300);
-  			});
-		});
-
-		// INTERCEPT CREATE LINK FORM
-		$(document).on('submit', '.createLink', async (e) => {
-			e.preventDefault();
-
-			const args = {};
-			const formData = new FormData(e.target);
-
-			// Backend expects form data as key-value pairs
-			formData.forEach((value, key) => { args[key] = value; });
-
-			axios.post(e.target.action, args).then( async (response) => {
-				$('#create-social-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> Successfully added ${response.data.link}`).delay(4000).fadeOut(300);
-				$('#link-table').removeAttr('hidden').show();
-				$('#link-table').append(`<tr><td>${response.data.link}</td><td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/socials/delete/${response.data.id}';">DELETE</button></td></tr>`);
-  			}).catch((error) => {
-				$('#create-social-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
-  			});
-		});
-
-		// INTERCEPT DELETE ACTION
-		$(document).on('submit', '.actionDelete', async (e) => {
-			e.preventDefault();
-
-			axios.delete(e.target.action, {data: {linkID: e.target.id}}).then((response) => {
-				console.log('DELETED!');
-				$(`#${e.target.id}`).remove();
-    			$('#create-social-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> ${response.data.response}`).delay(4000).fadeOut(300);
-  			}).catch((error) => {
-    			$('#create-social-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
-  			});
-		});
-
-		// DISPLAY THE SELECTED AVATAR IMAGE ON THE PAGE
-        var loadFile = function(e) {
-			if (e.target.files[0].type.includes('image/')) {
-				var output = document.getElementById('user-avatar');
-            	output.src = URL.createObjectURL(e.target.files[0]);
-            	output.onload = function() {
-                	URL.revokeObjectURL(output.src)
-            	}
-			}
-        };
-
-		// CONVERT YOUTUBE LINKS INTO THE APPROPRIATE VIDEO ID
-		function YouTubeGetID(url){ /* https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url */
-			let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
-			if (url.match(regex)) {
-				document.getElementById('update-video').value = url.match(regex)[1];
-			}
-		}
-	</script>
+	<script type="application/javascript" src="/js/helpers.js"></script>
+	<script type="application/javascript" src="/js/network.js"></script>
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>

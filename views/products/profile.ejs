@@ -16,10 +16,26 @@
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
 		<div class="container px-4 py-2" id="profile" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">PRODUCT'S PROFILE</h2>
-			<p>This is a placeholder page for product profiles</p>
+			<h2 class="pb-1 border-bottom">PRODUCT'S PROFILE (This page is a work in progress and not finished)</h2>
+			<p>ID: <%= locals.product.id %></p>
+			<p>Name: <%= clean(locals.product.product) %></p>
+			<p>Summary: <%= clean(locals.product.summary) %></p>
+			<p>Product Website: <%= clean(locals.product.product_website) %></p>
+			<p>Purchase Link: <%= clean(locals.product.purchase_link) %></p>
 		</div>
-  </div>
+		<br>
+		<br>
+		<div class="container px-4 py-2" id="images" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom">PRODUCT IMAGES</h2>
+			<% if (locals.images.length > 0) { %>
+				<% locals.images.forEach(image => { %>
+					<img src="<%= image.image %>">
+				<% }) %>
+			<% } else { %>
+				<p>There are no product images to display</p>
+			<% } %>
+		</div>
+  	</div>
  	<!-- END PAGE CONTENT-->
 
 

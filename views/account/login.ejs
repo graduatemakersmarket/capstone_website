@@ -16,9 +16,9 @@
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
 		<div class="container px-4 py-2" id="login-header" data-aos="fade-right">
-			<h2>LOGIN</h2> 
-			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="login-response"></h4>
-			<form id="login-form">
+			<h2 class="border-bottom">LOGIN</h2> 
+			<h4 class="h4 mb-3 fw-normal pb-1" id="login-response"></h4>
+			<form class="loginForm" action="/api/account/login">
 				<div class="form-floating">
 				  <input type="email" class="form-control" id="login-email" name="login-email" placeholder="name@example.com" maxlength="254" required>
 				  <label for="login-email">Email address</label>
@@ -36,23 +36,7 @@
 
 	<!-- Include scripts-->
 	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script type="application/javascript" src="/js/response.js"></script>
-	<script type="application/javascript" src="/js/request.js"></script>
-
-	<script>
-		const accountLogin = document.getElementById('login-form');
-    	accountLogin.addEventListener('submit', (e) => {
-      		e.preventDefault();
-
-      		const formID = 'login-form';
-      		const outputID = 'login-response';
-      		const endpoint = '/api/account/login';
-			const redirect = '/account/manage';
-
-			document.getElementById(outputID).innerHTML = "";
-      		postData(formID, outputID, endpoint, redirect, false);
-   	 	});
-	</script>
+	<script type="application/javascript" src="/js/network.js"></script>
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>

@@ -1,19 +1,17 @@
 const express = require('express');
 const auth = require('../../../middleware/auth');
-const controller = require('../../../controllers/accountController');
-const validator = require('../../../config/validators/accountValidator');
-const upload = require('../../../config/avatarUpload')
+const controller = require('../../../controllers/socialMediaLinkController');
+const validator = require('../../../config/validators/socialMediaLinkValidator');
 const router = express.Router();
 
 /*************************************************************************************************/
 /* Post routes
 /*************************************************************************************************/
-router.post('/register', validator.registerAccount, controller.registerAccount);
-router.post('/login', validator.loginAccount, controller.loginAccount);
+router.post('/create', auth.authenticatedAPI, validator.checkSocialMediaLink, controller.createLink);
 
 /*************************************************************************************************/
-/* Put routes
+/* Delete routes
 /*************************************************************************************************/
-router.put('/update', auth.authenticatedAPI, upload.single('avatar'), validator.updateAccount, controller.updateAccount);
+router.delete('/delete', auth.authenticatedAPI, validator.checkSocialMediaLinkID, controller.deleteLink);
 
 module.exports = router;

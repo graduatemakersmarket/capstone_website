@@ -1,5 +1,8 @@
 const validator = require('express-validator');
 
+/*************************************************************************************************/
+/* Validate registration form input
+/*************************************************************************************************/
 const registerAccount = [
   validator.check('register-email')
     .escape()
@@ -51,6 +54,9 @@ const registerAccount = [
     .withMessage('Your password and password confirmation do not match'),
 ];
 
+/*************************************************************************************************/
+/* Validate login form input
+/*************************************************************************************************/
 const loginAccount = [
   validator.check('login-email')
     .escape()
@@ -74,6 +80,9 @@ const loginAccount = [
     .withMessage('Passwords may not exceed 60 characters'),
 ];
 
+/*************************************************************************************************/
+/* Validate account update form input
+/*************************************************************************************************/
 const updateAccount = [
   validator.check('update-firstname')
     .escape()
@@ -104,6 +113,9 @@ const updateAccount = [
     .withMessage('Your biography may not exceed (1000) characters'),
 ];
 
+/*************************************************************************************************/
+/* Validate social media link creation input
+/*************************************************************************************************/
 const createSocialMediaLink = [
   validator.check('social-media-link')
     .escape()

@@ -1,8 +1,10 @@
 const socialMediaLinkModel = require('../models/socialMediaLinkModel');
 const logger = require('../config/logger');
 
-// Get all social media links associated with a specific account
-const getSocialMediaLinkByEmail = async (account_email) => {
+/*************************************************************************************************/
+/* Get all social media links associated with a specific account
+/*************************************************************************************************/
+const getSocialMediaLinksByEmail = async (account_email) => {
   const links = await socialMediaLinkModel.findAll({
     where: { account_email },
   }).catch((error) => {
@@ -12,9 +14,11 @@ const getSocialMediaLinkByEmail = async (account_email) => {
   return links;
 };
 
-// Get a social media link associated with a specific URL
+/*************************************************************************************************/
+/* Get a social media link associated with a specific URL
+/*************************************************************************************************/
 const getSocialMediaLinkByURL = async (url) => {
-  const link = await socialMediaLinkModel.findAll({
+  const link = await socialMediaLinkModel.findOne({
     where: { url },
   }).catch((error) => {
     logger.error(error);
@@ -23,9 +27,11 @@ const getSocialMediaLinkByURL = async (url) => {
   return link;
 };
 
-// Get a social media link associated with a specific ID
+/*************************************************************************************************/
+/* Get a social media link associated with a specific ID
+/*************************************************************************************************/
 const getSocialMediaLinkByID = async (id) => {
-  const link = await socialMediaLinkModel.findAll({
+  const link = await socialMediaLinkModel.findOne({
     where: { id },
   }).catch((error) => {
     logger.error(error);
@@ -34,7 +40,9 @@ const getSocialMediaLinkByID = async (id) => {
   return link;
 };
 
-// Create a new social media link
+/*************************************************************************************************/
+/* Insert a new social media link into the database
+/*************************************************************************************************/
 const createSocialMediaLink = async (socialMediaLink) => {
   await socialMediaLinkModel.create(socialMediaLink).catch((error) => {
     logger.error(error);
@@ -43,9 +51,22 @@ const createSocialMediaLink = async (socialMediaLink) => {
   return true;
 };
 
-// Update information for an existing social media link
-const updateSocialMediaLink = async (socialMediaLink, account_email) => {
-  await socialMediaLinkModel.update(socialMediaLink, { where: { account_email } }).catch((error) => {
+/*************************************************************************************************/
+/* Update an existing social media link
+/*************************************************************************************************/
+const updateSocialMediaLink = async (socialMediaLink, id) => {
+  await socialMediaLinkModel.update(socialMediaLink, { where: { id }}).catch((error) => {
+    logger.error(error);
+  });
+
+  return true;
+};
+
+/*************************************************************************************************/
+/* Delete a social media link
+/*************************************************************************************************/
+const deleteSocialMediaLink = async (id) => {
+  await socialMediaLinkModel.destroy({ where: { id } }).catch((error) => {
     logger.error(error);
   });
 
@@ -53,9 +74,10 @@ const updateSocialMediaLink = async (socialMediaLink, account_email) => {
 };
 
 module.exports = {
-  getSocialMediaLinkByEmail,
+  getSocialMediaLinksByEmail,
   getSocialMediaLinkByURL,
   getSocialMediaLinkByID,
   createSocialMediaLink,
-  updateSocialMediaLink
+  updateSocialMediaLink,
+  deleteSocialMediaLink
 };

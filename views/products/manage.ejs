@@ -17,9 +17,9 @@
 	<div class="content-container content-wrap">
         <!-- BEGIN PRODUCT CREATE-->
 		<div class="container px-4 py-2 rounded-4" id="create-product" data-aos="fade-right">
-			<h2>CREATE PRODUCT</h2>
-            <h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="create-product-response"></h4>
-			<form id="create-product-form">
+			<h2 class="border-bottom">CREATE PRODUCT</h2>
+            <h4 class="h4 mb-3 fw-normal pb-1" id="create-product-response"></h4>
+			<form class="createProduct" action="/api/product/create">
 				<input type="checkbox" class="form-check-input" id="create-product-featured" name="create-product-featured">
 				<label for="create-product-featured" class="form-label">Feature product on your GSMM profile</label>
 				<div class="form-floating">
@@ -38,7 +38,7 @@
 				</div>
 				<br>
                 <div class="form-floating">
-					<textarea class="form-control" id="create-product-summary" name="create-product-summary" placeholder="Product Description" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+					<textarea class="form-control" id="create-product-summary" name="create-product-summary" placeholder="Product Description" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;"></textarea>
                     <label for="create-product-summary">Product Description</label>
 				</div>
 				<br>
@@ -55,32 +55,26 @@
         <div class="container px-4 py-2 rounded-4" id="manage-products" data-aos="fade-right">
 			<h2 class="pb-1 border-bottom">MY PRODUCTS</h2>
 			<% if (locals.products.length > 0) { %>
-				<table>
+				<table id="product-table">
 				<tr>
 					<th>Product</th>
-					<th>Featured</th>
-					<th>Website</th>
-					<th>Purchase Link</th>
 					<th>Action</th>
 				</tr>
 				<% locals.products.forEach(product => { %>
-					<tr>
+					<tr id="row-<%= product.id %>">
 						<td><%= product.product %></td>
-						
-						<% if (Number(product.product_featured)) { %>
-							<td>Yes</td>
-						<% } else { %>
-							<td>No</td>
-						<% } %>
-		
-						<td><a href="<%= clean(product.product_website) %>" target="_blank"><%= clean(product.product_website) %></a></td>
-						<td><a href="<%= clean(product.purchase_link) %>" target="_blank"><%= clean(product.purchase_link) %></a></td>
-						<td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/products/edit/<%= product.product %>';">EDIT</button></td>
+						<td><button class="btn btn-dark w-100 py-2" onclick="window.location.href='/products/edit/<%= product.id %>';">EDIT</button></td>
 					</tr>
 				<% }) %>
 				</table>
 			<% } else { %>
-				<p>You have no products to display</p>
+				<p id="no-products">You have no products to display</p>
+				<table id="product-table" hidden>
+					<tr>
+						<th>Product</th>
+						<th>Action</th>
+					</tr>
+				</table>
 			<% } %>
 		</div>
         <!-- END PRODUCT MANAGE-->
@@ -89,24 +83,8 @@
     
     <!-- Include scripts-->
 	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script type="application/javascript" src="/js/response.js"></script>
-	<script type="application/javascript" src="/js/request.js"></script>
+	<script type="application/javascript" src="/js/network.js"></script>
 
-    <script>
-        const createProduct = document.getElementById('create-product-form');
-    	createProduct.addEventListener('submit', (e) => {
-      		e.preventDefault();
-
-      		const formID = 'create-product-form';
-      		const outputID = 'create-product-response';
-            const fileID = 'create-product-images';
-      		const endpoint = '/api/product/create';
-			const redirect = '/products/manage';
-
-			document.getElementById(outputID).innerHTML = "";
-            postMultipart(formID, outputID, fileID, endpoint, redirect, false);
-   	 	});
-    </script>
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>
 

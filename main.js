@@ -17,7 +17,7 @@ market.set("view engine", "ejs");
 
 market.use('/api/account', require('./routes/api/v1/accountAPI'));
 market.use('/api/product', require('./routes/api/v1/productAPI'));
-market.use('/api/socials', require('./routes/api/v1/socialMediaLinksAPI'));
+market.use('/api/socials', require('./routes/api/v1/socialMediaLinkAPI'));
 
 market.use('/', require('./routes/root'));
 market.use('/makers', require('./routes/makers'));

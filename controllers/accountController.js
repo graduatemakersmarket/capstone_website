@@ -1,12 +1,23 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const roleController = require('../controllers/roleController')
 const accountService = require('../services/accountService')
-const roleService = require('../services/roleService')
 const validator = require('express-validator');
 const time = require('../utils/time');
 
+/*************************************************************************************************/
+/* Fetch Helper Methods
+/*************************************************************************************************/
+const getAccountByEmail = async (email) => accountService.getAccountByEmail(email);
+const getAccountByID = async (id) => accountService.getAccountByID(id);
+const getVerifiedAccounts = async (limit, offset) => accountService.getVerifiedAccounts(limit, offset);
+const getVerifiedAccountCount = async () => accountService.countVerifiedAccounts();
+
+/*************************************************************************************************/
+/* Register a new user account
+/*************************************************************************************************/
 const registerAccount = async (req, res) => {
-  // Gracefully fail if form validation fails
+  // Halt if there is a problem with validating the user input
   if (!validator.validationResult(req).isEmpty()) {
     return res.status(422).json({
       success: false,
@@ -14,24 +25,16 @@ const registerAccount = async (req, res) => {
     });
   }
 
-  // Check if session cookie exists
-  if (req.cookies.makerSession) {
+  // Halt if a logged in user is trying to create a new account
+  if (req.cookies.makerSession || req.headers.authorization) {
     return res.status(403).json({
       success: false,
-      error: 'You already have an active user session',
+      error: 'You must log out to register a new account',
     });
   }
 
-  // Check if authorization header exists
-  if (req.headers.authorization) {
-    return res.status(403).json({
-      success: false,
-      error: 'You already have an active user session',
-    });
-  }
-
-  // Check if account exists
-  if (await accountService.getAccountInfo(req.body['register-email'])) {
+  // Halt if the provided email address is already in use
+  if (await accountService.getAccountByEmail(req.body['register-email'])) {
     return res.status(403).json({
       success: false,
       error: `The email address ${req.body['register-email']} is already in use`,
@@ -44,6 +47,9 @@ const registerAccount = async (req, res) => {
     password: await bcrypt.hash(req.body['register-password'], 12),
     first_name: req.body['register-firstname'],
     last_name: req.body['register-lastname'],
+    avatar: '/avatar_images/default.png',
+    creation_date: time.getCurrentTimestamp(),
+    updated_date: time.getCurrentTimestamp()
   };
 
   // Create a new role object
@@ -55,12 +61,16 @@ const registerAccount = async (req, res) => {
 
   // Create the new account
   await accountService.createAccount(account);
-  await roleService.createRole(role);
+  
+  // Create a new account role
+  await roleController.createRole(role);
 
   // Create a new session object
   const session = {
-    makerEmail: account.email,
-    makerVerified: 0,
+    email: account.email,
+    verified: 0,
+    avatar: account.avatar,
+    roles: [role.role]
   };
   
   // Configure cookie options
@@ -70,8 +80,8 @@ const registerAccount = async (req, res) => {
     samesite: true,
   };
   
-  // Create a new web token for the session
-  const token = await jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '2h' });
+  // Create a new session token
+  const token = jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '2h' });
   
   return res.status(201).cookie('makerSession', token, options).json({
     success: true,
@@ -79,6 +89,9 @@ const registerAccount = async (req, res) => {
   })
 }
 
+/*************************************************************************************************/
+/* Log into an existing user account
+/*************************************************************************************************/
 const loginAccount = async (req, res) => {
   // Halt if there is a problem with validating the user input
   if (!validator.validationResult(req).isEmpty()) {
@@ -97,9 +110,9 @@ const loginAccount = async (req, res) => {
   }
 
   // Look up the account by email address
-  const accountInfo = await accountService.getAccountInfoByEmail(req.body['login-email'])
+  const accountInfo = await accountService.getAccountByEmail(req.body['login-email'])
 
-  // Check if the account exists
+  // Halt if the account does not exist
   if (!accountInfo) {
     return res.status(401).json({
       success: false,
@@ -107,7 +120,7 @@ const loginAccount = async (req, res) => {
     });
   }
 
-  // Check the account password against the supplied password
+  // Halt if the supplied password hash does not match what is in the database
   if (!await bcrypt.compare(req.body['login-password'], accountInfo.password)) {
     return res.status(401).json({
       success: false,
@@ -116,9 +129,9 @@ const loginAccount = async (req, res) => {
   }
 
   // Grab the roles associated with account
-  const roles = (await roleService.getRoles(accountInfo.email)).map((role) => role.role);
+  const roles = await roleController.getRolesByEmail(req.body['login-email']);
 
-  // Check if the account is banned or reserved
+  // Halt if the account is banned or reserved
   if (roles.includes('banned') || roles.includes('reserved')) {
     return res.status(403).json({
       success: false,
@@ -128,8 +141,10 @@ const loginAccount = async (req, res) => {
 
   // Create a new session object
   const session = {
-    makerEmail: accountInfo.email,
-    makerVerified: accountInfo.account_verified,
+    email: accountInfo.email,
+    verified: accountInfo.account_verified,
+    avatar: accountInfo.avatar,
+    roles: roles
   };
 
   // Configure cookie options
@@ -139,7 +154,7 @@ const loginAccount = async (req, res) => {
     samesite: true,
   };
 
-  // Create a new web token for the session
+  // Create a new session token
   const token = jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '2h' });
 
   return res.status(201).cookie('makerSession', token, options).json({
@@ -148,6 +163,9 @@ const loginAccount = async (req, res) => {
   });
 }
 
+/*************************************************************************************************/
+/* Update an existing account
+/*************************************************************************************************/
 const updateAccount = async (req, res) => {
   // Only allow users with a valid session to access this endpoint
   if (!req.cookies.makerSession && !req.headers.authorization) {
@@ -173,31 +191,67 @@ const updateAccount = async (req, res) => {
     });
   }
 
-  // Update the user's avatar if they provided one
+  // Check if the user supplied a valid avatar image
   if (req.file) {
-    accountService.updateAccountAvatar(`/avatar_images/${req.file.filename}`, req.session.makerEmail);
+
+    // if the user supplied an avatar, include it in the update
+    const account = {
+      first_name: req.body['update-firstname'],
+      last_name: req.body['update-lastname'],
+      avatar: `/avatar_images/${req.file.filename}`,
+      biography: req.body['update-biography'],
+      video_link: req.body['update-video'],
+      updated_date: time.getCurrentTimestamp()
+    };
+
+    // Update the user account
+    req.session.avatar = account.avatar;
+    await accountService.updateAccount(account, req.session.email);
+  } else {
+
+    // If the user did not include an avatar, just update the other fields
+    const account = {
+      first_name: req.body['update-firstname'],
+      last_name: req.body['update-lastname'],
+      biography: req.body['update-biography'],
+      video_link: req.body['update-video'],
+      updated_date: time.getCurrentTimestamp()
+    };
+    
+    // Update the user account
+    await accountService.updateAccount(account, req.session.email);
   }
 
-  // Create a new account object
-  const account = {
-    first_name: req.body['update-firstname'],
-    last_name: req.body['update-lastname'],
-    biography: req.body['update-biography'],
-    video_link: req.body['update-video'],
-    updated_date: time.getCurrentTimestamp(),
+  // Create a new session object
+  const session = {
+    email: req.session.email,
+    verified: req.session.verified,
+    avatar: req.session.avatar,
+    roles: req.session.roles
   };
-
-  // Update the account
-  await accountService.updateAccount(account, req.session.makerEmail);
-
-  return res.status(200).json({
+  
+  // Configure cookie options
+  const options = {
+    httpOnly: true,
+    secure: true,
+    samesite: true,
+  };
+  
+  // Create a new session token
+  const token = jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '2h' });
+  
+  return res.status(201).cookie('makerSession', token, options).json({
     success: true,
     response: 'Your account was successfully updated',
   });
 }
 
 module.exports = {
+  getAccountByEmail,
+  getAccountByID,
+  getVerifiedAccounts,
+  getVerifiedAccountCount,
   registerAccount,
   loginAccount,
-  updateAccount,
+  updateAccount
 }

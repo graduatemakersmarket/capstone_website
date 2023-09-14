@@ -1,5 +1,8 @@
 const validator = require('express-validator');
 
+/*************************************************************************************************/
+/* Validate social media link
+/*************************************************************************************************/
 const checkSocialMediaLink = [
   validator.check('social-media-link')
     .escape()
@@ -10,6 +13,18 @@ const checkSocialMediaLink = [
     .withMessage('The provided link is larger than 255 characters'),
 ];
 
+/*************************************************************************************************/
+/* Validate social media link ID
+/*************************************************************************************************/
+const checkSocialMediaLinkID = [
+  validator.check('id')
+    .escape()
+    .trim()
+    .notEmpty()
+    .withMessage('You must provide a linkID')
+];
+
 module.exports = {
-    checkSocialMediaLink
+    checkSocialMediaLink,
+    checkSocialMediaLinkID
 };
