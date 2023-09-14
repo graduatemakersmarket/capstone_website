@@ -9,6 +9,14 @@ router.get('/', auth.guestAccess, (req, res) => res.render('index', {
   session: req.session,
 }));
 
+router.get('/application', auth.guestAccess, (req, res) => res.render('application', {
+  session: req.session,
+}));
+
+router.get('/application/terms', auth.guestAccess, (req, res) => res.render('legal/generalGuidelines', {
+  session: req.session,
+}));
+
 /*************************************************************************************************/
 /* Render the unauthorized error page
 /*************************************************************************************************/
