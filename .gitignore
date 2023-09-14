@@ -128,7 +128,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Ignore user uploaded files
-avatar_images/
-product_images/
