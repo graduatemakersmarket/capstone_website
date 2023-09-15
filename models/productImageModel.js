@@ -29,6 +29,11 @@ const ProductImage = db.define('product_images', {
     defaultValue: Sequelize.DataTypes.NOW
   },
 
+  product_owner: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: false
+  },
+
   product_product: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false

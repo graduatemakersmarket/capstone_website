@@ -17,56 +17,107 @@
 	<div class="content-container content-wrap">
         <!-- BEGIN PRODUCT EDIT-->
 		<div class="container px-4 py-2 rounded-4" id="update-product" data-aos="fade-right">
-			<h2 class="border-bottom">UPDATE PRODUCT (This feature is a work in progress and is not complete)</h2>
+			<h2 class="border-bottom">UPDATE PRODUCT</h2>
             <h4 class="h4 mb-3 fw-normal pb-1" id="update-product-response"></h4>
-			<form class="updateProduct" action="/api/product/create">
-				<input type="checkbox" class="form-check-input" id="update-product-featured" name="create-product-featured">
-				<label for="create-product-featured" class="form-label">Feature product on your GSMM profile</label>
+			<form class="updateProduct" action="/api/product/update">
+				<input type="checkbox" class="form-check-input" id="update-product-featured" name="update-product-featured">
+				<label for="update-product-featured" class="form-label">Feature product on your GSMM profile</label>
 				<div class="form-floating">
-					<input type="text" class="form-control" id="create-product-name" name="create-product-name" placeholder="Product Name" maxlength="254" value="<%= clean(locals.product.product) %>" required>
+					<input type="text" class="form-control" id="update-product-name" name="update-product-name" placeholder="Product Name" maxlength="254" value="<%= clean(locals.product.product) %>" readonly>
 					<label for="create-product-name">Product Name</label>
 				</div>
 				<br>
 				<div class="form-floating">
-					<input type="url" class="form-control" id="create-product-website" name="create-product-website" placeholder="Product Website" maxlength="254" value="<%= clean(locals.product.product_website) %>" required>
+					<input type="url" class="form-control" id="update-product-website" name="update-product-website" placeholder="Product Website" maxlength="254" value="<%= clean(locals.product.product_website) %>" required>
 					<label for="create-product-website">Product Website</label>
 				</div>
 				<br>
 				<div class="form-floating">
-					<input type="url" class="form-control" id="create-product-purchase" name="create-product-purchase" placeholder="Product Purchase Link" maxlength="254" value="<%= clean(locals.product.purchase_link) %>" required>
+					<input type="url" class="form-control" id="update-product-purchase" name="update-product-purchase" placeholder="Product Purchase Link" maxlength="254" value="<%= clean(locals.product.purchase_link) %>" required>
 					<label for="create-product-purchase">Product Purchase Link</label>
 				</div>
 				<br>
                 <div class="form-floating">
-					<textarea class="form-control" id="create-product-summary" name="create-product-summary" placeholder="Product Description" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;"><%= clean(locals.product.summary, {wordwrap: false, preserveNewlines: true,}) %></textarea>
+					<textarea class="form-control" id="update-product-summary" name="update-product-summary" placeholder="Product Description" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;"><%= clean(locals.product.summary, {wordwrap: false, preserveNewlines: true,}) %></textarea>
                     <label for="create-product-summary">Product Description</label>
 				</div>
 				<br>
-				<label for="create-product-images" class="form-label">Product Images</label>
-				<input class="form-control" type="file" id="create-product-images" name="create-product-images" multiple="multiple" accept="image/*" />
+				<label for="update-product-images" class="form-label">Product Images</label>
+				<input class="form-control" type="file" id="update-product-images" name="update-product-images" multiple="multiple" accept="image/*" />
 				<br>
-				<button class="btn btn-dark w-100 py-2" type="submit" disabled>Update Product</button>
+				<button class="btn btn-dark w-100 py-2" type="submit">Update Product</button>
 			  </form>
 		</div>
         <!-- END PRODUCT EDIT-->
 		<br>
 		<br>
-		<!-- BEGIN PRODUCT IMAGE MANAGE-->
-        <div class="container px-4 py-2 rounded-4" id="manage-products" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">MANAGE PRODUCT IMAGES</h2>
-
-			<% if (locals.images && locals.images.length > 0) { %>
-				<% locals.images.forEach(image => { %>
-					<img src="<%= image.image %>">
-					<button class="btn btn-dark w-100 py-2" type="submit">Delete Image</button>
-					<br>
-				<% }) %>
-				</table>
-			<% } else { %>
-				<p id="no-images">You have no product images to display</p>
-			<% } %>
+		<!-- BEGIN PRODUCT IMAGES EDIT-->
+		<div class="container px-4 py-2" id="featured" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom">DELETE PRODUCT IMAGES</h2>
+			<h4 class="h4 mb-3 fw-normal pb-1" id="delete-image-response"></h4>
+			<% if (locals.images.length > 0) { %>
+				<div class="row row-cols-1 row-cols-md-3 g-4">
+					<% locals.images.forEach(image => { %>
+						<div class="col-sm" id="card-<%= image.id %>">
+							<div class="card h-100" style="max-width: 400px;">
+								<img src="<%= image.image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">
+								<div class="card-footer" style="position: absolute; bottom: 0; width: 100%;">
+									<form class="deleteProductImage" id="<%= image.id %>" action="/api/product/image/delete"><button class="btn btn-dark w-100 py-2">DELETE IMAGE</button></form>
+								</div>
+							</div>
+						</div>
+					<% }) %>
+				</div>
+				<% } else { %>
+					<p>There are no product images to display</p>
+				<% } %>
+				<br>
+				<!-- BEGIN PAGINATION-->
+				<% if (locals.total > 1) { %>
+					<nav>
+					<ul class="pagination justify-content-center" data-bs-theme="dark">
+						<% if (locals.offset === 0) { %>
+						<li class="page-item disabled">
+							<a class="page-link">Previous</a>
+						</li>
+						<% } else { %>
+						<a class="page-link" href="/products/edit/<%= locals.product.id %>/page/<%= locals.page - 1 %>" tabindex="-1"> 
+						Previous
+						</a>
+						<%  } %>
+						<% var i = (Number(locals.page) > 5 ? Number(locals.page) - 4 : 1) %>
+						<% for(; i <= (Number(locals.page) + 4) && i <= locals.total; i++) { %>
+						<% if (locals.page === i) { %>
+							<li class="page-item active">
+							<a class="page-link" href="#"><%=i%> <span class="sr-only">
+								(current)
+							</span></a>
+						</li>
+						<% } else { %>
+							<li class="page-item">
+							<a class="page-link" href="/products/edit/<%= locals.product.id %>/page/<%=i%>">
+								<%=i%>
+							</a>
+							</li>
+						<% } %>
+						<% } %>
+						<li class="page-item">
+						<% if ((locals.page + 1) > locals.total) { %>
+							<li class="page-item disabled">
+							<a class="page-link">Next</a>
+							</li>
+						<% } else { %>
+							<a class="page-link" href="/products/edit/<%= locals.product.id %>/page/<%= locals.page + 1 %>">
+							Next
+							</a>
+						<% } %>
+						</li>
+					</ul>
+					</nav>
+			<%}%>
+				<!-- END PAGINATION-->
 		</div>
-        <!-- END PRODUCT IMAGE MANAGE-->
+			<!-- END PRODUCT IMAGES EDIT-->
     </div>
  	<!-- END PAGE CONTENT-->
     

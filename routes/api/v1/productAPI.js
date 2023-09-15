@@ -10,4 +10,14 @@ const router = express.Router();
 /*************************************************************************************************/
 router.post('/create', auth.authenticatedAPI, upload.array('create-product-images'), validator.createProduct, controller.createProduct);
 
+/*************************************************************************************************/
+/* Put routes
+/*************************************************************************************************/
+router.put('/update', auth.authenticatedAPI, upload.array('update-product-images'), validator.updateProduct, controller.updateProduct);
+
+/*************************************************************************************************/
+/* Delete routes
+/*************************************************************************************************/
+router.delete('/image/delete', auth.authenticatedAPI, validator.deleteProductImage, controller.deleteProductImage);
+
 module.exports = router;

@@ -19,7 +19,7 @@ router.get('/manage', auth.memberAccess, async (req, res) => {
 });
 
 /*************************************************************************************************/
-/* Render an editable product profile (Owner can edit)
+/* Render a page for updating product information
 /*************************************************************************************************/
 router.get('/edit/:id', auth.memberAccess, async (req, res) => {
   const productID = parseInt(req.params.id, 10) || null; // The 10 here represents a base 10 number
@@ -39,13 +39,68 @@ router.get('/edit/:id', auth.memberAccess, async (req, res) => {
 
   // Only the person who owns this product is allowed to edit it
   if (productInfo.account_email !== req.session.email) {
-    return res.redirect('/products/manage');
+    return res.redirect('/error/unauthorized');
   }
+
+  // Get all of the images associated with a product
+  const images = await productImageController.getProductImagesByName(productInfo.product, PRODUCT_IMAGES_PER_PAGE, 0)
 
   return res.render('products/edit', {
     session: req.session,
     product: productInfo,
-    images: await productImageController.getProductImagesByName(productInfo.product, PRODUCT_IMAGES_PER_PAGE, 0),
+    images,
+    page: 1,
+    total: Math.ceil(await productImageController.countProductImagesByName(productInfo.product) / PRODUCT_IMAGES_PER_PAGE),
+    clean: convert.convert
+  });
+});
+
+/*************************************************************************************************/
+/* Render a page for updating product information while keeping track of pagination pages
+/*************************************************************************************************/
+router.get('/edit/:id/page/:page', auth.memberAccess, async (req, res) => {
+  const productID = parseInt(req.params.id, 10) || null; // The 10 here represents a base 10 number
+  const page = parseInt(req.params.page, 10) || 1; // The 10 here represents a base 10 number
+
+  // If no product is specified, kick them to the product mangement page
+  if (!productID) {
+    return res.redirect('/products/manage');
+  }
+
+  // Grab product information using the provided product name
+  const productInfo = await productController.getProductByID(productID);
+
+  // If no product is found, kick them to the product management page
+  if (!productInfo) {
+    return res.redirect('/products/manage');
+  }
+
+  // Only the person who owns this product is allowed to edit it
+  if (productInfo.account_email !== req.session.email) {
+    return res.redirect('/error/unauthorized');
+  }
+
+  // Get the total count of product images for this product
+  const total = Math.ceil(await productImageController.countProductImagesByName(productInfo.product) / PRODUCT_IMAGES_PER_PAGE)
+  
+  // If the page is invalid or out-of-bounds, kick them to the first page
+  if (!page || page <= 0 || page > total) {
+    return res.redirect(`/products/edit/${productID}`);
+  }
+
+  // Compute the new offset for pagination
+  const offset = (PRODUCT_IMAGES_PER_PAGE * page) - PRODUCT_IMAGES_PER_PAGE;
+
+  // Get all of the images associated with a product
+  const images = await productImageController.getProductImagesByName(productInfo.product, PRODUCT_IMAGES_PER_PAGE, offset)
+
+  return res.render('products/edit', {
+    session: req.session,
+    product: productInfo,
+    images,
+    page,
+    offset,
+    total,
     clean: convert.convert
   });
 });
