@@ -27,9 +27,13 @@ const getProductsByEmail = async (account_email) => {
 /*************************************************************************************************/
 /* Get all featured products associated with a specific account
 /*************************************************************************************************/
-const getFeaturedProductsByEmail = async (account_email) => {
+const getFeaturedProductsByEmail = async (account_email, limit, offset) => {
   const products = await productModel.findAll({
+    include: [{ model: productImageModel, attributes: ['image']}],
+    order: [['updated_date', 'DESC']],
     where: { account_email, product_featured: 1 },
+    limit,
+    offset
   }).catch((error) => {
     logger.error(error);
   });
@@ -123,6 +127,17 @@ const countProducts = async () => {
   return count;
 };
 
+/*************************************************************************************************/
+/* Count all of the featured products that belong to a specific user
+/*************************************************************************************************/
+const countFeaturedProductsByEmail = async (account_email) => {
+  const count = await productModel.count({where: { account_email, product_featured: 1 }}).catch((error) => {
+    logger.error(error);
+  });
+
+  return count;
+};
+
 module.exports = {
   getProductsByEmail,
   getFeaturedProductsByEmail,
@@ -132,5 +147,6 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  countProducts
+  countProducts,
+  countFeaturedProductsByEmail
 };

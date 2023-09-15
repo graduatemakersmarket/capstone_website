@@ -4,12 +4,13 @@ const productService = require('../services/productService');
 const validator = require('express-validator');
 
 /*************************************************************************************************/
-/* Fetch Helper Methods
+/* Public Database Methods
 /*************************************************************************************************/
 const getAllProducts = async (limit, offset) => productService.getAllProducts(limit, offset);
 const getProductCount = async () => productService.countProducts();
+const getFeaturedProductCountByEmail = async (account_email) => productService.countFeaturedProductsByEmail(account_email);
 const getProductsByEmail = async (account_email) => productService.getProductsByEmail(account_email);
-const getFeaturedProductsByEmail = async (account_email) => productService.getFeaturedProductsByEmail(account_email);
+const getFeaturedProductsByEmail = async (account_email, limit, offset) => productService.getFeaturedProductsByEmail(account_email, limit, offset);
 const getProductByName = async (product) => productService.getProductsByEmail(product);
 const getProductByID = async (id) => productService.getProductByID(id);
 
@@ -72,13 +73,13 @@ const createProduct = async (req, res) => {
 
   // Add a default product image if one is not supplied
   if (req.files.length === 0) {
-    await productImageController.createProductImage({image: '/product_images/default.png', product_product: req.body['create-product-name']});
+    await productImageController.createProductImage({image: '/images/product_images/default.png', product_product: req.body['create-product-name']});
   }
 
   // Add user's product images to the database
   if (req.files.length > 0) {
     req.files.forEach(async (image) => {
-      await productImageController.createProductImage({image: `/product_images/${image.filename}`, product_product: req.body['create-product-name']});
+      await productImageController.createProductImage({image: `/images/product_images/${image.filename}`, product_product: req.body['create-product-name']});
     });
   }
 
@@ -92,6 +93,7 @@ const createProduct = async (req, res) => {
 module.exports = {
   getAllProducts,
   getProductCount,
+  getFeaturedProductCountByEmail,
   getProductsByEmail,
   getFeaturedProductsByEmail,
   getProductByName,

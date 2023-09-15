@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/css/makerprofile.css" rel="stylesheet">
 	<%- include("../partials/header") %>
 </head>
 <body>
@@ -15,29 +16,109 @@
 
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
+		<!-- BEGIN PROFILE-->
 		<div class="container px-4 py-2" id="profile" data-aos="fade-right">
-			<h2 class="pb-1 border-bottom">PRODUCT'S PROFILE (This page is a work in progress and not finished)</h2>
-			<p>ID: <%= locals.product.id %></p>
-			<p>Name: <%= clean(locals.product.product) %></p>
-			<p>Summary: <%= clean(locals.product.summary) %></p>
-			<p>Product Website: <%= clean(locals.product.product_website) %></p>
-			<p>Purchase Link: <%= clean(locals.product.purchase_link) %></p>
+
+			<h2 class="pb-1 border-bottom"><%= clean(locals.product.product.toUpperCase()) %></h2>
+				<div class="card mb-3" style="border: none;">
+					<div class="row g-0">
+					<div class="col-md-2 py-4">
+						<img src="<%= locals.images[0].image %>" alt="Product Image" id="product-image" class="avatar img-fluid rounded-start">
+					</div>
+					<div class="col-md-10">
+						<div class="card-body">
+							<% if (locals.product.summary != null) { %>
+								<p class="card-text" style="white-space: pre-wrap"><%= clean(locals.product.summary, {wordwrap: false, preserveNewlines: true,}) %></p>
+							<% } else { %>
+								<p class="card-text" style="white-space: pre-wrap">There is no product description to display</p>
+							<% } %>
+							<!-- BEGIN ACTION BUTTONS-->
+							<p class="card-text"><small class="text-body-secondary">
+								<a href="<%= clean(locals.product.product_website) %>">Product Website</a>
+								<a href="<%= clean(locals.product.product_website) %>">Purchase Link</a>
+							</small>
+							</p>
+							<!-- END ACTION BUTTONS-->
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+		<!-- END PROFILE-->
 		<br>
 		<br>
-		<div class="container px-4 py-2" id="images" data-aos="fade-right">
+		<!-- BEGIN PRODUCTS IMAGES-->
+		<div class="container px-4 py-2" id="featured" data-aos="fade-right">
 			<h2 class="pb-1 border-bottom">PRODUCT IMAGES</h2>
 			<% if (locals.images.length > 0) { %>
-				<% locals.images.forEach(image => { %>
-					<img src="<%= image.image %>">
-				<% }) %>
-			<% } else { %>
-				<p>There are no product images to display</p>
-			<% } %>
+				<div class="row row-cols-1 row-cols-md-3 g-4">
+					<% locals.images.forEach(image => { %>
+						<div class="col">
+							<div class="card h-100" style="max-width: 400px;">
+								<img src="<%= image.image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">
+								<div class="card-footer">
+									<form class="deleteProductImage" id="<%= image.id %>" action="/api/product/image/delete"><button class="btn btn-dark w-100 py-2">DELETE</button></form>
+								</div>
+							</div>
+						</div>
+					<% }) %>
+				</div>
+				<% } else { %>
+					<p>There are no product images to display</p>
+				<% } %>
+				<br>
+				<!-- BEGIN PAGINATION-->
+				<% if (locals.total > 1) { %>
+					<nav>
+					<ul class="pagination justify-content-center" data-bs-theme="dark">
+						<% if (locals.offset === 0) { %>
+						<li class="page-item disabled">
+							<a class="page-link">Previous</a>
+						</li>
+						<% } else { %>
+						<a class="page-link" href="/products/<%= locals.product.id %>/page/<%= locals.page - 1 %>" tabindex="-1"> 
+						Previous
+						</a>
+						<%  } %>
+						<% var i = (Number(locals.page) > 5 ? Number(locals.page) - 4 : 1) %>
+						<% for(; i <= (Number(locals.page) + 4) && i <= locals.total; i++) { %>
+						<% if (locals.page === i) { %>
+							<li class="page-item active">
+							<a class="page-link" href="#"><%=i%> <span class="sr-only">
+								(current)
+							</span></a>
+						</li>
+						<% } else { %>
+							<li class="page-item">
+							<a class="page-link" href="/products/<%= locals.product.id %>/page/<%=i%>">
+								<%=i%>
+							</a>
+							</li>
+						<% } %>
+						<% } %>
+						<li class="page-item">
+						<% if ((locals.page + 1) > locals.total) { %>
+							<li class="page-item disabled">
+							<a class="page-link">Next</a>
+							</li>
+						<% } else { %>
+							<a class="page-link" href="/products/<%= locals.product.id %>/page/<%= locals.page + 1 %>">
+							Next
+							</a>
+						<% } %>
+						</li>
+					</ul>
+					</nav>
+			<%}%>
+				<!-- END PAGINATION-->
 		</div>
+			<!-- END PRODUCT IMAGES-->
   	</div>
  	<!-- END PAGE CONTENT-->
 
+	<!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/network.js"></script>
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>

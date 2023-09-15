@@ -6,7 +6,7 @@ const validator = require('express-validator');
 const time = require('../utils/time');
 
 /*************************************************************************************************/
-/* Fetch Helper Methods
+/* Public Database Methods
 /*************************************************************************************************/
 const getAccountByEmail = async (email) => accountService.getAccountByEmail(email);
 const getAccountByID = async (id) => accountService.getAccountByID(id);
@@ -47,7 +47,7 @@ const registerAccount = async (req, res) => {
     password: await bcrypt.hash(req.body['register-password'], 12),
     first_name: req.body['register-firstname'],
     last_name: req.body['register-lastname'],
-    avatar: '/avatar_images/default.png',
+    avatar: '/images/avatar_images/default.png',
     creation_date: time.getCurrentTimestamp(),
     updated_date: time.getCurrentTimestamp()
   };
@@ -198,7 +198,7 @@ const updateAccount = async (req, res) => {
     const account = {
       first_name: req.body['update-firstname'],
       last_name: req.body['update-lastname'],
-      avatar: `/avatar_images/${req.file.filename}`,
+      avatar: `/images/avatar_images/${req.file.filename}`,
       biography: req.body['update-biography'],
       video_link: req.body['update-video'],
       updated_date: time.getCurrentTimestamp()

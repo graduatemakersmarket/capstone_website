@@ -25,16 +25,15 @@
 						<div class="card h-100" style="max-width: 400px;">
 							<img src="<%= maker.avatar %>" class="card-img-top" alt="user-avatar" style="height: auto; width: auto;">
 							<div class="card-body">
-								<h5 class="card-title"><%= maker.first_name.charAt(0).toUpperCase() + maker.first_name.slice(1); %>&nbsp;<%= maker.last_name.charAt(0).toUpperCase() + maker.last_name.slice(1); %></h5>
+								<h5 class="card-title"><%= clean(maker.first_name.charAt(0).toUpperCase()) + clean(maker.first_name.slice(1)); %>&nbsp;<%= clean(maker.last_name.charAt(0).toUpperCase()) + clean(maker.last_name.slice(1)); %></h5>
 								<% if (maker.biography != null) { %>
 									<p class="card-text"><% if (maker.biography.length > 140) {%> <%= clean(maker.biography.slice(0, 140)) + "..." %> <% } else { %> <%= clean(maker.biography) %> <% } %></p>
 								<% } else { %>
-									<p class="card-text"><%= maker.first_name.charAt(0).toUpperCase() + maker.first_name.slice(1); %> has not created a biography</p>
-
+									<p class="card-text"><%= clean(maker.first_name.charAt(0).toUpperCase()) + clean(maker.first_name.slice(1)); %> has not filled out their biography</p>
 								<% } %>
 							</div>
 							<div class="card-footer">
-								<small class="text-body-secondary"><a class="btn btn-dark btn-sm" href="/makers/<%= maker.id %>" role="button" style="width: 100%;">VIEW <%= maker.first_name.toUpperCase() %>'S PROFILE</a></small>
+								<small class="text-body-secondary"><a class="btn btn-dark btn-sm" href="/makers/<%= maker.id %>" role="button" style="width: 100%;">VIEW <%= clean(maker.first_name.toUpperCase()) %>'S PROFILE</a></small>
 							</div>
 						</div>
 					</div>

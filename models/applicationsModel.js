@@ -2,10 +2,10 @@ const Sequelize = require('sequelize');
 const db = require('../config/db');
 
 /*************************************************************************************************/
-/* This model contains all of the `accounts` table fields and datatypes
+/* This model contains all of the `gsmm_applications` table fields and datatypes
 /* Documentation: https://sequelize.org/docs/v6/core-concepts/model-basics/
 /*************************************************************************************************/
-const Account = db.define('accounts', {
+const Applications = db.define('gsmm_applications', {
   id: {
     type: Sequelize.DataTypes.INTEGER,
     autoIncrement: true,
@@ -15,59 +15,61 @@ const Account = db.define('accounts', {
 
   email: {
     type: Sequelize.DataTypes.STRING,
-    unique: true,
+    primaryKey: true,
     allowNull: false,
-    primaryKey: true
+    unique: true
   },
 
-  password: {
+  firstname: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false
   },
 
-  first_name: {
-    type: Sequelize.DataTypes.STRING
-  },
-
-  last_name: {
-    type: Sequelize.DataTypes.STRING
-  },
-
-  biography: {
-    type: Sequelize.DataTypes.TEXT
-  },
-
-  video_link: {
-    type: Sequelize.DataTypes.STRING
-  },
-
-  avatar: {
+  lastname: {
     type: Sequelize.DataTypes.STRING,
-    defaultValue: '/images/avatar_images/default.png'
+    allowNull: false
   },
 
-  account_featured: {
-    type: Sequelize.DataTypes.BOOLEAN,
-    defaultValue: 0
+  university_id: {
+    type: Sequelize.DataTypes.INTEGER,
+    allowNull: false
   },
 
-  account_verified: {
-    type: Sequelize.DataTypes.BOOLEAN,
-    defaultValue: 0
+  program: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: false
   },
-  
+
+  summary: {
+    type: Sequelize.DataTypes.TEXT,
+    allowNull: false
+  },
+
+  products: {
+    type: Sequelize.DataTypes.TEXT,
+    allowNull: false
+  },
+
+  signature: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: false
+  },
+
   creation_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW
+    defaultValue: Sequelize.DataTypes.NOW,
+    allowNull: false
   },
 
   updated_date: {
     type: Sequelize.DataTypes.DATE,
-    defaultValue: Sequelize.DataTypes.NOW
+    defaultValue: Sequelize.DataTypes.NOW,
+    allowNull: false
   },
+
 }, {
   timestamps: false,
   underscored: true,
 });
 
-module.exports = Account;
+module.exports = Applications;

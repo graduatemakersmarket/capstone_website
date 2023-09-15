@@ -1,5 +1,8 @@
 const sequelize = require('sequelize');
 
+/*************************************************************************************************/
+/* Configure the database connection using the Sequelize ORM
+/*************************************************************************************************/
 const db = new sequelize.Sequelize(
   {
     username: process.env.DB_USER,

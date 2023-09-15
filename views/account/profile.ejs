@@ -21,7 +21,7 @@
 		<!-- BEGIN PROFILE-->
 		<div class="container px-4 py-2" id="profile" data-aos="fade-right">
 			<% if (Number(locals.account.account_verified)) { %>
-				<h2 class="pb-1 border-bottom">ABOUT <%= locals.account.first_name.toUpperCase() %></h2>
+				<h2 class="pb-1 border-bottom">ABOUT <%= clean(locals.account.first_name.toUpperCase()) %></h2>
 				<div class="card mb-3" style="border: none;">
 					<div class="row g-0">
 					<div class="col-md-2 py-4">
@@ -29,7 +29,13 @@
 					</div>
 					<div class="col-md-10">
 						<div class="card-body">
-							<p class="card-text" style="white-space: pre-wrap"><%= clean(locals.account.biography, {wordwrap: false, preserveNewlines: true,}) %></p>
+							<% if (locals.account.biography != null) { %>
+								<p class="card-text" style="white-space: pre-wrap"><%= clean(locals.account.biography, {wordwrap: false, preserveNewlines: true,}) %></p>
+							<% } else { %>
+								<p class="card-text" style="white-space: pre-wrap"><%= clean(locals.account.first_name.charAt(0).toUpperCase()) + clean(locals.account.first_name.slice(1)); %> has not filled out their biography</p>
+							<% } %>
+							<!-- BEGIN SOCIAL MEDIA LINKS-->
+							<!--TODO: At some point this should be changed to actually detect the host part of the URL to match the service icon-->
 							<p class="card-text"><small class="text-body-secondary">
 								<% if (locals.socials.length > 0) { %>
 									<% locals.socials.forEach(link => { %>
@@ -56,17 +62,19 @@
 										<% } %>	
 									<% }) %>
 								<% } %>
-							</small></p>
+							</small>
+							</p>
+							<!-- END SOCIAL MEDIA LINKS-->
 						</div>
 					</div>
-					</div>
 				</div>
+			</div>
 			<% } else { %>
 				<h2 class="pb-1 border-bottom">Unverified Account</h2>
 				<div class="card mb-3" style="border: none;">
 					<div class="row g-0">
 					<div class="col-md-2 py-4">
-						<img src="/images/profile.png" alt="Avatar" id="user-avatar" class="avatar img-fluid rounded-start" style="background-color: #000000;">
+						<img src="/images/avatar_images/default.png" alt="Avatar" id="user-avatar" class="avatar img-fluid rounded-start" style="background-color: #000000;">
 					</div>
 					<div class="col-md-10">
 						<div class="card-body">
@@ -84,22 +92,90 @@
 
 		<% if (Number(locals.account.account_verified)) { %>
 			<!-- BEGIN FEATURED PRODUCTS-->
-			<div class="container px-4 py-2" id="products" data-aos="fade-right">
-				<h2 class="pb-1 border-bottom"><%= locals.account.first_name.toUpperCase() %>'S FEATURED PRODUCTS</h2>
-				<p><%= locals.account.first_name.charAt(0).toUpperCase() + locals.account.first_name.slice(1); %>&nbsp; does not have any featured products to display</p>
+			<div class="container px-4 py-2" id="featured" data-aos="fade-right">
+				<h2 class="pb-1 border-bottom"><%= clean(locals.account.first_name.toUpperCase()) %>'S FEATURED PRODUCTS</h2>
+				<% if (locals.featured.length > 0) { %>
+					<div class="row row-cols-1 row-cols-md-3 g-4">
+						<% locals.featured.forEach(product => { %>
+							<div class="col">
+								<div class="card h-100" style="max-width: 400px;">
+									<img src="<%= product.product_images[0].image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">
+									<div class="card-body">
+										<h5 class="card-title"><%= product.product %></h5>
+										<% if (product.summary != null) { %>
+											<p class="card-text"><% if (product.summary.length > 140) {%> <%= clean(product.summary.slice(0, 140)) + "..." %> <% } else { %> <%= clean(product.summary) %> <% } %></p>
+										<% } else { %>
+											<p class="card-text"><%= clean(locals.account.first_name.charAt(0).toUpperCase()) + clean(locals.account.first_name.slice(1)); %> has not supplied a product description</p>
+										<% } %>
+									</div>
+									<div class="card-footer">
+										<small class="text-body-secondary"><a class="btn btn-dark btn-sm" href="/products/<%= product.id %>" role="button" style="width: 100%;">VIEW <%= product.product.toUpperCase() %></a></small>
+									</div>
+								</div>
+							</div>
+						<% }) %>
+					</div>
+					<% } else { %>
+						<p><%= clean(locals.account.first_name.charAt(0).toUpperCase()) + clean(locals.account.first_name.slice(1)); %> does not have any featured products to display.</p>
+					<% } %>
+					<br>
+					<!-- BEGIN PAGINATION-->
+					<% if (locals.total > 1) { %>
+						<nav>
+						<ul class="pagination justify-content-center" data-bs-theme="dark">
+							<% if (locals.offset === 0) { %>
+							<li class="page-item disabled">
+								<a class="page-link">Previous</a>
+							</li>
+							<% } else { %>
+							<a class="page-link" href="/makers/<%= locals.account.id %>/page/<%= locals.page - 1 %>" tabindex="-1"> 
+							Previous
+							</a>
+							<%  } %>
+							<% var i = (Number(locals.page) > 5 ? Number(locals.page) - 4 : 1) %>
+							<% for(; i <= (Number(locals.page) + 4) && i <= locals.total; i++) { %>
+							<% if (locals.page === i) { %>
+								<li class="page-item active">
+								<a class="page-link" href="#"><%=i%> <span class="sr-only">
+									(current)
+								</span></a>
+							</li>
+							<% } else { %>
+								<li class="page-item">
+								<a class="page-link" href="/makers/<%= locals.account.id %>/page/<%=i%>">
+									<%=i%>
+								</a>
+								</li>
+							<% } %>
+							<% } %>
+							<li class="page-item">
+							<% if ((locals.page + 1) > locals.total) { %>
+								<li class="page-item disabled">
+								<a class="page-link">Next</a>
+								</li>
+							<% } else { %>
+								<a class="page-link" href="/makers/<%= locals.account.id %>/page/<%= locals.page + 1 %>">
+								Next
+								</a>
+							<% } %>
+							</li>
+						</ul>
+						</nav>
+					<%}%>
+					<!-- END PAGINATION-->
 			</div>
 			<!-- END FEATURED PRODUCTS-->
+
+			<!-- BEGIN INTRODUCTION VIDEO EMBED-->
+			<% if (locals.account.video_link !== null) { %>
+				<div id="divResponsive" class="boom-lightbox" style="display: none;">
+					<iframe id="ytplayer" width="100%" height="100%" src="https://www.youtube.com/embed/<%= clean(locals.account.video_link) %>?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>
+				</div>
+			<% } %>
 		<% } %>
+		<!-- END INTRODUCTION VIDEO EMBED-->
   </div>
  	<!-- END PAGE CONTENT-->
-
-	<% if (Number(locals.account.account_verified) && locals.account.video_link !== "" && locals.account.video_link !== null) { %>
-		<!-- BEGIN LIGHTBOX DIV-->
-		<div id="divResponsive" class="boom-lightbox" style="display: none;">
-			<iframe id="ytplayer" width="100%" height="100%" src="https://www.youtube.com/embed/<%= locals.account.video_link %>?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>
-		</div>
-		<!-- END LIGHTBOX DIV-->
-	<% } %>
 
 	<!-- Include scripts-->
 	<script>

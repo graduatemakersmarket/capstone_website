@@ -8,7 +8,7 @@ const adminAccess = async (req, res, next) => {
 
   // If the user does not have an active session, kick them to the login page
   if (!req.cookies.makerSession && !req.headers.authorization) {
-    return res.redirect('/account/login');
+    return res.redirect('/error/unauthorized');
   }
 
   // Grab session token from session cookie (if present)
@@ -23,13 +23,13 @@ const adminAccess = async (req, res, next) => {
 
   // If no token could be found, kick them to the login page
   if (!token) {
-    return res.redirect('/account/login');
+    return res.redirect('/error/unauthorized');
   }
 
   // Verify the session token
   jwt.verify(token, process.env.SESSION_SECRET, (error, decoded) => {
     if (error) {
-      return res.clearCookie('makerSession').redirect('/account/login'); // Destroy invalid or expired session!
+      return res.clearCookie('makerSession').redirect('/error/unauthorized'); // Destroy invalid or expired session!
     }
 
     // If a non-administrator visits the page, kick them out
@@ -145,7 +145,7 @@ const guestAccess = async (req, res, next) => {
 
   // If the user does not have an active session, just give them a guest session to make frontend work easier
   if (!req.cookies.makerSession && !req.headers.authorization) {
-    req.session = {email: 'guest@guest.invalid', verified: 0, avatar: '/avatar_images/default.png', roles: ['guest']};
+    req.session = {email: 'guest@guest.invalid', verified: 0, avatar: '/images/avatar_images/default.png', roles: ['guest']};
 
     return next();
   }
@@ -168,7 +168,7 @@ const guestAccess = async (req, res, next) => {
   // Verify the session token
   jwt.verify(token, process.env.SESSION_SECRET, async (error, decoded) => {
     if (error) { // If the user's session dies, just give them a new guest session and redirect them to the login page
-      req.session = {email: 'guest@guest.invalid', verified: 0, avatar: '/avatar_images/default.png', roles: ['guest']};
+      req.session = {email: 'guest@guest.invalid', verified: 0, avatar: '/images/avatar_images/default.png', roles: ['guest']};
       return res.clearCookie('makerSession').redirect('/account/login');
     }
 

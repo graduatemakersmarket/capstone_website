@@ -8,49 +8,49 @@ const registerAccount = [
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a valid email address')
+    .withMessage('The email field is required')
     .normalizeEmail()
     .isEmail()
-    .withMessage('Please provide a valid email address')
+    .withMessage('You have entered an improperly formatted email address')
     .isLength({ max: 254 })
-    .withMessage('Please provide a valid email address'),
+    .withMessage('Your email address is too long'),
 
   validator.check('register-firstname')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide your first name')
+    .withMessage('The first name field is required')
     .isLength({ max: 254 })
-    .withMessage('Your first name may not exceed (254) characters'),
+    .withMessage('Your first name is too long'),
 
   validator.check('register-lastname')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide your last name')
+    .withMessage('The last name field is required')
     .isLength({ max: 254 })
-    .withMessage('Your last name may not exceed (254) characters'),
+    .withMessage('Your last name is too long'),
 
   validator.check('register-password')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a password')
+    .withMessage('The password field is required')
     .isLength({ min: 8 })
-    .withMessage('Passwords must be at least 8 characters')
+    .withMessage('Your password can not be shorter than 8 characters')
     .isLength({ max: 60 })
-    .withMessage('Passwords may not exceed 60 characters'),
+    .withMessage('Your password can not be longer than 60 characters'),
 
   validator.check('register-password-confirm')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a password')
+    .withMessage('The password confirmation field is required')
     .isLength({ min: 8 })
-    .withMessage('Passwords must be at least 8 characters')
+    .withMessage('Your password can not be shorter than 8 characters')
     .isLength({ max: 60 })
-    .withMessage('Passwords may not exceed 60 characters')
-    .custom((pass, { req }) => (pass === req.body['register-password']))
+    .withMessage('Your password can not be longer than 60 characters')
+    .custom((pass, { req }) => (pass === req.body['register-password'])) // Make sure both passwords match
     .withMessage('Your password and password confirmation do not match'),
 ];
 
@@ -62,22 +62,22 @@ const loginAccount = [
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a valid email address!')
+    .withMessage('The email field is required')
     .normalizeEmail()
     .isEmail()
-    .withMessage('Please provide a valid email address!!')
+    .withMessage('You have entered an improperly formatted email address')
     .isLength({ max: 254 })
-    .withMessage('Please provide a valid email address!!!'),
+    .withMessage('Your email address is too long'),
 
   validator.check('login-password')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a password')
+    .withMessage('The password field is required')
     .isLength({ min: 8 })
-    .withMessage('Passwords must be at least 8 characters')
+    .withMessage('Your password can not be shorter than 8 characters')
     .isLength({ max: 60 })
-    .withMessage('Passwords may not exceed 60 characters'),
+    .withMessage('Your password can not be longer than 60 characters'),
 ];
 
 /*************************************************************************************************/
@@ -89,28 +89,28 @@ const updateAccount = [
     .trim()
     .optional({checkFalsy: true})
     .isLength({ max: 254 })
-    .withMessage('Your first name may not exceed (254) characters'),
+    .withMessage('Your first name is too long'),
 
   validator.check('update-lastname')
     .escape()
     .trim()
     .optional({checkFalsy: true})
     .isLength({ max: 254 })
-    .withMessage('Your last name may not exceed (254) characters'),
+    .withMessage('Your last name is too long'),
 
   validator.check('update-video')
     .escape()
     .trim()
     .optional({checkFalsy: true})
     .isLength({ min: 11, max: 11 })
-    .withMessage('Your introduction code is invalid'),
+    .withMessage('You have entered an improperly formatted video code'),
   
   validator.check('update-biography')
     .escape()
     .trim()
     .optional({checkFalsy: true})
     .isLength({ max: 1000 })
-    .withMessage('Your biography may not exceed (1000) characters'),
+    .withMessage('Your about section can not be longer than 1000 characters'),
 ];
 
 /*************************************************************************************************/
@@ -123,7 +123,7 @@ const createSocialMediaLink = [
     .notEmpty()
     .withMessage('The link field is required')
     .isLength({ max: 254 })
-    .withMessage('The provided link is larger than 255 characters'),
+    .withMessage('Links can not be longer than 254 characters'),
 ];
 
 module.exports = {

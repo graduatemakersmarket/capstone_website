@@ -10,7 +10,7 @@ const checkSocialMediaLink = [
     .notEmpty()
     .withMessage('The link field is required')
     .isLength({ max: 254 })
-    .withMessage('The provided link is larger than 255 characters'),
+    .withMessage('The provided link is larger than 254 characters'),
 ];
 
 /*************************************************************************************************/
@@ -21,7 +21,7 @@ const checkSocialMediaLinkID = [
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('You must provide a linkID')
+    .withMessage('You must provide a link id')
 ];
 
 module.exports = {

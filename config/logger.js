@@ -1,5 +1,8 @@
 const winston = require('winston');
 
+/*************************************************************************************************/
+/* Configure the logger
+/*************************************************************************************************/
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(

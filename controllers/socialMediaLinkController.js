@@ -2,7 +2,7 @@ const socialMediaLinkService = require('../services/socialMediaLinkService');
 const validator = require('express-validator');
 
 /*************************************************************************************************/
-/* Fetch Helper Methods
+/* Public Database Methods
 /*************************************************************************************************/
 const getLinksByEmail = async (account_email) => socialMediaLinkService.getSocialMediaLinksByEmail(account_email);
 const getLinksByURL = async (url) => socialMediaLinkService.getSocialMediaLinkByURL(url);

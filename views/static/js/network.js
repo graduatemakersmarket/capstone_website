@@ -93,3 +93,18 @@ $(document).on('submit', '.createProduct', async (e) => {
     $('#create-product-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
   });
 });
+
+/*************************************************************************************************/
+/* Send product image deletion request to the backend
+/*************************************************************************************************/
+$(document).on('submit', '.deleteProductImage', async (e) => {
+  e.preventDefault();
+
+  alert('coming soon');
+  axios.delete(e.target.action, {data: {id: e.target.id}}).then((response) => {
+    //$('#create-socials-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> ${response.data.response}`).delay(4000).fadeOut(300);
+   // $(`#row-${e.target.id}`).remove();
+  }).catch((error) => {
+    //$('#create-social-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
+  });
+});

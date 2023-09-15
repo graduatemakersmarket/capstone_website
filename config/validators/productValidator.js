@@ -1,37 +1,40 @@
 const validator = require('express-validator');
 
+/*************************************************************************************************/
+/* Validate product creation form input
+/*************************************************************************************************/
 const createProduct = [
   validator.check('create-product-name')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a product name')
+    .withMessage('The product name field is required')
     .isLength({ max: 254 })
-    .withMessage('Product names may not exceed (254) characters'),
+    .withMessage('Your product name can not be longer than 254 characters'),
 
   validator.check('create-product-website')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a product website')
+    .withMessage('The website field is required')
     .isLength({ max: 254 })
-    .withMessage('Product websites may not exceed more than (254) characters'),
+    .withMessage('Your website link can not be longer than 254 characters'),
 
     validator.check('create-product-purchase')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a product purchase link')
+    .withMessage('The purchase link field is required')
     .isLength({ max: 254 })
-    .withMessage('Product purchase links may not exceed more than (254) characters'),
+    .withMessage('Your purchase link can not be longer than 254 characters'),
 
   validator.check('create-product-summary')
     .escape()
     .trim()
     .notEmpty()
-    .withMessage('Please provide a product description')
+    .withMessage('The product description field is required')
     .isLength({ max: 1000 })
-    .withMessage('Product descriptions may not exceed (1000) characters'),
+    .withMessage('Your product description can not be longer than 1000 characters'),
 
     validator.check('create-product-featured')
     .escape()

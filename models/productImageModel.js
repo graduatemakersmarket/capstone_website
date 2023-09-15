@@ -1,6 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../config/db');
 
+/*************************************************************************************************/
+/* This model contains all of the `product_images` table fields and datatypes
+/* Documentation: https://sequelize.org/docs/v6/core-concepts/model-basics/
+/*************************************************************************************************/
 const ProductImage = db.define('product_images', {
   id: {
     type: Sequelize.DataTypes.INTEGER,

@@ -1,6 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../config/db');
 
+/*************************************************************************************************/
+/* This model contains all of the `socialmedia_links` table fields and datatypes
+/* Documentation: https://sequelize.org/docs/v6/core-concepts/model-basics/
+/*************************************************************************************************/
 const SocialMediaLink = db.define('socialmedia_links', {
   id: {
     type: Sequelize.DataTypes.INTEGER,

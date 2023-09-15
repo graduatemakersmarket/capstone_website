@@ -6,7 +6,7 @@ const crypto = require('crypto');
 /* Configure storage destination and filenames for image uploads
 /*************************************************************************************************/
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {return cb(null, 'views/static/product_images');},
+    destination: (req, file, cb) => {return cb(null, 'views/static/images/product_images');},
     filename: (req, file, cb) => {return cb(null, `${crypto.randomUUID()}${path.extname(file.originalname)}`);},
 });
 
