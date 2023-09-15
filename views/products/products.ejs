@@ -21,7 +21,7 @@
 			<% if (locals.products.length > 0) { %>
 			<div class="row row-cols-1 row-cols-md-3 g-4">
 				<% locals.products.forEach(product => { %>
-					<div class="col">
+					<div class="col-sm">
 						<div class="card h-100" style="max-width: 400px;">
 							<img src="<%= product.product_images[0].image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">
 							<div class="card-body">

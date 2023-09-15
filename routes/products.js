@@ -5,6 +5,7 @@ const productController = require('../controllers/productController');
 const productImageController = require('../controllers/productImageController');
 const router = express.Router();
 const PRODUCTS_PER_PAGE = 6;
+const PRODUCT_IMAGES_PER_PAGE = 3;
 
 /*************************************************************************************************/
 /* Render the product management page
@@ -44,7 +45,7 @@ router.get('/edit/:id', auth.memberAccess, async (req, res) => {
   return res.render('products/edit', {
     session: req.session,
     product: productInfo,
-    images: await productImageController.getProductImagesByName(productInfo.product),
+    images: await productImageController.getProductImagesByName(productInfo.product, PRODUCT_IMAGES_PER_PAGE, 0),
     clean: convert.convert
   });
 });
@@ -68,10 +69,60 @@ router.get('/:id', auth.guestAccess, async (req, res) => {
     return res.redirect('/products');
   }
 
+  // Get all of the images associated with a product
+  const images = await productImageController.getProductImagesByName(product.product, PRODUCT_IMAGES_PER_PAGE, 0)
+
   return res.render('products/profile', {
     session: req.session,
     product,
-    images: await productImageController.getProductImagesByName(product.product),
+    images,
+    page: 1,
+    total: Math.ceil(await productImageController.countProductImagesByName(product.product) / PRODUCT_IMAGES_PER_PAGE),
+    clean: convert.convert,
+  });
+});
+
+/*************************************************************************************************/
+/* Render a specific product profile while keeping track of pagination pages
+/*************************************************************************************************/
+router.get('/:id/page/:page', auth.guestAccess, async (req, res) => {
+  const productID = parseInt(req.params.id, 10) || null; // The 10 here represents a base 10 number
+  const page = parseInt(req.params.page, 10) || 1; // The 10 here represents a base 10 number
+
+  // If not product name is given, kick them to the products page
+  if (!productID) {
+    return res.redirect('/products');
+  }
+
+  // Grab the product information using the provided product id
+  const product = await productController.getProductByID(productID);
+
+  // If product is not found, kick them to the products page
+  if (!product) {
+    return res.redirect('/products');
+  }
+
+  // Get the total count of product images for this product
+  const total = Math.ceil(await productImageController.countProductImagesByName(product.product) / PRODUCT_IMAGES_PER_PAGE)
+  
+  // If the page is invalid or out-of-bounds, kick them to the first page
+  if (!page || page <= 0 || page > total) {
+    return res.redirect(`/products/${productID}`);
+  }
+
+  // Compute the new offset for pagination
+  const offset = (PRODUCT_IMAGES_PER_PAGE * page) - PRODUCT_IMAGES_PER_PAGE;
+
+  // Get all of the images associated with a product
+  const images = await productImageController.getProductImagesByName(product.product, PRODUCT_IMAGES_PER_PAGE, offset)
+
+  return res.render('products/profile', {
+    session: req.session,
+    product,
+    images,
+    page,
+    offset,
+    total,
     clean: convert.convert,
   });
 });

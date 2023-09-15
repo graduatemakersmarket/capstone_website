@@ -4,9 +4,11 @@ const logger = require('../config/logger');
 /*************************************************************************************************/
 /* Get all product images associated with a specific product
 /*************************************************************************************************/
-const getProductImagesByName = async (product) => {
+const getProductImagesByName = async (product, limit, offset) => {
   const images = await productImageModel.findAll({
     where: { product_product: product },
+    limit,
+    offset
   }).catch((error) => {
     logger.error(error);
   });
@@ -53,11 +55,22 @@ const updateProductImage = async (productImage, id) => {
 /* Delete a product image
 /*************************************************************************************************/
 const deleteProductImage = async (id) => {
-  await roleModel.destroy({ where: { id } }).catch((error) => {
+  await productImageModel.destroy({ where: { id } }).catch((error) => {
     logger.error(error);
   });
 
   return true;
+};
+
+/*************************************************************************************************/
+/* Count all of the product images that belong to a specific product
+/*************************************************************************************************/
+const countProductImageByName = async (product_product) => {
+  const count = await productImageModel.count({where: { product_product }}).catch((error) => {
+    logger.error(error);
+  });
+
+  return count;
 };
 
 module.exports = {
@@ -65,5 +78,6 @@ module.exports = {
   getProductImageByID,
   createProductImage,
   updateProductImage,
-  deleteProductImage
+  deleteProductImage,
+  countProductImageByName
 };

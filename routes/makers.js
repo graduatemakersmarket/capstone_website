@@ -12,7 +12,7 @@ const FEATURED_PER_PAGE = 3;
 /* Render a specific maker profile
 /*************************************************************************************************/
 router.get('/:makerID', auth.guestAccess, async (req, res) => {
-  const makerID = req.params.makerID || null;
+  const makerID = parseInt(req.params.makerID, 10) || null; // The 10 here represents a base 10 number
 
   // If the profile is invalid, kick them to the makers page
   if (!makerID) {
