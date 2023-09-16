@@ -1,3 +1,35 @@
-UNAUTHORIZED
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%- include("../partials/header") %>
+</head>
+<body>
 
-<img src="/resources/images/profile.png">
+	<!-- Include navigation-->
+	<%- include("../partials/navigation") %>
+
+	<!-- Include featured-->
+	<%- include("../partials/featured") %>
+
+ 	<!-- BEGIN PAGE CONTENT-->
+	<div class="content-container content-wrap">
+	<div class="text-center">
+		<img src="/images/401.png">
+		<p class="fs-3"> <span class="text" style="color: #01FFFE;">Oops!</span> Unauthorized.</p>
+		<p class="lead">
+			The page you're looking for seems to need higher clearence to access.
+			</p>
+		<a href="/" class="btn btn-dark">Go Home</a>
+		<p></p>
+	</div>
+	</div>
+ 	<!-- END PAGE CONTENT-->
+
+
+	<!-- Include footer-->
+	<%- include("../partials/footer") %>
+
+</body>
+</html>
