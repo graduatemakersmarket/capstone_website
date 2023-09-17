@@ -10,48 +10,95 @@
 	<!-- Include navigation-->
 	<%- include("../partials/navigation") %>
 
-	<!-- Include featured-->
-	<!-- <%- include("../partials/featured") %> -->
-
  	<!-- BEGIN PAGE CONTENT-->
 	<div class="content-container content-wrap">
-    <h2 class="pb-1 border-bottom text-center">Admin Page</h2>
+    <div class="container px-4 py-2" id="admin-panel" data-aos="fade-right">
+      <h2 class="pb-1 border-bottom">ADMIN PANEL</h2>
+      <% if (locals.accounts.length > 0) { %>
+        <div class="form-floating">
+				  <input type="text" class="form-control" id="searchBox" onkeyup="findUser()" placeholder="Search by name.." style="width: 100%; height: 10%;">
+				  <label for="searchBox">Search by name..</label>
+				</div>
+        <br>
+        <table class="table" id="accountTable">
+          <thead>
+            <tr>
+              <th scope="col">Avatar</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+            <% locals.accounts.forEach(account => { %>
+              <tbody>
+                <tr>
+                  <th scope="row"><img src="<%= account.avatar %>" style="width: 50px; height: 50px; border-radius: 50%;"></th>
+                  <td><%= clean(account.first_name.charAt(0).toUpperCase()) + clean(account.first_name.slice(1)); %>&nbsp; <%= clean(account.last_name.charAt(0).toUpperCase()) + clean(account.last_name.slice(1)); %></td>
+                  <td><%= clean(account.email) %></td>
+                  <td>
+                    <!-- BEGIN VERIFICATION STATUS-->
+                    <% if (Number(account.account_verified) === 0) { %>
+                      <a class="btn btn-small btn-danger" style="width: 150px;" disabled>UNVERIFIED</a>
+                    <% } else { %>
+                      <a class="btn btn-small btn-success" style="width: 150px;" disabled>VERIFIED</a>
+                    <% } %>
+                    <!-- END VERIFICATION STATUS-->
+                  </td>
+                  <td><a class="btn btn-small btn-secondary" style="width: 150px;" href="/admin/edit/<%= account.id %>">MANAGE</a></td>
+                </tr>
+              </tbody>
+          <% }) %>
+        </table>
+        <% } else { %>
+          <p>There are no makers in the database to display</p>
+        <% } %>
 
-    <div class="container px-4 py-2" id="Admin Panel">
-      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search by name..">
-      <table class="table" id="accountTable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Edit Profile Privileges</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark Zuckerburg</td>
-            <td>markymark</td>
-            <td><a class="btn btn-small btn-secondary" href="/admin/edit">Edit</a></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Otto Ottoman</td>
-            <td>aManNamedOtto</td>
-            <td><a class="btn btn-small btn-secondary" href="/admin/edit">Edit</a></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Ryan Cazares</td>
-            <td>rynohotrod</td>
-            <td><a class="btn btn-small btn-secondary" href="/admin/edit">Edit</a></td>
-          </tr>
-        </tbody>
-      </table>
+        <!-- BEGIN PAGINATION-->
+        <% if (locals.total > 1) { %>
+          <nav>
+          <ul class="pagination justify-content-center" data-bs-theme="dark">
+            <% if (locals.offset === 0) { %>
+            <li class="page-item disabled">
+              <a class="page-link">Previous</a>
+            </li>
+            <% } else { %>
+            <a class="page-link" href="/admin/page/<%= locals.page - 1 %>" tabindex="-1"> 
+            Previous
+            </a>
+            <%  } %>
+            <% var i = (Number(locals.page) > 5 ? Number(locals.page) - 4 : 1) %>
+            <% for(; i <= (Number(locals.page) + 4) && i <= locals.total; i++) { %>
+            <% if (locals.page === i) { %>
+              <li class="page-item active">
+              <a class="page-link" href="#"><%=i%> <span class="sr-only">
+                (current)
+              </span></a>
+            </li>
+            <% } else { %>
+              <li class="page-item">
+              <a class="page-link" href="/admin/page/<%=i%>">
+                <%=i%>
+              </a>
+              </li>
+            <% } %>
+            <% } %>
+            <li class="page-item">
+            <% if ((locals.page + 1) > locals.total) { %>
+              <li class="page-item disabled">
+              <a class="page-link">Next</a>
+              </li>
+            <% } else { %>
+              <a class="page-link" href="/admin/page/<%= locals.page + 1 %>">
+              Next
+              </a>
+            <% } %>
+            </li>
+          </ul>
+          </nav>
+          <%}%>
+        <!-- END PAGINATION-->
     </div>
-
-	
 	</div>
  	<!-- END PAGE CONTENT-->
 
@@ -63,10 +110,10 @@
 </html>
 
 <script>
-  function myFunction() {
+  function findUser() {
     // Declare variables
     var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("myInput");
+    input = document.getElementById("searchBox");
     filter = input.value.toUpperCase();
     table = document.getElementById("accountTable");
     tr = table.getElementsByTagName("tr");

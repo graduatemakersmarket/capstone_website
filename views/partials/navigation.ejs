@@ -44,6 +44,9 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/account/manage">Manage Account</a></li>
               <li><a class="dropdown-item" href="/products/manage">Manage Products</a></li>
+              <% if (locals.session.roles.includes('admin')) { %>
+                <li><a class="dropdown-item" href="/admin">Admin Panel</a></li>
+              <% } %>
               <li><a class="dropdown-item" href="/account/logout">Logout</a></li>
             </ul>
           </li>

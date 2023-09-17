@@ -15,57 +15,116 @@
 
  	<!-- BEGIN PAGE CONTENT-->
 	<div class="content-container content-wrap">
-		<div class="container px-4 py-2 rounded-4" id="update-product" data-aos="fade-right">
-			<h2 class="border-bottom">EDIT MAKER</h2>
+		<div class="container px-4 py-2" id="admin-panel" data-aos="fade-right">
+			<h2 class="pb-1 border-bottom">MANAGE ACCOUNT</h2>
 			<br>
+			<!-- BEGIN ACCOUNT TABLE-->
 			<table class="table" id="accountTable">
 				<thead>
 				  <tr>
+					<th scope="col">Avatar</th>
 					<th scope="col">Name</th>
-					<th scope="col">Handle</th>
 					<th scope="col">Email</th>
-					<th scope="col">Validate (if not registered)</th>
-					<th scope="col">Feature Maker</th>
-					<th scope="col">Delete Maker</th>
+					<th scope="col">Actions</th>
 				  </tr>
 				</thead>
 				<tbody>
 				  <tr>
-					<td>Ryan Cazares</td>
-					<td>rynohotrod</td>
-					<td>ryan@uark.edu</th>
-					<td><a class="btn btn-small btn-success" href="#">Validate</a></td>
-					<td><a class="btn btn-small btn-secondary" href="#">Feature</a></td>
-					<td><a class="btn btn-small btn-danger" href="#">Delete</a></td>
+					<td><img src="<%= account.avatar %>" style="width: 50px; height: 50px; border-radius: 50%;"></td>
+					<td><%= clean(locals.account.first_name.charAt(0).toUpperCase()) + clean(locals.account.first_name.slice(1)); %>&nbsp; <%= clean(locals.account.last_name.charAt(0).toUpperCase()) + clean(locals.account.last_name.slice(1)); %></td>
+					<td><%= clean(locals.account.email) %></th>
+					<!-- BEGIN ACTION BUTTONS-->
+					<td>
+						<a class="btn btn-small btn-secondary" style="width: 150px;" href="/admin/account/edit/<%= account.id %>">EDIT</a>&nbsp;
+						<% if (Number(locals.account.account_verified) === 0) { %>
+							<form class="verifyAccount" id="<%= account.id %>" action="/api/account/verify" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-secondary" style="width: 150px;">VERIFY</a></form>&nbsp;
+						<% } %>
+
+						<% if (Number(locals.account.account_featured) === 0) { %>
+							<form class="featureAccount" id="<%= account.id %>" action="/api/account/feature" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-secondary" style="width: 150px;">FEATURE</a></form>&nbsp;
+							<% } else { %>
+								<form class="unfeatureAccount" id="<%= account.id %>" action="/api/account/unfeature" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">UNFEATURE</a></form>&nbsp;
+							<% } %>
+
+						<form class="banAccount" id="<%= account.id %>" action="/api/account/ban" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">BAN</a></form>&nbsp;
+						<form class="deleteAccount" id="<%= account.id %>" action="/api/account/delete" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">DELETE</a></form>&nbsp;
+					</td>
+					<!-- END ACTION BUTTONS-->
 				  </tr>
 				</tbody>
 			  </table>
+			  <!-- END ACCOUNT TABLE-->
 			  <br>
-			  <table class="table" id="accountProductTable">
-				<thead>
-				  <tr>
-					<th scope="col">Product Name</th>
-					<th scope="col">Product Price</th>
-					<th scope="col">View Product Featured Image</th>
-					<th scope="col">Delete Maker</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  <tr>
-					<td>The hand thing</td>
-					<td>$1,000</td>
-					<td><a class="btn btn-small btn-secondary" href="#">View Image</a></td>
-					<td><a class="btn btn-small btn-danger" href="#">Delete</a></td>
-				  </tr>
-				</tbody>
-			  </table>
-			  <!-- If email has a vendor application display here -->
-			  <!-- Leave out email, first and last name, and products since its in the table -->
-			  <p>University of Arkansas ID answer</p>
-			  <p>Program of Study answer</p>
-			  <p>Buisness name answer</p>
-			  <p>Performance description answer</p>
-			  <p>Signature answer</p>
+
+			  <!-- BEGIN PRODUCT TABLE-->
+			  <h2 class="pb-1 border-bottom">MANAGE PRODUCTS</h2>
+			  <% if (locals.products.length > 0) { %>
+				<table class="table" id="accountProductTable">
+					<thead>
+					<tr>
+						<th scope="col">Product Name</th>
+						<th scope="col">Delete Product</th>
+					</tr>
+					</thead>
+					<% locals.products.forEach(product => { %>
+						<tbody>
+						<tr>
+							<td><%= product.product %></td>
+							<td>
+								<a class="btn btn-small btn-secondary" style="width: 150px;" href="/admin/product/edit/<%= product.id %>">EDIT</a>&nbsp;
+								<form class="deleteProduct" id="<%= account.id %>" action="/api/product/delete" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">DELETE</a></form>
+							</td>
+						</tr>
+						</tbody>
+					<% }) %>
+				</table>
+			  <% } else { %>
+				<p>This maker has no products to display</p>
+			  <% } %>
+			  <!-- END PRODUCT TABLE-->
+			  <br>
+			  <br>
+			  <!-- BEGIN APPLICATION INFORMATION-->
+			  <h2 class="pb-1 border-bottom">MANAGE APPLICATION</h2>
+			  <% if (locals.application === null) { %>
+				<p>This maker has no application to display</p>
+			  <% } else { %>
+				<table class="table" id="applicationTable">
+					<thead>
+					  <tr>
+						<th scope="col">University ID</th>
+						<th scope="col">Program</th>
+						<th scope="col">Business</th>
+						<th scope="col">Signature</th>
+						<th scope="col">Status</th>
+						<th scope="col">Actions</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr>
+						<td><%= clean(locals.application.university_id) %></td>
+						<td><%= clean(locals.application.program) %></td>
+						<td><%= clean(locals.application.business) %></th>
+						<td><%= clean(locals.application.signature) %></th>
+						<td><%= clean(locals.application.status) %></th>
+						<!-- BEGIN ACTION BUTTONS-->
+						<td>
+							<a class="btn btn-small btn-secondary" style="width: 150px;" href="/application/<%= application.id %>">VIEW</a>&nbsp;
+							<form class="approveApplication" id="<%= application.id %>" action="/api/application/approve" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-success" style="width: 150px;">APPROVE</a></form>&nbsp;
+							<form class="rejectApplication" id="<%= application.id %>" action="/api/application/reject" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">REJECT</a></form>&nbsp;
+						</td>
+						<!-- END ACTION BUTTONS-->
+					  </tr>
+					</tbody>
+				  </table>
+
+			  <% } %>
+			  <!-- END APPLICATION INFORMATION-->
+
+			  <br>
+			  <br>
+			  <br>
+			  <h2> NOTE: This page is a work-in-progress and is not complete!</h2>
 		</div>
 	</div>
  	<!-- END PAGE CONTENT-->

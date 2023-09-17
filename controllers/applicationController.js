@@ -4,7 +4,7 @@ const validator = require('express-validator');
 /*************************************************************************************************/
 /* Public Database Methods
 /*************************************************************************************************/
-
+const getApplicationByEmail = async (email) => applicationService.getApplicationByEmail(email);
 
 /*************************************************************************************************/
 /* Insert a new application into the database
@@ -57,5 +57,6 @@ const createApplication = async (req, res) => {
 }
 
 module.exports = {
-    createApplication
+    createApplication,
+    getApplicationByEmail
 }

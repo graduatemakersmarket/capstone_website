@@ -11,7 +11,9 @@ const time = require('../utils/time');
 const getAccountByEmail = async (email) => accountService.getAccountByEmail(email);
 const getAccountByID = async (id) => accountService.getAccountByID(id);
 const getVerifiedAccounts = async (limit, offset) => accountService.getVerifiedAccounts(limit, offset);
+const getAccounts = async (limit, offset) => accountService.getAccounts(limit, offset);
 const getVerifiedAccountCount = async () => accountService.countVerifiedAccounts();
+const getAccountCount = async () => accountService.countAccounts();
 
 /*************************************************************************************************/
 /* Register a new user account
@@ -258,7 +260,9 @@ module.exports = {
   getAccountByEmail,
   getAccountByID,
   getVerifiedAccounts,
+  getAccounts,
   getVerifiedAccountCount,
+  getAccountCount,
   registerAccount,
   loginAccount,
   updateAccount

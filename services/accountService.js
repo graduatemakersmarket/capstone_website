@@ -17,6 +17,20 @@ const getVerifiedAccounts = async (limit, offset) => {
 };
 
 /*************************************************************************************************/
+/* Get all accounts
+/*************************************************************************************************/
+const getAccounts = async (limit, offset) => {
+  const accounts = await accountModel.findAll({
+    limit,
+    offset
+  }).catch((error) => {
+      logger.error(error);
+    });
+
+    return accounts;
+};
+
+/*************************************************************************************************/
 /* Get an account associated with a specific email
 /*************************************************************************************************/
 const getAccountByEmail = async (email) => {
@@ -87,12 +101,25 @@ const countVerifiedAccounts = async () => {
   return count;
 };
 
+/*************************************************************************************************/
+/* Count all accounts in the database
+/*************************************************************************************************/
+const countAccounts = async () => {
+  const count = await accountModel.count().catch((error) => {
+    logger.error(error);
+  });
+
+  return count;
+};
+
 module.exports = {
   getVerifiedAccounts,
   getAccountByEmail,
   getAccountByID,
+  getAccounts,
   createAccount,
   updateAccount,
   deleteAccount,
-  countVerifiedAccounts
+  countVerifiedAccounts,
+  countAccounts
 };
