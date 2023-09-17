@@ -17,6 +17,13 @@ router.get('/application', auth.guestAccess, (req, res) => res.render('applicati
 }));
 
 /*************************************************************************************************/
+/* Render the GSMM help page
+/*************************************************************************************************/
+router.get('/help', auth.guestAccess, (req, res) => res.render('help', {
+  session: req.session,
+}));
+
+/*************************************************************************************************/
 /* Render the GSMM application terms
 /*************************************************************************************************/
 router.get('/application/terms', auth.guestAccess, (req, res) => res.render('legal/generalGuidelines', {

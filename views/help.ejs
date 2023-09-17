@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%- include("./partials/header") %>
+</head>
+<body>
+
+	<!-- Include navigation-->
+	<%- include("./partials/navigation") %>
+
+	<!-- Include featured-->
+	<%- include("./partials/featured") %>
+
+ 	<!-- BEGIN PAGE CONTENT-->
+	<div class="content-container content-wrap">
+        <h2 class="pb-1 border-bottom text-center">Help Page</h2>
+        <br>
+        <div class="container px-4 py-2 rounded-4" id="featured-articles" data-aos="fade-right" style="background-color: #A42F2F">
+            <div class="accordion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button"  type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                      Need to contact us?
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                      <strong>Email us at gsmm.uark@gmail.com</strong>: The Graduate Student's Maker's Market (GSMM) will begin hosting monthly markets in January 2023 to help promote and advertise student products and services. Please fill out the form and submit your application. All products should be original products. If you have a website, please feel free to advertise your online products as well. If you have any questions please contact us!
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                      How to become a vendor?
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+                      <p>Step 1: Watch our Welcome video to learn more about GSMM at the University of Arkansas.</p>
+
+                      <p>Step 2: Register to be a vendor by filling out our GSMM Vendor Application form. For non-graduate students please contact us at gsmm.uark@gmail.com to become a collaborator for future projects, workshops, and events.</p>
+                        
+                      <p>Step 3: Sign-up for a workshop! We offer a few workshops to help you prepare for vending at GSMM workshops are optional and an opportunity to network and be featured in our 'Artists Spotlights.'</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                      General Guidelines
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+                      <h2 class="border-bottom">1. ARTIST CRITERIA & SELECTION</h2>
+        <p>All artwork must be original and hand-made by the applicant or with the use of appropriate tools. Table must include original artwork. No additional items may be sold (i.e. water, candy, etc.).</p>
+        <p>Any food items should be limited to the Foods Not Requiring a Food License as outlined in the <a href="https://agr.mt.gov/_docs/farmersmarket-docs/Farmers-Market-Portal-docs/ManagerResources/2020FARMERSMARKETguidelines.pdf" target="_blank">Farmers Market Guidelines.</a></p>
+        
+
+        <br>
+
+        <h2 class="border-bottom">2. SALES TAX</h2>
+        <p>All vendors are responsible for collecting and paying Arkansas State Sales Tax as applicable to their product.</p>
+
+        <br>
+
+        <h2 class="border-bottom">3. COST</h2>
+        <p>Participation in this marketplace is free and limited to UARK graduate students. All proceeds go to the creators of the products.</p>
+
+        <br>
+
+        <h2 class="border-bottom">4. NOTIFICATION OF MARKET CANCELLATION</h2>
+        <p>UARK GSMM will post all cancellations due to inclement weather or other circumstances on UARK GSMM website and social media pages.</p>
+
+        <br>
+
+        <h2 class="border-bottom">5. MARKET LOGISTICS</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" style="background-color: aliceblue;">Check-in will be from 2pm - 2:50 pm. Vendors must sign in and be ready to sell by 3 pm. Teardown is at 6 pm.</li>
+            <li class="list-group-item" style="background-color: aliceblue;">Vendors are responsible for providing their own set up excluding tables and chairs. Access to electricity will be provided. Set up may not exceed provided table length. Space is available on a first come, first served basis. Spaces are not assigned except in the case of produce and agricultural product vendors.</li>
+            <li class="list-group-item" style="background-color: aliceblue;">Parking: Please follow UARK parking guidelines. Harmon garage has paid public parking.</li>
+            <li class="list-group-item" style="background-color: aliceblue;">Trash: Vendors are responsible for removal of all trash from vending space.</li>
+        </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+        </div>
+	</div>
+ 	<!-- END PAGE CONTENT-->
+
+
+	<!-- Include footer-->
+	<%- include("./partials/footer") %>
+
+</body>
+</html>
