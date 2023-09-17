@@ -31,7 +31,7 @@ const Applications = db.define('gsmm_applications', {
   },
 
   university_id: {
-    type: Sequelize.DataTypes.INTEGER,
+    type: Sequelize.DataTypes.STRING,
     allowNull: false
   },
 
@@ -40,19 +40,27 @@ const Applications = db.define('gsmm_applications', {
     allowNull: false
   },
 
+  business: {
+    type: Sequelize.DataTypes.STRING,
+  },
+
   summary: {
     type: Sequelize.DataTypes.TEXT,
-    allowNull: false
   },
 
   products: {
     type: Sequelize.DataTypes.TEXT,
-    allowNull: false
   },
 
   signature: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false
+  },
+
+  status: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "pending"
   },
 
   creation_date: {

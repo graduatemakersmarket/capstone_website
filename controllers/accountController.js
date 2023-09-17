@@ -41,6 +41,14 @@ const registerAccount = async (req, res) => {
     });
   }
 
+  // Halt if domain does not contain @uark.edu
+  if (!req.body['register-email'].includes('@uark.edu')) {
+    return res.status(422).json({
+        success: false,
+        error: 'You must use an @uark.edu email address',
+      });
+  }
+
   // Create a new account object
   const account = {
     email: req.body['register-email'],
@@ -240,7 +248,7 @@ const updateAccount = async (req, res) => {
   // Create a new session token
   const token = jwt.sign(session, process.env.SESSION_SECRET, { expiresIn: '2h' });
   
-  return res.status(201).cookie('makerSession', token, options).json({
+  return res.status(200).cookie('makerSession', token, options).json({
     success: true,
     response: 'Your account was successfully updated',
   });

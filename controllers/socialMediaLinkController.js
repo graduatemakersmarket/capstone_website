@@ -44,7 +44,7 @@ const createLink = async (req, res) => {
   // Create the new social media link
   await socialMediaLinkService.createSocialMediaLink(socialMediaLink);
 
-  return res.status(200).json({
+  return res.status(201).json({
     success: true,
     link: req.body['social-media-link'],
     id: (await socialMediaLinkService.getSocialMediaLinkByURL(req.body['social-media-link'])).id

@@ -119,3 +119,18 @@ $(document).on('submit', '.deleteProductImage', async (e) => {
     $('#delete-image-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
   });
 });
+
+/*************************************************************************************************/
+/* Send application creation request to the backend
+/*************************************************************************************************/
+$(document).on('submit', '.createApplication', async (e) => {
+  e.preventDefault();
+
+  axios.post(e.target.action, convertFormData(new FormData(e.target))).then( async (response) => {
+    $('#application-response-top').empty().show().html(`<div class="response-success"><i class="fa-solid fa-triangle-exclamation"></i> ${response.data.response}`).delay(9000).fadeOut(300);
+    $('#application-response-bottom').empty().show().html(`<div class="response-success"><i class="fa-solid fa-triangle-exclamation"></i> ${response.data.response}`).delay(9000).fadeOut(300);
+  }).catch((error) => {
+    $('#application-response-top').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(9000).fadeOut(300);
+    $('#application-response-bottom').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(9000).fadeOut(300);
+  });
+});

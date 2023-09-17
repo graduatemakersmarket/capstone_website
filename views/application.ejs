@@ -22,68 +22,80 @@
  	<!-- BEGIN PAGE CONTENT-->
 	 <div class="content-container content-wrap">
 		<div class="container px-4 py-2" id="application-header" data-aos="fade-right">
-			<h2>Application</h2> 
-			<h4 class="h4 mb-3 fw-normal pb-1 border-bottom" id="application-response"></h4>
-			<form id="application-form">
+			<h2 class="border-bottom">GSMM Vendor Application</h2>
+			<h4 class="h4 mb-3 fw-normal pb-1" id="application-response-top"></h4>
+			<form class="createApplication" action="/api/application/create">
 				<div class="form-floating">
-				  <input type="email" class="form-control" id="application-email" name="application-email" placeholder="name@example.com" maxlength="254" required>
-				  <label for="application-email">Email address</label>
+					<input type="email" class="form-control" id="application-email" name="application-email" placeholder="name@example.com" maxlength="254" required>
+					<label for="application-email">Email address (@uark.edu)</label>
 				</div>
+
 				<div class="form-floating">
 					<input type="text" class="form-control" id="application-firstname" name="application-firstname" placeholder="Jane" maxlength="254" required>
 					<label for="application-firstname">First name</label>
 				</div>
+
 				<div class="form-floating">
 					<input type="text" class="form-control" id="application-lastname" name="application-lastname" placeholder="Doe" maxlength="254" required>
 					<label for="application-lastname">Last name</label>
 				</div>
+
 				<div class="form-floating">
-				  <input type="text" class="form-control" id="application-uark-id" name="application-uark-id" placeholder="University of Arkansas ID" required>
-				  <label for="application-uark-id">University of Arkansas ID</label>
+					<input type="text" class="form-control" id="application-UID" name="application-UID" placeholder="University of Arkansas ID"  maxlength="254" required>
+					<label for="application-uark-id">University of Arkansas ID</label>
 				</div>
-                <div class="form-floating">
-					<input type="text" class="form-control" id="application-program-of-study" name="application-program-of-study" placeholder="Program of Study" maxlength="254" required>
+
+				<div class="form-floating">
+					<input type="text" class="form-control" id="application-program" name="application-program" placeholder="Program of Study" maxlength="254" required>
 					<label for="application-program-of-study">Program of Study</label>
 				</div>
-                <div class="form-floating">
-					<input type="text" class="form-control" id="application-buisnessname" name="application-buisnessname" placeholder="Buisness Name" maxlength="254" required>
+
+				<div class="form-floating">
+					<input type="text" class="form-control" id="application-business" name="application-business" placeholder="Buisness Name" maxlength="254">
 					<label for="application-buisnessname">Buisness Name</label>
 				</div>
-                <div class="form-floating">
-					<textarea class="form-control" id="application-performance" name="application-performance" placeholder="Describe" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
-                    <label for="application-performance" style="overflow-wrap: break-word;">Please describe the type of performance or interactive product you provide.
-                        (Performers may receive tips and donations. We do not have a performance stipend)</label>
+
+				<div class="form-floating">
+					<textarea class="form-control" id="application-summary" name="application-summary" placeholder="Describe" rows="10" maxlength="65534" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;"></textarea>
+					<label for="application-performance" style="overflow-wrap: break-word;">Please describe the type of performance or interactive product you provide.
+							(Performers may receive tips and donations. We do not have a performance stipend)</label>
 				</div>
-                <br>
-                <h4 class="border-bottom">Enter products and prices as shown below</h4>
-                <div class="form-floating">
-					<textarea class="form-control" id="application-performance" name="application-performance" placeholder="Describe" rows="10" maxlength="1000" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
-                    <label for="application-performance" style="overflow-wrap: break-word;">Product, Price (one per line)</label>
+
+				<br>
+				<h4 class="border-bottom">Enter products and prices as shown below</h4>
+				<div class="form-floating">
+					<textarea class="form-control" id="application-products" name="application-products" placeholder="Describe" rows="10" maxlength="65534" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;"></textarea>
+					<label for="application-performance" style="overflow-wrap: break-word;">Product, Price (one per line)</label>
 				</div>
-                <br>
-                <br>
-                <h3>Agrees to the following items:</h3>         
-                <h5>Attend new vendor orientation.</h5>
-                <h5>Read and review market guidelines.</h5> 
-                <h5>Adhere to all market guidelines.</h5>   
-                <h5>Have a valid e-mail address for market correspondence.</h5>      
-                <h5>Address all grievances to the market coordinator via email. Such e-mail must document in writing: subject, date, time, place of incident, and details regarding any incidents.</h5>    
-                <h5>The Market Coordinator will document any violations of market guidelines.</h5>
-                <h5>Violations of the guidelines may result in suspension of participation privileges.</h5>  
-                <h5>The Market Coordinator has the discretion to ask violators to leave the Market and/or suspend privileges accordingly.</h5>  
-                <h5>The vendor may request a meeting with the Market Coordinator and assistant director of GSMM to go over any grievances.</h5>  
-                <h5>Nothing herein shall be construed as creating an employee and employer relationship between the vendor or associates of the vendor and UARK. UARK shall not be subjected to any liabilities or obligations incurred by the vendor or associates of the vendor in performance of the above stated services.</h5>
-                <h5>Vendor must abide by all copyright infringement laws. (Sale of any copyrighted material is strictly prohibited) </h5>      
-                <h5>All food vendors must abide by Foods Not Requiring a Food License Guidelines, and may not sell any items not mentioned in the bill.</h5>
-                <h5>Vendors cannot hold volunteers or staff from the GSMM accountable for any accidental damage of vendor property.  All market staff or volunteers will ask for permission of the vendor prior to handling any vendor property.</h5>
-                <div class="form-floating">
+
+				<br>
+				<br>
+				<h3>Sign and submit your application if you agree to:</h3>
+				<ul>
+					<li><h5>Attend new vendor orientation.</h5></li>
+					<li><h5>Read and review market guidelines.</h5></li>
+					<li><h5>Adhere to all market guidelines.</h5></li>
+					<li><h5>Have a valid e-mail address for market correspondence.</h5></li>
+					<li><h5>Address all grievances to the market coordinator via email. Such e-mail must document in writing: subject, date, time, place of incident, and details regarding any incidents.</h5></li>
+					<li><h5>The Market Coordinator will document any violations of market guidelines.</h5></li>
+					<li><h5>Violations of the guidelines may result in suspension of participation privileges.</h5></li>
+					<li><h5>The Market Coordinator has the discretion to ask violators to leave the Market and/or suspend privileges accordingly.</h5></li>
+					<li><h5>The vendor may request a meeting with the Market Coordinator and assistant director of GSMM to go over any grievances.</h5></li>
+					<li><h5>Nothing herein shall be construed as creating an employee and employer relationship between the vendor or associates of the vendor and UARK. UARK shall not be subjected to any liabilities or obligations incurred by the vendor or associates of the vendor in performance of the above stated services.</h5></li>
+					<li><h5>Vendor must abide by all copyright infringement laws. (Sale of any copyrighted material is strictly prohibited)</h5></li>
+					<li><h5>All food vendors must abide by Foods Not Requiring a Food License Guidelines, and may not sell any items not mentioned in the bill.</h5></li>
+					<li><h5>Vendors cannot hold volunteers or staff from the GSMM accountable for any accidental damage of vendor property.  All market staff or volunteers will ask for permission of the vendor prior to handling any vendor property.</h5></li>
+				</ul>
+
+				<div class="form-floating">
 					<input type="text" class="form-control" id="application-signature" name="application-signature" placeholder="Signature" maxlength="254" required>
 					<label for="application-buisnessname">Sign First and Last Name</label>
 				</div>
-                
+					
 				<br>
-				<button class="btn btn-dark w-100 py-2" type="submit">Submit Application</button>
-			  </form>
+				<h4 class="h4 mb-3 fw-normal pb-1" id="application-response-bottom"></h4>
+				<button class="btn btn-dark w-100 py-2" type="submit">Submit GSMM Application</button>
+			</form>
 		</div>
   </div>
  	<!-- END PAGE CONTENT-->
@@ -98,13 +110,15 @@
 	<!-- Include footer-->
 	<%- include("./partials/footer") %>
 
+		<!-- Include scripts-->
+		<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script type="application/javascript" src="/js/network.js"></script>
+		<script>
+			boomLightBoxInit([{ /* https://github.com/boominteractive/boom-lightbox */
+								selector: 'divResponsive',
+								configs: { width: '60%', height: '60%'}
+			}]);
+			document.getElementById('divResponsive').style = 'display: block;';
+		</script>
 </body>
 </html>
-
-<script>
-    boomLightBoxInit([{ /* https://github.com/boominteractive/boom-lightbox */
-						selector: 'divResponsive',
-						configs: { width: '60%', height: '60%'}
-    }]);
-    document.getElementById('divResponsive').style = 'display: block;';
-</script>
