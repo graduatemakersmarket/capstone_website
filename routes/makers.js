@@ -31,13 +31,14 @@ router.get('/:makerID', auth.guestAccess, async (req, res) => {
   const socials = await socialMediaLinksController.getLinksByEmail(account.email);
 
   // Grab the maker's featured products
-  const featured = await productController.getFeaturedProductsByEmail(account.email, FEATURED_PER_PAGE, 0);
+  const featuredProducts = await productController.getFeaturedProductsByEmail(account.email, FEATURED_PER_PAGE, 0);
 
   return res.render('account/profile', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     account,
     socials,
-    featured,
+    featuredProducts,
     page: 1,
     offset: 0,
     total: Math.ceil(await productController.getFeaturedProductCountByEmail(account.email) / FEATURED_PER_PAGE),
@@ -80,13 +81,14 @@ router.get('/:makerID/page/:page', auth.guestAccess, async (req, res) => {
   const socials = await socialMediaLinksController.getLinksByEmail(account.email);
 
   // Grab the maker's featured products
-  const featured = await productController.getFeaturedProductsByEmail(account.email, FEATURED_PER_PAGE, offset);
+  const featuredProducts = await productController.getFeaturedProductsByEmail(account.email, FEATURED_PER_PAGE, offset);
 
   return res.render('account/profile', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     account,
     socials,
-    featured,
+    featuredProducts,
     page,
     offset,
     total,
@@ -99,6 +101,7 @@ router.get('/:makerID/page/:page', auth.guestAccess, async (req, res) => {
 /*************************************************************************************************/
 router.get('/', auth.guestAccess, async (req, res) => res.render('account/makers', {
   session: req.session,
+  featured: await accountController.getFeaturedAccounts(),
   makers: await accountController.getVerifiedAccounts(MAKERS_PER_PAGE, 0),
   page: 1,
   offset: 0,
@@ -123,6 +126,7 @@ router.get('/page/:page', auth.guestAccess, async (req, res) => {
 
   return res.render('account/makers', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     makers: await accountController.getVerifiedAccounts(MAKERS_PER_PAGE, offset),
     page,
     offset,

@@ -27,9 +27,14 @@ market.use('/products', require('./routes/products'));
 market.use('/admin', require('./routes/admin'));
 
 const auth = require('./middleware/auth');
+const convert = require('html-to-text');
+const accountController = require('./controllers/accountController');
 
-market.get('*', auth.guestAccess, (req, res) => {
-    res.status(404).render('errors/404.ejs', { session: req.session });
+market.get('*', auth.guestAccess, async (req, res) => {
+    res.status(404).render('errors/404.ejs', { session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
+    clean: convert.convert,
+    });
 });
 
 market.listen(3001, 'localhost')

@@ -11,12 +11,12 @@
 	<%- include("../partials/navigation") %>
 
 	<!-- Include featured-->
-	<!-- <%- include("../partials/featured") %> -->
 
  	<!-- BEGIN PAGE CONTENT-->
 	<div class="content-container content-wrap">
 		<div class="container px-4 py-2" id="admin-panel" data-aos="fade-right">
 			<h2 class="pb-1 border-bottom">MANAGE ACCOUNT</h2>
+			<h4 class="h4 mb-3 fw-normal pb-1" id="admin-response-top"></h4>
 			<br>
 			<!-- BEGIN ACCOUNT TABLE-->
 			<table class="table" id="accountTable">
@@ -37,17 +37,20 @@
 					<td>
 						<a class="btn btn-small btn-secondary" style="width: 150px;" href="/admin/account/edit/<%= account.id %>">EDIT</a>&nbsp;
 						<% if (Number(locals.account.account_verified) === 0) { %>
-							<form class="verifyAccount" id="<%= account.id %>" action="/api/account/verify" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-secondary" style="width: 150px;">VERIFY</a></form>&nbsp;
+							<form class="verifyAccount" id="<%= account.id %>" action="/api/account/verify" style="display: inline; margin: 0px; padding: 0px;"><button type="submit" class="btn btn-secondary" style="width: 150px;">VERIFY</button></form>&nbsp;
 						<% } %>
 
 						<% if (Number(locals.account.account_featured) === 0) { %>
-							<form class="featureAccount" id="<%= account.id %>" action="/api/account/feature" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-secondary" style="width: 150px;">FEATURE</a></form>&nbsp;
-							<% } else { %>
-								<form class="unfeatureAccount" id="<%= account.id %>" action="/api/account/unfeature" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">UNFEATURE</a></form>&nbsp;
-							<% } %>
+							<form class="featureAccount" id="<%= account.id %>" action="/api/account/feature" style="display: inline; margin: 0px; padding: 0px;"><button type="submit" class="btn btn-secondary" style="width: 150px;">FEATURE</button></form>&nbsp;
+						<% } else { %>
+							<form class="unfeatureAccount" id="<%= account.id %>" action="/api/account/unfeature" style="display: inline; margin: 0px; padding: 0px;"><button type="submit" class="btn btn-danger" style="width: 150px;">UNFEATURE</button></form>&nbsp;
+						<% } %>
 
-						<form class="banAccount" id="<%= account.id %>" action="/api/account/ban" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">BAN</a></form>&nbsp;
-						<form class="deleteAccount" id="<%= account.id %>" action="/api/account/delete" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">DELETE</a></form>&nbsp;
+						<% if (roles.includes('banned')) { %>
+							<form class="unbanAccount" id="<%= account.id %>" action="/api/account/unban" style="display: inline; margin: 0px; padding: 0px;"><button type="submit" class="btn btn-danger" style="width: 150px;">UNBAN</button></form>&nbsp;
+						<% } else { %>
+							<form class="banAccount" id="<%= account.id %>" action="/api/account/ban" style="display: inline; margin: 0px; padding: 0px;"><button type="submit" class="btn btn-danger" style="width: 150px;">BAN</button></form>&nbsp;
+						<% } %>
 					</td>
 					<!-- END ACTION BUTTONS-->
 				  </tr>
@@ -109,9 +112,7 @@
 						<td><%= clean(locals.application.status) %></th>
 						<!-- BEGIN ACTION BUTTONS-->
 						<td>
-							<a class="btn btn-small btn-secondary" style="width: 150px;" href="/application/<%= application.id %>">VIEW</a>&nbsp;
-							<form class="approveApplication" id="<%= application.id %>" action="/api/application/approve" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-success" style="width: 150px;">APPROVE</a></form>&nbsp;
-							<form class="rejectApplication" id="<%= application.id %>" action="/api/application/reject" style="display: inline; margin: 0px; padding: 0px;"><a class="btn btn-small btn-danger" style="width: 150px;">REJECT</a></form>&nbsp;
+							<a class="btn btn-small btn-secondary" style="width: 150px;" href="/admin/application/<%= application.id %>">MANAGE</a>&nbsp;
 						</td>
 						<!-- END ACTION BUTTONS-->
 					  </tr>
@@ -120,18 +121,15 @@
 
 			  <% } %>
 			  <!-- END APPLICATION INFORMATION-->
-
-			  <br>
-			  <br>
-			  <br>
-			  <h2> NOTE: This page is a work-in-progress and is not complete!</h2>
 		</div>
 	</div>
  	<!-- END PAGE CONTENT-->
 
+	<!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/network.js"></script>
 
 	<!-- Include footer-->
 	<%- include("../partials/footer") %>
-
 </body>
 </html>

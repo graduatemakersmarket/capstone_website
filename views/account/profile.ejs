@@ -94,9 +94,9 @@
 			<!-- BEGIN FEATURED PRODUCTS-->
 			<div class="container px-4 py-2" id="featured" data-aos="fade-right">
 				<h2 class="pb-1 border-bottom"><%= clean(locals.account.first_name.toUpperCase()) %>'S FEATURED PRODUCTS</h2>
-				<% if (locals.featured.length > 0) { %>
+				<% if (locals.featuredProducts.length > 0) { %>
 					<div class="row row-cols-1 row-cols-md-3 g-4">
-						<% locals.featured.forEach(product => { %>
+						<% locals.featuredProducts.forEach(product => { %>
 							<div class="col-sm">
 								<div class="card h-100" style="max-width: 400px;">
 									<img src="<%= product.product_images[0].image %>" class="card-img-top" alt="product-image" style="height: auto; width: auto;">

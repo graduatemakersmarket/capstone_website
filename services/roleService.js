@@ -17,9 +17,9 @@ const getRolesByEmail = async (account_email) => {
 /*************************************************************************************************/
 /* Get a role associated with a specific name
 /*************************************************************************************************/
-const getRolesByName = async (role) => {
+const getRoleID = async (role, account_email) => {
   const roles = await roleModel.findAll({
-    where: { role },
+    where: { role, account_email },
   }).catch((error) => {
     logger.error(error);
   });
@@ -75,7 +75,7 @@ const deleteRole = async (id) => {
 
 module.exports = {
   getRolesByEmail,
-  getRolesByName,
+  getRoleID,
   getRoleByID,
   createRole,
   updateRole,

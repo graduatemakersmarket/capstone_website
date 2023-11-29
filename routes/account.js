@@ -15,7 +15,7 @@ router.get('/logout', auth.guestAccess, (req, res) => {
 /*************************************************************************************************/
 /* Render the account login page
 /*************************************************************************************************/
-router.get('/login', auth.guestAccess, (req, res) => {
+router.get('/login', auth.guestAccess, async (req, res) => {
   // Redirect to account page if session exists
   if (req.cookies.makerSession || req.headers.authorization) {
     return res.redirect('/account/manage');
@@ -23,13 +23,15 @@ router.get('/login', auth.guestAccess, (req, res) => {
 
   return res.render('account/login', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
+    clean: convert.convert,
   });
 });
 
 /*************************************************************************************************/
 /* Render the account registration page
 /*************************************************************************************************/
-router.get('/register', auth.guestAccess, (req, res) => {
+router.get('/register', auth.guestAccess, async (req, res) => {
   // Redirect to account page if session exists
   if (req.cookies.makerSession || req.headers.authorization) {
     return res.redirect('/account/manage');
@@ -37,6 +39,8 @@ router.get('/register', auth.guestAccess, (req, res) => {
 
   return res.render('account/register', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
+    clean: convert.convert,
   });
 });
 
@@ -46,6 +50,7 @@ router.get('/register', auth.guestAccess, (req, res) => {
 router.get('/manage', auth.memberAccess, async (req, res) => {
   return res.render('account/manage', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     account: await accountController.getAccountByEmail(req.session.email),
     socials: await socialMediaLinksController.getLinksByEmail(req.session.email),
     clean: convert.convert,

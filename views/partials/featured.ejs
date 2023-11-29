@@ -1,8 +1,16 @@
 <div id="featuredContent" class="carousel slide mb-6" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#featuredContent" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#featuredContent" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#featuredContent" data-bs-slide-to="2" aria-label="Slide 3"></button>
+
+    <!-- Create slides for featured makers-->
+    <% if (locals.featured.length > 0) { %>
+      <% let counter = 1; %>
+      <% locals.featured.forEach(maker => { %>
+        <button type="button" data-bs-target="#featuredContent" data-bs-slide-to="<%= counter %>" aria-label="Slide <%= counter + 1 %>"></button>
+        <% counter += 1; %>
+      <% }) %>
+    <% } %>
+
   </div>
   <div class="carousel-inner">
 
@@ -15,26 +23,24 @@
       </div>
     </div>
 
-    <div class="carousel-item" style="background: url('/images/carletta.png'); background-repeat: no-repeat; background-size: cover; background-position: top top;">
-      <div class="container">
-        <div class="carousel-caption feature-overlay">
-          <h1>Claudette</h1>
-          <p>Claudette is one of the coolest makers we have on the platform. She is a talented designer that designs the coolest designs!</p>
-          <p><a class="btn btn-lg btn-light" href="#">VIEW MAKER PROFILE</a></p>
+    <!-- Populate slides for featured makers -->
+    <% if (locals.featured.length > 0) { %>
+      <% locals.featured.forEach(maker => { %>
+        <div class="carousel-item" style="background: url('<%= maker.featured_background %>'); background-repeat: no-repeat; background-size: cover; background-position: top top;">
+          <div class="container">
+            <div class="carousel-caption feature-overlay">
+              <h1><%= clean(maker.first_name.toUpperCase()) %> <%= clean(maker.last_name.toUpperCase()) %></h1>
+              <% if (maker.biography != null) { %>
+                <p class="card-text"><% if (maker.biography.length > 140) {%> <%= clean(maker.biography.slice(0, 140)) + "..." %> <% } else { %> <%= clean(maker.biography) %> <% } %></p>
+              <% } else { %>
+                <p class="card-text"><%= clean(maker.first_name.charAt(0).toUpperCase()) + clean(maker.first_name.slice(1)); %> has not filled out their biography</p>
+              <% } %>
+              <p><a class="btn btn-lg btn-light" href="/makers/<%= maker.id %>">VIEW MAKER PROFILE</a></p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="carousel-item" style="background: url('/images/placeholder.png'); background-repeat: no-repeat;  background-size: cover; background-position: center center;">
-      <div class="container">
-        <div class="carousel-caption feature-overlay">
-          <h1>Another Entry</h1>
-          <p>This could be an entry for another thing</p>
-          <p><a class="btn btn-lg btn-light" href="#">VIEW PAGE</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
+      <% }) %>
+    <% } %>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#featuredContent" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

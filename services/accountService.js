@@ -17,6 +17,20 @@ const getVerifiedAccounts = async (limit, offset) => {
 };
 
 /*************************************************************************************************/
+/* Get all featured accounts
+/*************************************************************************************************/
+const getFeaturedAccounts = async () => {
+  const accounts = await accountModel.findAll({
+    where: { account_featured: 1 },
+  }).catch((error) => {
+      logger.error(error);
+    });
+
+    return accounts;
+};
+
+
+/*************************************************************************************************/
 /* Get all accounts
 /*************************************************************************************************/
 const getAccounts = async (limit, offset) => {
@@ -114,6 +128,7 @@ const countAccounts = async () => {
 
 module.exports = {
   getVerifiedAccounts,
+  getFeaturedAccounts,
   getAccountByEmail,
   getAccountByID,
   getAccounts,

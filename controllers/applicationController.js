@@ -5,6 +5,7 @@ const validator = require('express-validator');
 /* Public Database Methods
 /*************************************************************************************************/
 const getApplicationByEmail = async (email) => applicationService.getApplicationByEmail(email);
+const getApplicationByID = async (id) => applicationService.getApplicationByID(id);
 
 /*************************************************************************************************/
 /* Insert a new application into the database
@@ -47,7 +48,7 @@ const createApplication = async (req, res) => {
     signature: req.body['application-signature']
   }
 
-  // Create the new social media link
+  // Create the new application
   await applicationService.createApplication(application);
 
   return res.status(201).json({
@@ -56,7 +57,52 @@ const createApplication = async (req, res) => {
   });
 }
 
+/*************************************************************************************************/
+/* Accept application
+/*************************************************************************************************/
+const acceptApplication = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Accept application
+  await applicationService.updateApplication({status: "approved"}, req.body.data.id)
+
+  return res.status(200).json({
+    success: true,
+    response: 'The GSMM vendor application was successfully accepted',
+  });
+}
+
+/*************************************************************************************************/
+/* Reject application
+/*************************************************************************************************/
+const rejectApplication = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Accept application
+  await applicationService.updateApplication({status: "rejected"}, req.body.data.id)
+
+  return res.status(200).json({
+    success: true,
+    response: 'The GSMM vendor application was successfully rejected',
+  });
+}
+
 module.exports = {
     createApplication,
-    getApplicationByEmail
+    acceptApplication,
+    rejectApplication,
+    getApplicationByEmail,
+    getApplicationByID
 }

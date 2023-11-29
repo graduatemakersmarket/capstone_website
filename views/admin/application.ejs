@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%- include("../partials/header") %>
+</head>
+<body>
+
+	<!-- Include navigation-->
+	<%- include("../partials/navigation") %>
+
+	<!-- Include featured-->
+	<%- include("../partials/featured") %>
+
+ 	<!-- BEGIN PAGE CONTENT-->
+	 <div class="content-container content-wrap">
+		<div class="container px-4 py-2" id="application-header" data-aos="fade-right">
+        <h2 class="border-bottom">Manage GSMM Vendor Application</h2>
+        <h4 class="h4 mb-3 fw-normal pb-1" id="application-response-top"></h4>
+            <div class="form-floating">
+                <input type="email" class="form-control" id="application-email" name="application-email" placeholder="name@example.com" maxlength="254" value="<%= clean(locals.application.email) %>" disabled readonly>
+                <label for="application-email">Email address (@uark.edu)</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="application-firstname" name="application-firstname" placeholder="Jane" maxlength="254" value="<%= clean(locals.application.firstname) %>" disabled readonly>
+                <label for="application-firstname">First name</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="application-lastname" name="application-lastname" placeholder="Doe" maxlength="254" value="<%= clean(locals.application.lastname) %>" disabled readonly>
+                <label for="application-lastname">Last name</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="application-UID" name="application-UID" placeholder="University of Arkansas ID"  maxlength="254" value="<%= clean(locals.application.university_id) %>" disabled readonly>
+                <label for="application-uark-id">University of Arkansas ID</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="application-program" name="application-program" placeholder="Program of Study" maxlength="254" value="<%= clean(locals.application.program) %>" disabled readonly>
+                <label for="application-program-of-study">Program of Study</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="application-business" name="application-business" placeholder="Buisness Name" maxlength="254" value="<%= clean(locals.application.business) %>" disabled readonly>
+                <label for="application-buisnessname">Buisness Name</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <textarea class="form-control" id="application-summary" name="application-summary" placeholder="Describe" rows="10" maxlength="65534" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" disabled readonly><%= clean(locals.application.summary, {wordwrap: false, preserveNewlines: true,}) %></textarea>
+                <label for="application-performance" style="overflow-wrap: break-word;">Please describe the type of performance or interactive product you provide.
+                        (Performers may receive tips and donations. We do not have a performance stipend)</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <textarea class="form-control" id="application-products" name="application-products" placeholder="Describe" rows="10" maxlength="65534" style="resize: none; height:100%; white-space: pre-wrap; overflow-wrap: break-word;" disabled readonly><%= clean(locals.application.products, {wordwrap: false, preserveNewlines: true,}) %></textarea>
+                <label for="application-performance" style="overflow-wrap: break-word;">Product, Price (one per line)</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="application-signature" name="application-signature" placeholder="Jane Doe" maxlength="254" value="<%= clean(locals.application.signature) %>" disabled readonly>
+                <label for="application-signature">Signature</label>
+            </div>
+            <br>
+            <h4 class="h4 mb-3 fw-normal pb-1" id="application-response-bottom"></h4>
+            <form class="approveApplication" id="<%= application.id %>" action="/api/application/approve" style="display: inline; margin: 0px; padding: 0px;"><button type="submit" class="btn btn-success">Approve Application</button></form>&nbsp;
+            <form class="rejectApplication" id="<%= application.id %>" action="/api/application/reject" style="display: inline; margin: 0px; padding: 0px;"><button type="submit" class="btn btn-danger">Reject Application</button></form>&nbsp;
+		</div>
+  </div>
+ 	<!-- END PAGE CONTENT-->
+
+	<!-- Include scripts-->
+	<script type="application/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="application/javascript" src="/js/network.js"></script>
+
+	<!-- Include footer-->
+	<%- include("../partials/footer") %>
+
+</body>
+</html>

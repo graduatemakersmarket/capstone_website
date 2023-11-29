@@ -46,6 +46,11 @@ const Account = db.define('accounts', {
     defaultValue: '/images/avatar_images/default.png'
   },
 
+  featured_background: {
+    type: Sequelize.DataTypes.STRING,
+    defaultValue: '/images/featured_images/default.png'
+  },
+
   account_featured: {
     type: Sequelize.DataTypes.BOOLEAN,
     defaultValue: 0

@@ -1,6 +1,7 @@
 const express = require('express');
 const auth = require('../middleware/auth');
 const convert = require('html-to-text');
+const accountController = require('../controllers/accountController');
 const productController = require('../controllers/productController');
 const productImageController = require('../controllers/productImageController');
 const router = express.Router();
@@ -13,6 +14,7 @@ const PRODUCT_IMAGES_PER_PAGE = 3;
 router.get('/manage', auth.memberAccess, async (req, res) => {
   return res.render('products/manage', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     products: await productController.getProductsByEmail(req.session.email),
     clean: convert.convert,
   });
@@ -47,6 +49,7 @@ router.get('/edit/:id', auth.memberAccess, async (req, res) => {
 
   return res.render('products/edit', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     product: productInfo,
     images,
     page: 1,
@@ -96,6 +99,7 @@ router.get('/edit/:id/page/:page', auth.memberAccess, async (req, res) => {
 
   return res.render('products/edit', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     product: productInfo,
     images,
     page,
@@ -129,6 +133,7 @@ router.get('/:id', auth.guestAccess, async (req, res) => {
 
   return res.render('products/profile', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     product,
     images,
     page: 1,
@@ -173,6 +178,7 @@ router.get('/:id/page/:page', auth.guestAccess, async (req, res) => {
 
   return res.render('products/profile', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     product,
     images,
     page,
@@ -187,6 +193,7 @@ router.get('/:id/page/:page', auth.guestAccess, async (req, res) => {
 /*************************************************************************************************/
 router.get('/', auth.guestAccess, async (req, res) => res.render('products/products', {
   session: req.session,
+  featured: await accountController.getFeaturedAccounts(),
   products: await productController.getAllProducts(PRODUCTS_PER_PAGE, 0),
   page: 1,
   offset: 0,
@@ -211,6 +218,7 @@ router.get('/page/:page', auth.guestAccess, async (req, res) => {
 
   return res.render('products/products', {
     session: req.session,
+    featured: await accountController.getFeaturedAccounts(),
     products: await productController.getAllProducts(PRODUCTS_PER_PAGE, offset),
     page,
     offset,

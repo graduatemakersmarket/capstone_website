@@ -15,5 +15,11 @@ router.post('/login', validator.loginAccount, controller.loginAccount);
 /* Put routes
 /*************************************************************************************************/
 router.put('/update', auth.authenticatedAPI, upload.single('avatar'), validator.updateAccount, controller.updateAccount);
+router.put('/updateProfile', auth.authenticatedAPI, upload.single('avatar'), validator.updateAccount, controller.updateProfileAdmin);
+router.put('/verify', auth.authenticatedAPI, controller.verifyAccount);
+router.put('/feature', auth.authenticatedAPI, controller.featureAccount);
+router.put('/unfeature', auth.authenticatedAPI, controller.unfeatureAccount);
+router.put('/ban', auth.authenticatedAPI, controller.banAccount);
+router.put('/unban', auth.authenticatedAPI, controller.unbanAccount);
 
 module.exports = router;

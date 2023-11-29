@@ -11,6 +11,7 @@ const time = require('../utils/time');
 const getAccountByEmail = async (email) => accountService.getAccountByEmail(email);
 const getAccountByID = async (id) => accountService.getAccountByID(id);
 const getVerifiedAccounts = async (limit, offset) => accountService.getVerifiedAccounts(limit, offset);
+const getFeaturedAccounts = async () => accountService.getFeaturedAccounts();
 const getAccounts = async (limit, offset) => accountService.getAccounts(limit, offset);
 const getVerifiedAccountCount = async () => accountService.countVerifiedAccounts();
 const getAccountCount = async () => accountService.countAccounts();
@@ -58,6 +59,7 @@ const registerAccount = async (req, res) => {
     first_name: req.body['register-firstname'],
     last_name: req.body['register-lastname'],
     avatar: '/images/avatar_images/default.png',
+    featured_background: '/images/featured_images/default.png',
     creation_date: time.getCurrentTimestamp(),
     updated_date: time.getCurrentTimestamp()
   };
@@ -256,14 +258,233 @@ const updateAccount = async (req, res) => {
   });
 }
 
+/*************************************************************************************************/
+/* Update a users profile (admin action)
+/*************************************************************************************************/
+const updateProfileAdmin = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+        uccess: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Only allow users with a valid session to access this endpoint
+  if (!req.cookies.makerSession && !req.headers.authorization) {
+    return res.status(403).json({
+      success: false,
+      error: 'You are not authorized to use this endpoint',
+    });
+  }
+
+  // Halt if there is a problem with validating the user input
+  if (!validator.validationResult(req).isEmpty()) {
+    return res.status(422).json({
+      success: false,
+      error: validator.validationResult(req).errors[0].msg,
+    });
+  }
+
+  // Halt if the user tries to upload a bad file
+  if (req.isBadFiletype) {
+    return res.status(422).json({
+      success: false,
+      error: 'You have tried to upload an invalid image',
+    });
+  }
+
+  // Get account information by ID
+  const accountInfo = await accountService.getAccountByID(req.body['account-id']);
+
+  // Check if the user supplied a valid avatar image
+  if (req.file) {
+
+    // if the user supplied an avatar, include it in the update
+    const account = {
+      first_name: req.body['update-firstname'],
+      last_name: req.body['update-lastname'],
+      avatar: `/images/avatar_images/${req.file.filename}`,
+      biography: req.body['update-biography'],
+      video_link: req.body['update-video'],
+      updated_date: time.getCurrentTimestamp()
+    };
+
+    // Update the user account
+    req.session.avatar = account.avatar;
+    await accountService.updateAccount(account, accountInfo.email);
+  } else {
+
+    // If the user did not include an avatar, just update the other fields
+    const account = {
+      first_name: req.body['update-firstname'],
+      last_name: req.body['update-lastname'],
+      biography: req.body['update-biography'],
+      video_link: req.body['update-video'],
+      updated_date: time.getCurrentTimestamp()
+    };
+    
+    // Update the user account
+    await accountService.updateAccount(account, accountInfo.email);
+  }
+
+  return res.status(200).json({
+    success: true,
+    response: 'Successfully updated user profile',
+  });
+}
+
+/*************************************************************************************************/
+/* Verify account
+/*************************************************************************************************/
+const verifyAccount = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Get account by ID
+  const account = await accountService.getAccountByID(req.body.data.id);
+
+  // Verify account
+  await accountService.updateAccount({account_verified: 1}, account.email)
+
+  return res.status(200).json({
+    success: true,
+    response: 'Account was successfully verified',
+  });
+}
+
+/*************************************************************************************************/
+/* Feature account
+/*************************************************************************************************/
+const featureAccount = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Get account by ID
+  const account = await accountService.getAccountByID(req.body.data.id);
+
+  // Only feature verified accounts
+  if (Number(account.account_verified) != 1) {
+    return res.status(403).json({
+      success: false,
+      error: 'You may not feature an unverified account',
+    });
+  }
+
+  // Verify account
+  await accountService.updateAccount({account_featured: 1}, account.email)
+
+  return res.status(200).json({
+    success: true,
+    response: 'Account was successfully featured',
+  });
+}
+
+/*************************************************************************************************/
+/* Unfeature account
+/*************************************************************************************************/
+const unfeatureAccount = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Get account by ID
+  const account = await accountService.getAccountByID(req.body.data.id);
+
+  // Verify account
+  await accountService.updateAccount({account_featured: 0}, account.email)
+
+  return res.status(200).json({
+    success: true,
+    response: 'Account was successfully unfeatured',
+  });
+}
+
+/*************************************************************************************************/
+/* Ban account
+/*************************************************************************************************/
+const banAccount = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Get account by ID
+  const account = await accountService.getAccountByID(req.body.data.id);
+
+  // Create a new role object
+  const role = {
+    role: 'banned',
+    issuer: req.session.email,
+    account_email: account.email,
+  };
+
+  // Ban account
+  await roleController.createRole(role);
+
+  return res.status(200).json({
+    success: true,
+    response: 'Account was successfully banned',
+  });
+}
+
+/*************************************************************************************************/
+/* Remove ban from account
+/*************************************************************************************************/
+const unbanAccount = async (req, res) => {
+  // If a non-administrator visits the page, kick them out
+  if (!req.session.roles.includes('admin')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Access Denied',
+    });
+  }
+
+  // Get account by ID
+  const account = await accountService.getAccountByID(req.body.data.id);
+
+  // Ban account
+  const banID = await roleController.getRoleID("banned", account.email);
+  await roleController.deleteRoleByID(banID[0].id)
+
+  return res.status(200).json({
+    success: true,
+    response: 'Account was successfully unbanned',
+  });
+}
+
 module.exports = {
   getAccountByEmail,
   getAccountByID,
   getVerifiedAccounts,
+  getFeaturedAccounts,
   getAccounts,
   getVerifiedAccountCount,
   getAccountCount,
   registerAccount,
   loginAccount,
-  updateAccount
+  updateAccount,
+  updateProfileAdmin,
+  verifyAccount,
+  featureAccount,
+  unfeatureAccount,
+  banAccount,
+  unbanAccount
 }

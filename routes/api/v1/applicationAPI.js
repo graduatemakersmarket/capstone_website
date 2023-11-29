@@ -9,4 +9,10 @@ const router = express.Router();
 /*************************************************************************************************/
 router.post('/create', validator.createApplication, controller.createApplication);
 
+/*************************************************************************************************/
+/* PUT routes
+/*************************************************************************************************/
+router.put('/approve', auth.authenticatedAPI, controller.acceptApplication);
+router.put('/reject', auth.authenticatedAPI, controller.rejectApplication);
+
 module.exports = router;
