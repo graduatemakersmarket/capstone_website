@@ -8,6 +8,7 @@ const router = express.Router();
 /* Post routes
 /*************************************************************************************************/
 router.post('/create', auth.authenticatedAPI, validator.checkSocialMediaLink, controller.createLink);
+router.post('/createUserLink', auth.authenticatedAPI, validator.checkSocialMediaLink, controller.createUserLink);
 
 /*************************************************************************************************/
 /* Delete routes

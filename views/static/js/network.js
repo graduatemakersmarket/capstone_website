@@ -78,6 +78,23 @@ $(document).on('submit', '.createSocialMediaLink', async (e) => {
 });
 
 /*************************************************************************************************/
+/* Send social media link creation request to the backend (admin action)
+/*************************************************************************************************/
+$(document).on('submit', '.createUserSocialMediaLink', async (e) => {
+  e.preventDefault();
+
+  axios.post(e.target.action, convertFormData(new FormData(e.target))).then( async (response) => {
+    $('#create-socials-response').empty().show().html(`<div class="response-success"><i class="fa-solid fa-circle-check"></i> Successfully added ${response.data.link}`).delay(4000).fadeOut(300);
+    $('#link-table').removeAttr('hidden').show();
+    $('#link-table').append(`<tr id="row-${response.data.id}"><td>${response.data.link}</td><td><form class="deleteSocialMediaLink" id="${response.data.id}" action="/api/socials/delete"><button class="btn btn-dark w-100 py-2">DELETE</button></form></td></tr>`);
+    $('#no-links').empty();
+  }).catch((error) => {
+    $('#create-socials-response').empty().show().html(`<div class="response-error"><i class="fa-solid fa-triangle-exclamation"></i> ${error.response.data.error}`).delay(4000).fadeOut(300);
+  });
+});
+
+
+/*************************************************************************************************/
 /* Send social media link deletion request to the backend
 /*************************************************************************************************/
 $(document).on('submit', '.deleteSocialMediaLink', async (e) => {

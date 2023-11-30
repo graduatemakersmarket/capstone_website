@@ -39,8 +39,8 @@ router.get('/edit/:id', auth.memberAccess, async (req, res) => {
     return res.redirect('/products/manage');
   }
 
-  // Only the person who owns this product is allowed to edit it
-  if (productInfo.account_email !== req.session.email) {
+  // Only the person who owns this product or an admin is allowed to edit it
+  if (productInfo.account_email !== req.session.email && !req.session.roles.includes("admin")) {
     return res.redirect('/error/unauthorized');
   }
 

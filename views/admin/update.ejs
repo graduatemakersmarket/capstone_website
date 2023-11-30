@@ -60,12 +60,13 @@
 		<div class="container px-4 py-2" id="update-socials-header" data-aos="fade-right">
 			<h2 class="border-bottom">MANAGE SOCIALS</h2> 
 			<h4 class="h4 mb-3 fw-normal pb-1" id="create-socials-response"></h4>
-			<form class="createSocialMediaLink" action="/api/socials/create">
+			<form class="createUserSocialMediaLink" action="/api/socials/createUserLink">
 				<div class="form-floating">
 					<input type="url" class="form-control" id="social-media-link" name="social-media-link" placeholder="Link" maxlength="255">
 					<label for="social-media-link">Link</label>
 				</div>
 				<br>
+				<input type="hidden" id="account-id" name="account-id" value="<%= locals.account.id %>">
 				<button class="btn btn-dark w-100 py-2" type="submit">Add Link</button>
 				</form>
 				<br>

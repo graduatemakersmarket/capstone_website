@@ -118,8 +118,8 @@ const updateProduct = async (req, res) => {
     });
   }
 
-  // Halt if the requesting user is not the product owner
-  if (req.session.email !== (await productService.getProductByName(req.body['update-product-name'])).account_email) {
+  // Halt if the requesting user is not the product owner or an admin
+  if (req.session.email !== (await productService.getProductByName(req.body['update-product-name'])).account_email && !req.session.roles.includes("admin")) {
     return res.status(403).json({
       success: false,
       error: 'You are not authorized to update this product listing',
@@ -157,7 +157,7 @@ const updateProduct = async (req, res) => {
     product_featured: (req.body['update-product-featured'] === "on") ? 1 : 0,
     product_website: req.body['update-product-website'],
     purchase_link: req.body['update-product-purchase'],
-    account_email: req.session.email,
+    account_email: (await productService.getProductByName(req.body['update-product-name'])).account_email,
   };
 
   // Update the product listing
@@ -168,7 +168,7 @@ const updateProduct = async (req, res) => {
     req.files.forEach(async (image) => {
       await productImageController.createProductImage({
         image: `/images/product_images/${image.filename}`,
-        product_owner: req.session.email,
+        product_owner: (await productService.getProductByName(req.body['update-product-name'])).account_email,
         product_product: req.body['update-product-name']});
     });
   }
@@ -219,7 +219,7 @@ const deleteProductImage = async (req, res) => {
   }
 
   // Halt if the requesting user is not the image owner
-  if (req.session.email !== productImageInfo.product_owner) {
+  if (req.session.email !== productImageInfo.product_owner  && !req.session.roles.includes("admin")) {
     return res.status(403).json({
       success: false,
       error: 'You are not authorized to delete this image',
